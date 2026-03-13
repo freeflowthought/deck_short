@@ -295,23 +295,23 @@ const buildPathRows = [
 
 const flywheelRows = [
   {
-    title: 'Detect',
-    body: 'Identify the gap between what the brand wants to say and what the market is actually rewarding.',
+    title: 'Diagnose',
+    body: 'Run a GEO audit to surface visibility gaps, citation risks, and priority fixes.',
     icon: <Radar className="h-4 w-4 text-cyan-200" aria-hidden="true" />,
   },
   {
-    title: 'Recalibrate',
-    body: 'Turn that gap into sharper positioning, better content systems, and clearer directional choices.',
+    title: 'Create',
+    body: 'Turn those gaps into platform-native hooks, campaigns, and content systems.',
     icon: <Sparkles className="h-4 w-4 text-emerald-200" aria-hidden="true" />,
   },
   {
     title: 'Deploy',
-    body: 'Execute through SaaS workflows today and through agent/API calls as the platform expands.',
+    body: 'Ship through SaaS workflows today and through agent/API calls as usage expands.',
     icon: <Rocket className="h-4 w-4 text-teal-200" aria-hidden="true" />,
   },
   {
-    title: 'Compound',
-    body: 'Market response improves future recommendations, strategic direction, and marketplace trust signals.',
+    title: 'Learn',
+    body: 'Outcome data improves recommendations, routing, and future marketplace trust signals.',
     icon: <Activity className="h-4 w-4 text-emerald-100" aria-hidden="true" />,
   },
 ];
@@ -330,8 +330,8 @@ const askRows = [
     use: 'Multi-model API costs, cloud, data pipeline, and analytics infrastructure',
   },
   {
-    allocation: '10% Legal / Web3 R&D',
-    use: 'ERC8004 trust-layer architecture prep and compliance groundwork',
+    allocation: '10% Product Ops',
+    use: 'Customer feedback loops, analytics instrumentation, onboarding, and the operational systems needed to turn beta usage into repeatable retention',
   },
 ];
 
@@ -720,8 +720,8 @@ const PitchDeckPage = () => {
         <SlideShell
           id="slide-1"
           index={1}
-          title="Most companies are still speaking from internal belief. The market has already moved."
-          subtitle="GeoCompanion helps businesses detect the gap between what they want to say and what the market is actually accepting, then recalibrates strategy and execution in one system."
+          title="AI now decides who gets found. Most businesses have no system to change that."
+          subtitle="Discovery and execution have both shifted. GeoCompanion starts by fixing both and becomes the intelligence layer that tells businesses where to go next."
         >
           <div className="grid gap-6 lg:grid-cols-[1.3fr,1fr]">
             <div className="deck-card rounded-3xl p-7 sm:p-9">
@@ -731,10 +731,10 @@ const PitchDeckPage = () => {
               </div>
               <p className="text-sm uppercase tracking-[0.16em] text-slate-400">What we do</p>
               <p className="mt-4 text-xl leading-relaxed text-slate-100 sm:text-2xl">
-                GeoCompanion is a market-calibration system for companies navigating AI search, platform-native content, and fast-changing customer behavior.
+                GeoCompanion starts by helping businesses get cited by AI search engines and build platform-native content that wins attention.
               </p>
               <p className="mt-4 text-base leading-relaxed text-slate-300 sm:text-lg">
-                We start with a practical wedge: diagnose how the market sees a business, show where that differs from internal positioning, and turn the gap into a prioritized execution plan. Over time, that becomes the enterprise intelligence layer that helps teams decide where to go next, what to change, and which workflows or agents should execute.
+                Over time, it becomes the Enterprise Strategic Intelligence Platform that tells businesses where their market is going, what to build next, and which verified agents can execute that vision. One workflow from diagnosis to execution, built for an AI-shaped world.
               </p>
             </div>
 
@@ -742,9 +742,9 @@ const PitchDeckPage = () => {
               <div className="deck-card deck-hero-ring rounded-2xl p-5">
                 <p className="text-xs uppercase tracking-[0.14em] text-slate-400">The Three-Pillar Destination</p>
                 <div className="mt-4 grid gap-2 text-sm text-slate-200">
-                  <p className="flex items-center gap-2"><Radar className="h-4 w-4 text-emerald-300" /> Direction calibration: where the business is misaligned with the market</p>
-                  <p className="flex items-center gap-2"><Bot className="h-4 w-4 text-cyan-300" /> Execution engine: content, workflows, and agents that operationalize the correction</p>
-                  <p className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-emerald-200" /> Trust layer: verified performance history that compounds decision quality</p>
+                  <p className="flex items-center gap-2"><Radar className="h-4 w-4 text-emerald-300" /> Enterprise Strategic Intelligence: vision, market positioning, and predictive analytics</p>
+                  <p className="flex items-center gap-2"><Bot className="h-4 w-4 text-cyan-300" /> AI Agent Marketplace: agents ranked by verified outcome data, not claims</p>
+                  <p className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-emerald-200" /> On-Chain Trust Layer: immutable performance attestation via ERC8004</p>
                 </div>
               </div>
 
@@ -769,7 +769,7 @@ const PitchDeckPage = () => {
           </p>
         </SlideShell>
 
-        <SlideShell id="slide-2" index={2} title="The Problem" subtitle="Most companies still optimize the story they want to tell, not the signal the market is actually giving back.">
+        <SlideShell id="slide-2" index={2} title="The Problem" subtitle="Discovery got harder. Content execution stayed expensive and fragmented.">
           <div className="grid gap-4 md:grid-cols-4">
             {[
               { label: 'AI Search Shift', value: '58%', note: 'Consumers using GenAI tools instead of traditional search for recommendations' },
@@ -824,9 +824,9 @@ const PitchDeckPage = () => {
           <div className="deck-card mt-5 rounded-2xl p-6">
             <p className="text-sm uppercase tracking-[0.14em] text-emerald-200">The structural gap</p>
             <div className="mt-3 grid gap-3 md:grid-cols-3">
-              <div className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4 text-sm text-slate-200">Strategy teams define the brand they want the market to understand.</div>
-              <div className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4 text-sm text-slate-200">Execution teams ship content, but rarely know whether it is correcting or reinforcing the wrong direction.</div>
-              <div className="rounded-xl border border-emerald-300/35 bg-emerald-300/10 p-4 text-sm font-medium text-emerald-50">GeoCompanion closes that loop by connecting market diagnosis, directional correction, and execution.</div>
+              <div className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4 text-sm text-slate-200">GEO tools measure visibility but do not create content.</div>
+              <div className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4 text-sm text-slate-200">Content tools generate posts but do not optimize AI citation share.</div>
+              <div className="rounded-xl border border-emerald-300/35 bg-emerald-300/10 p-4 text-sm font-medium text-emerald-50">GeoCompanion connects diagnosis, execution, and compounding outcomes.</div>
             </div>
           </div>
 
@@ -839,15 +839,15 @@ const PitchDeckPage = () => {
           />
         </SlideShell>
 
-        <SlideShell id="slide-3" index={3} title="Why Now" subtitle="AI is increasing the penalty for being directionally wrong and increasing the value of systems that can recalibrate quickly.">
+        <SlideShell id="slide-3" index={3} title="Why Now" subtitle="The category is opening before the stack is settled.">
           <div className="grid gap-5 md:grid-cols-3">
             <article className="deck-card rounded-2xl p-6">
               <div className="mb-3 inline-flex rounded-full border border-cyan-300/35 bg-cyan-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-200">
                 Shift 1
               </div>
-              <h3 className="font-['Space_Grotesk'] text-xl font-semibold text-white">The market is speaking through AI-mediated discovery now</h3>
+              <h3 className="font-['Space_Grotesk'] text-xl font-semibold text-white">AI discovery behavior is changing faster than tooling</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                Buyers increasingly encounter brands through AI answers, recommendation loops, and platform-native feeds, while most companies still interpret the market through outdated channels and internal assumptions.
+                Buyers are moving toward AI answers and recommendation flows now, but most teams still use SEO and content stacks built for the old web.
               </p>
             </article>
 
@@ -855,9 +855,9 @@ const PitchDeckPage = () => {
               <div className="mb-3 inline-flex rounded-full border border-emerald-300/35 bg-emerald-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-200">
                 Shift 2
               </div>
-              <h3 className="font-['Space_Grotesk'] text-xl font-semibold text-white">Execution alone is no longer enough without directional feedback</h3>
+              <h3 className="font-['Space_Grotesk'] text-xl font-semibold text-white">Budgets are reallocating toward creator-native execution</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                Teams can generate more content than ever, but volume without calibration just scales the wrong message faster. Strategy, execution, and measurement can no longer sit in separate systems.
+                Teams want content that feels native to each platform, but the tooling market still separates strategy, generation, and measurement into different products.
               </p>
             </article>
 
@@ -865,9 +865,9 @@ const PitchDeckPage = () => {
               <div className="mb-3 inline-flex rounded-full border border-teal-300/35 bg-teal-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-teal-200">
                 Shift 3
               </div>
-              <h3 className="font-['Space_Grotesk'] text-xl font-semibold text-white">Agent infrastructure turns calibration into a long-term system of action</h3>
+              <h3 className="font-['Space_Grotesk'] text-xl font-semibold text-white">API and agent infrastructure make a platform play possible</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                Per-call billing, orchestration, and machine-to-machine workflows mean the winning product will not stop at insight. It will continuously translate market learning into action.
+                Per-call billing, server-side orchestration, and machine-to-machine workflows mean this can become more than a point solution over time.
               </p>
             </article>
           </div>
@@ -876,10 +876,10 @@ const PitchDeckPage = () => {
             <div className="deck-card rounded-2xl p-6">
               <p className="text-sm uppercase tracking-[0.14em] text-emerald-200">Window for GeoCompanion.ai</p>
               <p className="mt-3 text-lg leading-relaxed text-slate-100">
-                Incumbents measure channels. They do not help companies continuously calibrate direction against a changing market and operationalize the correction.
+                Incumbents skew enterprise and reporting-first. The SMB, creator, and agent-native layer is still underbuilt.
               </p>
               <div className="mt-4 rounded-xl border border-emerald-300/35 bg-emerald-300/10 p-4 text-sm leading-relaxed text-emerald-50">
-                Timing advantage: this is early enough to define a new enterprise workflow around market understanding, not just sell into an old martech budget line.
+                Timing advantage: this is early enough to define the workflow, not just compete inside an established one.
               </div>
             </div>
 
@@ -900,7 +900,7 @@ const PitchDeckPage = () => {
           </div>
         </SlideShell>
 
-        <SlideShell id="slide-4" index={4} title="Our Solution" subtitle="A system that detects market misalignment, translates it into decisions, and turns those decisions into execution.">
+        <SlideShell id="slide-4" index={4} title="Our Solution" subtitle="Two engines, one workflow, one prioritized action plan.">
           <div className="grid gap-5 lg:grid-cols-[1.1fr,1fr]">
             <article className="deck-card rounded-2xl p-6">
               <p className="text-xs uppercase tracking-[0.14em] text-emerald-200">Left side: Inputs and processing</p>
@@ -908,11 +908,11 @@ const PitchDeckPage = () => {
                 <div className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4">
                   <div className="flex items-center gap-2">
                     <Search className="h-4 w-4 text-cyan-200" aria-hidden="true" />
-                  <p className="font-['Space_Grotesk'] text-lg font-semibold text-white">Market Signal Engine</p>
+                  <p className="font-['Space_Grotesk'] text-lg font-semibold text-white">GEO Audit Engine</p>
                   </div>
                   <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-slate-300">
                     <li>- Input: website URL plus optional competitors</li>
-                    <li>- Processing: GEO score, EEAT, citation patterns, and market-perception gaps</li>
+                    <li>- Processing: GEO score, EEAT, ranking of deployable fixes</li>
                     <li>- Speed: initial output in about 15 seconds</li>
                   </ul>
                 </div>
@@ -920,19 +920,19 @@ const PitchDeckPage = () => {
                 <div className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4">
                   <div className="flex items-center gap-2">
                     <Sparkles className="h-4 w-4 text-emerald-200" aria-hidden="true" />
-                  <p className="font-['Space_Grotesk'] text-lg font-semibold text-white">Correction Engine</p>
+                  <p className="font-['Space_Grotesk'] text-lg font-semibold text-white">Vibe Marketing Engine</p>
                   </div>
                   <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-slate-300">
                     <li>- Input: brand page or creator profile</li>
-                    <li>- Processing: platform and voice detection, hook-based campaign generation, execution priorities</li>
-                    <li>- Output format: 30/60/90-day multi-platform content system with directional corrections</li>
+                    <li>- Processing: platform and voice detection, hook-based campaign generation</li>
+                    <li>- Output format: 30/60/90-day multi-platform content system</li>
                   </ul>
                 </div>
 
                 <div className="rounded-xl border border-emerald-300/35 bg-emerald-300/10 p-4">
                   <p className="text-xs uppercase tracking-[0.1em] text-emerald-200">Fusion layer</p>
                   <p className="mt-1 text-sm leading-relaxed text-emerald-50">
-                    GeoCompanion combines both engines into one prioritized backlog for what to change, what to ship, and what to measure next.
+                    GeoCompanion combines both engines into one prioritized execution backlog.
                   </p>
                 </div>
               </div>
@@ -942,9 +942,9 @@ const PitchDeckPage = () => {
               <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Right side: What users receive</p>
               <div className="mt-4 grid gap-3">
                 {[
-                  { source: 'From Market Signal Engine', title: 'Diagnosis Package', bullets: ['GEO scorecard + EEAT breakdown', 'Citation-share competitor view', 'Where market perception diverges from brand intent'] },
-                  { source: 'From Correction Engine', title: 'Execution Package', bullets: ['9 hook-pattern campaign planning', 'Platform-native formatting', 'Voice-consistent generation'] },
-                  { source: 'Combined Output', title: 'Calibration Package', bullets: ['One prioritized backlog to execute now', 'Clear ownership across strategy and marketing workflows', 'Pricing: beta free, then starter under $10/month with premium tiers later'] },
+                  { source: 'From GEO Audit', title: 'Visibility Package', bullets: ['GEO scorecard + EEAT breakdown', 'Citation-share competitor view', 'Schema + CTA rewrite suggestions'] },
+                  { source: 'From Vibe Engine', title: 'Content Package', bullets: ['9 hook-pattern campaign planning', 'Platform-native formatting', 'Voice-consistent generation'] },
+                  { source: 'Combined Output', title: 'Action Package', bullets: ['One prioritized backlog to execute now', 'Clear ownership across marketing workflows', 'Pricing: beta free, then starter under $10/month with premium tiers later'] },
                 ].map((block) => (
                   <div key={block.title} className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4">
                     <p className="text-[10px] uppercase tracking-[0.12em] text-emerald-200">{block.source}</p>
@@ -962,10 +962,10 @@ const PitchDeckPage = () => {
 
           <div className="deck-card mt-5 rounded-2xl p-6">
             <p className="text-lg leading-relaxed text-slate-100">
-              The combination is what matters: <span className="deck-highlight font-semibold">we show where the business is misaligned with the market.</span>{' '}
-              <span className="deck-highlight font-semibold">Then we turn that diagnosis into execution.</span>
+              The combination is what matters: <span className="deck-highlight font-semibold">GEO tells you what AI search needs.</span>{' '}
+              <span className="deck-highlight font-semibold">Vibe Marketing produces it.</span>
             </p>
-            <p className="mt-3 text-sm text-slate-300">This is why the wedge is useful immediately and why the long-term product grows into strategic intelligence.</p>
+            <p className="mt-3 text-sm text-slate-300">Mapping rule: left shows how data is processed, right shows the exact deliverables from that processing.</p>
           </div>
         </SlideShell>
 
@@ -1024,15 +1024,15 @@ const PitchDeckPage = () => {
           </div>
         </SlideShell>
 
-        <SlideShell id="slide-6" index={6} title="Platform Vision" subtitle="Start with market diagnosis and correction. Expand into enterprise direction calibration, agents, and verified trust.">
+        <SlideShell id="slide-6" index={6} title="Platform Vision" subtitle="Start with diagnosis and execution. Expand into intelligence, agents, and verified trust.">
           <div className="deck-card rounded-2xl p-6">
             <p className="text-xs uppercase tracking-[0.14em] text-emerald-200">Why the marketing tool creates a moat no intelligence platform can replicate</p>
             <div className="mt-4 grid gap-4 lg:grid-cols-[1.2fr,0.8fr]">
               <div className="rounded-xl border border-emerald-300/35 bg-emerald-300/10 p-5">
                 <p className="text-lg leading-relaxed text-emerald-50">
-                  Every audit tells us how the market currently interprets a company. Every campaign tells us whether
-                  the correction is working. That response loop becomes the training signal for enterprise direction
-                  calibration and, later, for our agent ranking model.
+                  Every GEO audit tells us what AI engines are citing and why. Every campaign tells us which content
+                  patterns drive real results by platform and industry. That outcome data is the training signal for
+                  our agent ranking model.
                 </p>
               </div>
               <div className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-5">
@@ -1072,9 +1072,9 @@ const PitchDeckPage = () => {
 
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {[
-              ['Training signal', 'Each audit and campaign adds evidence about how market perception changes and what corrections actually work.'],
-              ['Enterprise intelligence', 'The next layer is continuous directional guidance, not just reporting or one-off recommendations.'],
-              ['Verified trust', 'As more execution is routed through agents, performance history becomes an auditable trust primitive.'],
+              ['Training signal', 'Each audit and campaign adds the ranking data that improves which agent wins future jobs.'],
+              ['Enterprise intelligence', 'The next layer is continuous decision support, not just another dashboard or one-off report.'],
+              ['Verified trust', 'The marketplace only works if enterprise buyers can audit real performance history before they trust an agent.'],
             ].map(([title, body]) => (
               <article key={title} className="deck-card rounded-2xl p-5">
                 <h3 className="font-['Space_Grotesk'] text-lg font-semibold text-white">{title}</h3>
@@ -1085,7 +1085,7 @@ const PitchDeckPage = () => {
 
           <div className="deck-card mt-5 rounded-2xl p-6">
             <p className="text-sm leading-relaxed text-slate-200">
-              Phase 0 is intentional. The wedge is not "just marketing." It is the fastest way to learn where companies are misaligned with the market and to build the data layer that makes Vision Navigator credible later.
+              Phase 0 is intentional. The app generates the proprietary training signal that makes Phase 1 routing defensible. We are not pivoting to infra; we are building toward it with every workflow we run today.
             </p>
           </div>
         </SlideShell>
@@ -1409,7 +1409,7 @@ const PitchDeckPage = () => {
           </div>
         </SlideShell>
 
-        <SlideShell id="slide-11" index={11} title="Flywheel" subtitle="Every cycle improves market understanding, directional accuracy, and execution quality.">
+        <SlideShell id="slide-11" index={11} title="Flywheel" subtitle="Every workflow improves the next one.">
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {flywheelRows.map((item) => (
               <article key={item.title} className="deck-card rounded-2xl p-5">
@@ -1424,13 +1424,15 @@ const PitchDeckPage = () => {
             <article className="deck-card rounded-2xl p-6">
               <p className="text-sm uppercase tracking-[0.14em] text-emerald-200">Compounding loop</p>
               <p className="mt-3 text-lg leading-relaxed text-slate-100">
-                Detect market misalignment. Recalibrate direction. Execute the correction. Measure market response. Use that response to improve the next decision.
+                Better audits drive better content. Better content creates better outcome data. Vision Navigator turns that
+                repeated usage into strategic guidance on whether the business is moving in the right direction before it
+                scales execution further.
               </p>
               <div className="mt-4 grid gap-3 md:grid-cols-3">
                 {[
-                  ['Phase 0', 'Own the detect -> correct -> execute loop'],
-                  ['Phase 1', 'Turn repeated usage into enterprise direction calibration'],
-                  ['Phase 2', 'Open the calibrated system to agent/API traffic'],
+                  ['Phase 0', 'Own the diagnosis -> execution workflow'],
+                  ['Phase 1', 'Vision Navigator: turn usage into directional guidance'],
+                  ['Phase 2', 'Open the loop to agent/API traffic'],
                 ].map(([phase, detail]) => (
                   <div key={phase} className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4">
                     <p className="text-[10px] uppercase tracking-[0.12em] text-cyan-200">{phase}</p>
@@ -1444,12 +1446,12 @@ const PitchDeckPage = () => {
               <p className="text-sm uppercase tracking-[0.14em] text-slate-400">Longer-term upside</p>
               <div className="mt-4 space-y-3">
                 <div className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4">
-                  <p className="text-sm font-semibold text-slate-100">Decision advantage</p>
-                  <p className="mt-1 text-sm leading-relaxed text-slate-300">As more teams use the system, GeoCompanion gets better at distinguishing signal from internal bias and recommending the next best move.</p>
+                  <p className="text-sm font-semibold text-slate-100">Vision Navigator</p>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-300">As more teams use the system, GeoCompanion gets better at helping companies understand whether they are running in the right direction before scaling more budget and effort.</p>
                 </div>
                 <div className="rounded-xl border border-slate-700/70 bg-slate-900/45 p-4">
-                  <p className="text-sm font-semibold text-slate-100">Execution infrastructure</p>
-                  <p className="mt-1 text-sm leading-relaxed text-slate-300">Agents and verification matter because they operationalize calibrated strategy at scale, not because the market needs another standalone tool.</p>
+                  <p className="text-sm font-semibold text-slate-100">Marketplace routing</p>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-300">As machine-to-machine traffic grows, routing and ranking become a monetizable execution layer on top of that intelligence system.</p>
                 </div>
               </div>
             </article>
