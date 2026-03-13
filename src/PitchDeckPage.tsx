@@ -277,19 +277,19 @@ const buildPathRows = [
     phase: 'Phase 0',
     when: 'Now -> Q2 2026',
     ships: 'GEO Audit + Vibe Marketing',
-    target: 'Turn beta usage into repeatable activation: 1,500+ cumulative users, 10,000+ search events, and the first 10 paying teams.',
+    target: 'Turn beta usage into repeatable activation: 1,500+ cumulative users, 10,000+ search events, 50 creator/KOL customer accounts, and the first 10 paying brand or agency teams.',
   },
   {
     phase: 'Phase 1-3',
     when: 'Q3 2026 -> Q4 2027',
     ships: 'Enterprise Strategic Intelligence',
-    target: 'Reach seed and Series A readiness with $100K MRR, 25+ paying customers, and a clear expansion path from SMB into enterprise intelligence.',
+    target: 'Reach seed and Series A readiness with $100K MRR, 25+ brand or agency customers, 500 creator/KOL customer accounts, and a clear expansion path from SMB into enterprise intelligence.',
   },
   {
     phase: 'Phase 4-5',
     when: '2028 -> IPO window (Q3 2029)',
     ships: 'Agent Marketplace + On-Chain Trust',
-    target: 'Scale toward IPO readiness with $50M+ ARR, audited enterprise-grade trust infrastructure, and category leadership in AI-native marketing intelligence.',
+    target: 'Scale toward IPO readiness with $50M+ ARR, 120+ enterprise or agency customers, 5,000 creator/KOL customer accounts, audited enterprise-grade trust infrastructure, and category leadership in AI-native marketing intelligence.',
   },
 ];
 
@@ -1265,19 +1265,19 @@ const PitchDeckPage = () => {
                   {
                     title: 'Pre-seed / Accelerator',
                     desc: 'Convert beta traffic into repeat product usage and first revenue before institutional seed.',
-                    target: 'Goal by Q2 2026: 1.5K users, 10K searches, 10 paying teams, $5K-$10K MRR',
+                    target: 'Goal by Q2 2026: 1.5K users, 10K searches, 50 creator/KOL customer accounts, 10 paying brand or agency teams, $5K-$10K MRR',
                     icon: <Building2 className="h-4 w-4 text-cyan-200" aria-hidden="true" />,
                   },
                   {
                     title: 'Seed / Series A',
                     desc: 'Move upmarket with intelligence workflows and prove expansion revenue across SMB, agency, and enterprise accounts.',
-                    target: 'Goal by Q4 2027: 25+ customers, $100K MRR, <3 month payback, strong retention',
+                    target: 'Goal by Q4 2027: 25+ brand or agency customers, 500 creator/KOL customer accounts, $100K MRR, <3 month payback, strong retention',
                     icon: <Users className="h-4 w-4 text-emerald-200" aria-hidden="true" />,
                   },
                   {
                     title: 'Growth / IPO readiness',
                     desc: 'Use marketplace and verification infrastructure to become the system of record for AI-native marketing performance.',
-                    target: 'Goal by Q3 2029: $50M+ ARR, 120+ customers, enterprise-grade reporting and controls',
+                    target: 'Goal by Q3 2029: $50M+ ARR, 120+ enterprise or agency customers, 5,000 creator/KOL customer accounts, enterprise-grade reporting and controls',
                     icon: <Handshake className="h-4 w-4 text-teal-200" aria-hidden="true" />,
                   },
                 ].map((channel) => (
