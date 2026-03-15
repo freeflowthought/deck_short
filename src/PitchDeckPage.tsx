@@ -23,30 +23,40 @@ type SlideFootnoteLink = {
 const SlideShell = ({ id, index, title, subtitle, children }: SlideShellProps) => (
   <section
     id={id}
-    className="deck-slide flex flex-col justify-center snap-start min-h-[100svh] px-5 pb-14 pt-20 md:px-10 lg:px-14 lg:pt-24"
+    className="deck-slide flex flex-col justify-center snap-start min-h-[100svh] px-6 pb-16 pt-24 md:px-12 lg:px-20 relative"
   >
-    <div className="mx-auto w-full max-w-7xl relative">
-      <span
-        className="pointer-events-none select-none absolute -top-8 -right-8 font-bold leading-none"
-        style={{ fontSize: 'clamp(6rem, 12vw, 10rem)', color: 'rgba(15, 17, 21, 0.03)', fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '-0.05em' }}
-        aria-hidden="true"
-      >
-        {String(index).padStart(2, '0')}
-      </span>
+    <div className="mx-auto w-full max-w-7xl relative z-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+        <div className="flex-1">
+          <p className="deck-mono text-[10px] tracking-[0.3em] uppercase text-clay mb-4" aria-hidden="true">
+            {String(index).padStart(2, '0')} // AX-G
+          </p>
+          <h2 className="deck-heading text-4xl font-light leading-[1.1] text-ink sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tighter uppercase italic text-balance">
+            {title}
+          </h2>
+          {subtitle ? (
+            <p className="mt-8 max-w-xl text-xl font-medium leading-relaxed text-ink/90 font-medium italic border-l-2 border-clay pl-6 italic text-balance">
+              {subtitle}
+            </p>
+          ) : null}
+        </div>
+      </div>
 
-      <p className="deck-slide-counter mb-6" aria-hidden="true">
-        {String(index).padStart(2, '0')} — 13
-      </p>
-
-      <h2 className="deck-slide-title text-5xl font-bold leading-[1.02] text-onyx sm:text-6xl lg:text-[4.5rem]">
-        {title}
-      </h2>
-      {subtitle ? (
-        <p className="deck-slide-subtitle mt-6 max-w-xl text-lg leading-relaxed text-stardust">{subtitle}</p>
-      ) : null}
-
-      <div className="deck-slide-body mt-10">{children}</div>
+      <div className="deck-slide-body mt-16">{children}</div>
+      
+      {/* Decorative brutalist elements */}
+      <div className="absolute top-0 right-10 w-px h-full bg-ink/5 hidden lg:block" />
+      <div className="absolute top-1/2 left-0 w-full h-px bg-ink/5 hidden lg:block" />
     </div>
+    
+    {/* Large background index - Brutalist style */}
+    <span
+      className="pointer-events-none select-none absolute -bottom-10 -left-10 font-bold leading-none opacity-[0.03] text-ink mix-blend-multiply"
+      style={{ fontSize: '25vw', fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '-0.05em' }}
+      aria-hidden="true"
+    >
+      {String(index).padStart(2, '0')}
+    </span>
   </section>
 );
 
@@ -58,7 +68,7 @@ const SlideFootnotes = ({ items }: { items: SlideFootnoteLink[] }) => (
         href={item.href}
         target="_blank"
         rel="noreferrer"
-        className="deck-mono text-[10px] text-stardust hover:text-stardust transition-colors"
+        className="deck-mono text-[10px] text-sage/95 font-medium italic hover:text-sage/95 font-medium italic transition-colors"
       >
         &#8599; {item.label}
       </a>
@@ -68,20 +78,16 @@ const SlideFootnotes = ({ items }: { items: SlideFootnoteLink[] }) => (
 
 const GeoCompanionMark = ({ size = 36 }: { size?: number }) => (
   <div
-    className="relative rounded-xl border border-slate-200/50 bg-white shadow-sm"
+    className="relative group transition-transform duration-500 hover:scale-110"
     style={{ width: size, height: size }}
     aria-hidden="true"
   >
-    <svg viewBox="0 0 100 100" className="h-full w-full p-2.5">
-      <defs>
-        <linearGradient id="gclogo" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#0F1115" />
-          <stop offset="100%" stopColor="#6B7280" />
-        </linearGradient>
-      </defs>
-      <circle cx="50" cy="50" r="32" fill="none" stroke="url(#gclogo)" strokeWidth="7" strokeLinecap="round" strokeDasharray="160 70" />
-      <path d="M38 60 L50 40 L63 60" fill="none" stroke="#0F1115" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="50" cy="50" r="5" fill="#00E5FF" />
+    <svg viewBox="0 0 100 100" className="h-full w-full">
+      <circle cx="50" cy="50" r="45" fill="none" stroke="#121212" strokeWidth="1" strokeDasharray="4 4" className="animate-[spin_20s_linear_infinite]" />
+      <circle cx="50" cy="50" r="30" fill="none" stroke="#B35C37" strokeWidth="2" strokeDasharray="8 8" className="animate-[spin_10s_linear_infinite_reverse]" />
+      <path d="M50 20 L50 80 M20 50 L80 50" stroke="#121212" strokeWidth="0.5" />
+      <circle cx="50" cy="50" r="8" fill="#121212" />
+      <circle cx="50" cy="50" r="4" fill="#FBFBFB" />
     </svg>
   </div>
 );
@@ -110,31 +116,37 @@ type TeamMember = {
 };
 
 const HookWeightBar = ({ label, weight, tone }: HookWeight) => (
-  <div>
-    <div className="flex items-center justify-between mb-1">
-      <span className="deck-mono text-[9px] tracking-[0.1em] uppercase text-stardust">{label}</span>
-      <span className="deck-mono text-[9px] text-stardust">{Math.round(weight * 100)}%</span>
+  <div className="relative">
+    <div className="flex items-center justify-between mb-1.5 px-1">
+      <span className="deck-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink">{label}</span>
+      <span className="deck-mono text-[9px] text-clay font-bold">{Math.round(weight * 100)}</span>
     </div>
-    <div className="h-1.5 rounded-full bg-slate-100">
-      <div className={`h-full rounded-full bg-gradient-to-r ${tone}`} style={{ width: `${weight * 100}%` }} />
+    <div className="h-2 bg-void border border-ink/10 overflow-hidden relative">
+      <div 
+        className="h-full bg-clay transition-all duration-1000 ease-out" 
+        style={{ width: `${weight * 100}%` }} 
+      />
+      {/* Texture overlay on bar */}
+      <div className="absolute inset-0 opacity-20 bg-noise pointer-events-none" />
     </div>
   </div>
 );
 
 const PublicAgentCard = ({ name, cloud, context, accent, hooks }: PublicAgentCardProps) => (
-  <article className="h-full rounded-xl border border-slate-100 bg-white p-4">
-    <div className="flex items-start justify-between gap-3">
+  <article className="h-full bg-hull border-2 border-ink shadow-brutalist p-6 relative overflow-hidden group">
+    <div className="absolute top-0 right-0 py-1 px-3 bg-ink text-void deck-mono text-[8px] tracking-widest uppercase rotate-90 origin-top-right transition-transform group-hover:translate-x-1">
+      {cloud}
+    </div>
+    
+    <div className="flex items-start justify-between gap-4 mb-8">
       <div>
-        <p className="deck-mono text-[9px] uppercase tracking-[0.18em] text-stardust">{cloud}</p>
-        <p className="mt-1 text-base font-semibold text-onyx deck-heading">{name}</p>
-        <p className="mt-1 text-xs leading-relaxed text-stardust">{context}</p>
-      </div>
-      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 ${accent}`}>
-        <Bot className="h-6 w-6" aria-hidden="true" />
+        <p className="deck-heading text-2xl font-bold text-ink uppercase tracking-tighter leading-none">{name}</p>
+        <div className="mt-3 label-stamp">{accent.split('-').pop()} // MODEL_ID</div>
+        <p className="mt-4 text-sm leading-relaxed text-ink/80 font-medium italic italic font-medium">{context}</p>
       </div>
     </div>
 
-    <div className="mt-4 space-y-2.5">
+    <div className="space-y-5">
       {hooks.map((hook) => (
         <HookWeightBar key={hook.label} {...hook} />
       ))}
@@ -173,21 +185,35 @@ const TeamAvatar = ({ member }: { member: TeamMember }) => {
   const initials = member.name.slice(0, 1);
 
   return (
-    <div className="relative h-44 w-36 shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_48px_rgba(0,0,0,0.45)]">
-      <img
-        src={member.photo}
-        alt={member.photoAlt}
-        className="h-full w-full object-cover"
-        style={{ objectPosition: member.photoPosition }}
-        loading="lazy"
-        onError={(event) => {
-          event.currentTarget.style.display = 'none';
-          const fallback = event.currentTarget.nextElementSibling as HTMLDivElement | null;
-          if (fallback) fallback.style.display = 'flex';
-        }}
-      />
-      <div className="absolute inset-0 hidden items-center justify-center bg-gradient-to-br from-emerald-400/20 via-cyan-400/10 to-slate-950 text-2xl font-semibold text-onyx">
-        {initials}
+    <div className="relative h-56 w-44 shrink-0 group">
+      {/* Shadow Layer */}
+      <div className="absolute inset-0 bg-ink translate-x-3 translate-y-3 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
+      
+      {/* Image Container */}
+      <div className="relative h-full w-full overflow-hidden border-2 border-ink bg-hull">
+        <img
+          src={member.photo}
+          alt={member.photoAlt}
+          className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
+          style={{ objectPosition: member.photoPosition }}
+          loading="lazy"
+          onError={(event) => {
+            event.currentTarget.style.display = 'none';
+            const fallback = event.currentTarget.nextElementSibling as HTMLDivElement | null;
+            if (fallback) fallback.style.display = 'flex';
+          }}
+        />
+        <div className="absolute inset-0 hidden items-center justify-center bg-clay/20 text-4xl font-bold text-ink deck-heading">
+          {initials}
+        </div>
+        
+        {/* Grain Overlay on Image */}
+        <div className="absolute inset-0 opacity-20 bg-noise pointer-events-none" />
+      </div>
+      
+      {/* Industrial Label */}
+      <div className="absolute -bottom-4 -right-4 bg-clay text-void px-3 py-1 deck-mono text-[9px] font-bold uppercase tracking-widest border border-ink">
+        {member.role.split(' & ')[0]}
       </div>
     </div>
   );
@@ -302,22 +328,22 @@ const flywheelRows = [
   {
     title: 'Diagnose',
     body: 'Run a GEO audit to surface visibility gaps, citation risks, and priority fixes.',
-    icon: <Radar className="h-4 w-4 text-stardust" aria-hidden="true" />,
+    icon: <Radar className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
   },
   {
     title: 'Create',
     body: 'Turn those gaps into platform-native hooks, campaigns, and content systems.',
-    icon: <Sparkles className="h-4 w-4 text-accent-cyan" aria-hidden="true" />,
+    icon: <Sparkles className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
   },
   {
     title: 'Deploy',
     body: 'Ship through SaaS workflows today and through agent/API calls as usage expands.',
-    icon: <Rocket className="h-4 w-4 text-stardust" aria-hidden="true" />,
+    icon: <Rocket className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
   },
   {
     title: 'Learn',
     body: 'Outcome data improves recommendations, routing, and future marketplace trust signals.',
-    icon: <Activity className="h-4 w-4 text-accent-cyan" aria-hidden="true" />,
+    icon: <Activity className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
   },
 ];
 
@@ -383,18 +409,28 @@ const PitchDeckPage = () => {
         const sourceRect = sourceSlide.getBoundingClientRect();
         const sourceStyle = window.getComputedStyle(sourceSlide);
         slide.removeAttribute('id');
-        slide.style.width = `${Math.ceil(sourceRect.width)}px`;
-        slide.style.minHeight = `${Math.ceil(sourceRect.height)}px`;
-        slide.style.height = `${Math.ceil(sourceRect.height)}px`;
-        slide.style.paddingTop = '80px';
-        slide.style.paddingRight = sourceStyle.paddingRight;
-        slide.style.paddingBottom = '48px';
-        slide.style.paddingLeft = sourceStyle.paddingLeft;
+         const realHeight = Math.max(sourceSlide.scrollHeight, sourceRect.height);
+         slide.style.width = `${Math.ceil(sourceRect.width)}px`;
+         slide.style.height = `${Math.ceil(realHeight)}px`;
+         slide.style.minHeight = '0';
+         slide.style.justifyContent = 'flex-start';
+         slide.style.paddingTop = sourceStyle.paddingTop;
+         slide.style.paddingRight = sourceStyle.paddingRight;
+         slide.style.paddingBottom = sourceStyle.paddingBottom;
+         slide.style.paddingLeft = sourceStyle.paddingLeft;
         
-        // Ensure bg-onyx children keep their dark background in PDF
-        slide.querySelectorAll<HTMLElement>('.bg-onyx').forEach(el => {
-          el.style.backgroundColor = '#0F1115';
-          el.style.color = '#FFFFFF';
+        // Ensure ink children keep their dark background in PDF
+        slide.querySelectorAll<HTMLElement>('.bg-ink, .bg-onyx').forEach(el => {
+          el.style.backgroundColor = '#121212';
+          el.style.color = '#FBFBFB';
+        });
+
+        // Ensure background numbers are visible but subtle
+        slide.querySelectorAll<HTMLElement>('span').forEach(el => {
+          if (el.style.fontSize.includes('vw')) {
+            el.style.opacity = '0.03';
+            el.style.color = '#121212';
+          }
         });
 
         const gridOverlay = document.createElement('div');
@@ -405,7 +441,7 @@ const PitchDeckPage = () => {
 
         const layoutRoot = slide.firstElementChild as HTMLElement | null;
         if (layoutRoot) {
-          layoutRoot.style.maxWidth = '80rem';
+          layoutRoot.style.maxWidth = sourceStyle.maxWidth;
           layoutRoot.style.width = '100%';
           layoutRoot.style.marginLeft = 'auto';
           layoutRoot.style.marginRight = 'auto';
@@ -416,7 +452,7 @@ const PitchDeckPage = () => {
         });
         slide.querySelectorAll<HTMLElement>('.deck-table').forEach(table => {
           table.style.width = '100%';
-          table.style.minWidth = '0';
+          table.style.tableLayout = 'fixed';
         });
         slide.querySelectorAll<HTMLElement>('th, td').forEach(cell => {
           cell.style.wordBreak = 'break-word';
@@ -493,128 +529,61 @@ const PitchDeckPage = () => {
           font-variant-numeric: tabular-nums;
         }
 
-        .deck-slide-counter {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 10px;
-          letter-spacing: 0.22em;
-          color: rgba(107, 114, 128, 0.55);
-          text-transform: uppercase;
-        }
-
-        .deck-grid {
-          background-image:
-            linear-gradient(to right, rgba(15, 17, 21, 0.04) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(15, 17, 21, 0.04) 1px, transparent 1px);
-          background-size: 56px 56px;
-        }
-
-        .deck-card {
-          border: 1px solid rgba(15, 17, 21, 0.04);
-          background-color: #FFFFFF;
-          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-          transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .deck-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 48px rgba(15, 17, 21, 0.08);
-        }
-
-        .deck-slide h2 {
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-          letter-spacing: -0.025em;
-          text-wrap: balance;
-          animation: slideIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-        }
-
-        @keyframes slideIn {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .deck-sheen {
-          position: relative;
-          overflow: hidden;
-        }
-
-        .deck-sheen::after {
-          content: "";
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: linear-gradient(
-            to bottom right,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0) 40%,
-            rgba(255, 255, 255, 0.4) 50%,
-            rgba(255, 255, 255, 0) 60%,
-            rgba(255, 255, 255, 0) 100%
-          );
-          transform: rotate(45deg);
-          transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-          pointer-events: none;
-        }
-
-        .deck-sheen:hover::after {
-          transform: rotate(45deg) translate(20%, 20%);
-        }
-
-        .deck-hero-ring {
-          position: relative;
-          isolation: isolate;
-        }
-
-        .deck-hero-ring::before {
-          content: "";
-          position: absolute;
-          inset: -10px;
-          border-radius: 20px;
-          background: conic-gradient(from 120deg, rgba(45,212,191,0.32), rgba(34,211,238,0.09), rgba(16,185,129,0.25), rgba(45,212,191,0.32));
-          filter: blur(14px);
-          z-index: -1;
-          animation: deckSpin 14s linear infinite;
-        }
-
-        @keyframes deckSpin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
-        .deck-slide h3 {
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-          letter-spacing: -0.015em;
-          margin-bottom: 1rem;
+        .bg-noise {
+          background-image: var(--noise);
         }
 
         .deck-table {
           width: 100%;
           border-collapse: collapse;
           font-size: 0.875rem;
+          border: 2px solid #121212;
         }
 
         .deck-table th {
           text-align: left;
           font-family: 'JetBrains Mono', monospace;
-          font-size: 0.67rem;
-          letter-spacing: 0.1em;
+          font-size: 0.65rem;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: rgba(107, 114, 128, 0.8);
-          font-weight: 500;
-          background: #FAFBFC;
+          color: #FBFBFB;
+          font-weight: 700;
+          background: #121212;
+          padding: 1rem 0.875rem;
         }
 
         .deck-table th,
         .deck-table td {
-          border: 1px solid rgba(15, 17, 21, 0.04);
-          padding: 0.72rem 0.875rem;
+          border: 1px solid #121212;
+          padding: 1rem 0.875rem;
           vertical-align: top;
         }
 
         .deck-table td {
-          color: rgba(15, 17, 21, 0.85);
+          color: #121212;
           line-height: 1.5;
+          background: #FFFFFF;
+        }
+
+        .deck-table tr:nth-child(even) td {
+          background: #F8F8F8;
+        }
+
+        .deck-topbar {
+          border-bottom: 2px solid #121212;
+          background: #FFFFFF;
+        }
+
+        .label-stamp {
+          padding: 0.25rem 0.6rem;
+          background: #121212;
+          color: #FBFBFB;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.6rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.15em;
+          display: inline-block;
         }
 
         .deck-card p,
@@ -779,7 +748,7 @@ const PitchDeckPage = () => {
 
           <button
             onClick={() => navigate('/')}
-            className="inline-flex items-center gap-2 text-stardust hover:text-onyx transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-[#070b14]"
+            className="inline-flex items-center gap-2 text-sage/95 font-medium italic hover:text-onyx transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-[#070b14]"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
             <span className="deck-mono text-[10px] tracking-[0.15em] uppercase">Back</span>
@@ -789,14 +758,14 @@ const PitchDeckPage = () => {
             <GeoCompanionMark size={28} />
             <div>
               <p className="deck-mono text-[10px] tracking-[0.22em] text-onyx uppercase">GeoCompanion.ai</p>
-              <p className="deck-mono text-[9px] tracking-[0.14em] text-stardust">Investor Deck &middot; 2026</p>
+              <p className="deck-mono text-[9px] tracking-[0.14em] text-sage/95 font-medium italic">Investor Deck &middot; 2026</p>
             </div>
           </div>
 
           <button
             onClick={handleDownloadPdf}
             disabled={isDownloading}
-            className="inline-flex items-center gap-2 rounded-full border border-accent-cyan/20 bg-accent-cyan/8 px-4 py-2 text-accent-cyan transition hover:bg-accent-cyan/15 hover:border-accent-cyan/35 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-[#070b14]"
+            className="inline-flex items-center gap-2 rounded-full border border-accent-cyan/20 bg-accent-cyan/8 px-4 py-2 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5 transition hover:bg-accent-cyan/15 hover:border-accent-cyan/35 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-[#070b14]"
           >
             <Download className="h-3.5 w-3.5" aria-hidden="true" />
             <span className="deck-mono text-[10px] tracking-[0.1em] uppercase">{isDownloading ? 'Generating\u2026' : 'Export PDF'}</span>
@@ -835,64 +804,52 @@ const PitchDeckPage = () => {
           subtitle="The intelligence layer for an AI-first world. One workflow from diagnosis to execution."
         >
           <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-            <div className="deck-card rounded-3xl p-8 lg:col-span-7 lg:mt-4">
+            <div className="bg-hull border-2 border-ink shadow-brutalist p-10 transform -rotate-1 lg:col-span-7">
               <div className="mb-6 flex items-center gap-3">
                 <GeoCompanionMark size={28} />
-                <span className="deck-mono text-[10px] tracking-[0.2em] uppercase text-stardust">Enterprise Strategic Intelligence Platform</span>
+                <span className="deck-mono text-[10px] tracking-[0.2em] uppercase text-sage/95 font-medium italic">Enterprise Strategic Intelligence Platform</span>
               </div>
-              <p className="deck-mono text-[9px] uppercase tracking-[0.2em] text-stardust mb-3">Core Mission</p>
-              <p className="text-2xl font-semibold leading-relaxed text-onyx sm:text-3xl">
+              <p className="deck-mono text-[9px] uppercase tracking-[0.2em] text-sage/95 font-medium italic mb-3">Core Mission</p>
+              <p className="text-2xl font-semibold leading-relaxed text-ink sm:text-3xl">
                 Helping brands win AI citations and build platform-native content that captures market attention.
               </p>
-              <p className="mt-6 text-lg leading-relaxed text-stardust">
+              <p className="mt-6 text-lg leading-relaxed text-sage/95 font-medium italic">
                 GeoCompanion bridges the gap between diagnosis and execution, surfacing exactly where you are missing citations and providing the native content system to fix it.
               </p>
             </div>
 
             <div className="space-y-6 lg:col-span-5">
-              <div className="deck-card deck-hero-ring rounded-2xl p-6">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.18em] text-stardust mb-4">The Destination</p>
+              <div className="bg-hull border-2 border-ink shadow-brutalist p-8">
+                <p className="deck-mono text-[9px] uppercase tracking-[0.18em] text-sage/95 font-medium italic mb-4">The Destination</p>
                 <div className="space-y-5">
-                  <div className="flex items-start gap-4">
-                    <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white shadow-sm">
-                      <Radar className="h-5 w-5 text-accent-cyan" aria-hidden="true" />
+                  {[
+                    { icon: <Radar className="h-5 w-5 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />, title: 'Strategic Intelligence', desc: 'Vision, market positioning, predictive analytics' },
+                    { icon: <Bot className="h-5 w-5 text-clay font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />, title: 'Agent Marketplace', desc: 'Agents ranked by verified outcome data' },
+                    { icon: <ShieldCheck className="h-5 w-5 text-indigo-400" aria-hidden="true" />, title: 'On-Chain Trust', desc: 'Immutable performance attestation' },
+                  ].map((item) => (
+                    <div key={item.title} className="flex items-start gap-4">
+                      <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center border border-ink/10 bg-void shadow-sm">
+                        {item.icon}
+                      </div>
+                      <div>
+                        <p className="text-base font-bold text-ink">{item.title}</p>
+                        <p className="mt-0.5 text-sm text-sage/95 font-medium italic">{item.desc}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-base font-bold text-onyx">Strategic Intelligence</p>
-                      <p className="mt-0.5 text-sm text-stardust">Vision, market positioning, predictive analytics</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white shadow-sm">
-                      <Bot className="h-5 w-5 text-accent-violet" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <p className="text-base font-bold text-onyx">Agent Marketplace</p>
-                      <p className="mt-0.5 text-sm text-stardust">Agents ranked by verified outcome data</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-100 bg-white shadow-sm">
-                      <ShieldCheck className="h-5 w-5 text-indigo-400" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <p className="text-base font-bold text-onyx">On-Chain Trust</p>
-                      <p className="mt-0.5 text-sm text-stardust">Immutable performance attestation</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4">
                 {[
-                  { icon: <Sparkles className="h-4 w-4 text-accent-cyan" aria-hidden="true" />, label: 'Today', value: 'GEO + Vibe Marketing' },
-                  { icon: <BarChart3 className="h-4 w-4 text-accent-violet" aria-hidden="true" />, label: 'Phase 1\u20133', value: 'Enterprise Intelligence' },
+                  { icon: <Sparkles className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />, label: 'Today', value: 'GEO + Vibe Marketing' },
+                  { icon: <BarChart3 className="h-4 w-4 text-clay font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />, label: 'Phase 1\u20133', value: 'Enterprise Intelligence' },
                 ].map((item) => (
-                  <div key={item.label} className="deck-card flex items-center gap-4 rounded-xl p-4">
+                  <div key={item.label} className="bg-hull border-2 border-ink shadow-brutalist p-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-50">{item.icon}</div>
                     <div>
-                      <p className="deck-mono text-[9px] uppercase tracking-[0.14em] text-stardust">{item.label}</p>
-                      <p className="text-sm font-bold text-onyx">{item.value}</p>
+                      <p className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">{item.label}</p>
+                      <p className="text-sm font-bold text-ink">{item.value}</p>
                     </div>
                   </div>
                 ))}
@@ -915,60 +872,60 @@ const PitchDeckPage = () => {
                 { label: 'Creator Market', value: '$214B', note: 'Native content leads' },
                 { label: 'Execution Cost', value: '$1M+', note: 'Annual ops overhead' },
               ].map((item) => (
-                <article key={item.label} className="deck-card rounded-3xl p-6 text-center">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.14em] text-stardust">{item.label}</p>
-                  <p className="deck-heading mt-4 text-4xl font-bold text-onyx tabular-nums">{item.value}</p>
-                  <p className="mt-3 text-[10px] leading-tight text-stardust">{item.note}</p>
+                <article key={item.label} className="bg-hull border border-ink/10 shadow-brutalist p-6">
+                  <p className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">{item.label}</p>
+                  <p className="deck-heading mt-4 text-4xl font-bold text-ink tabular-nums">{item.value}</p>
+                  <p className="mt-3 text-[10px] leading-tight text-sage/95 font-medium italic">{item.note}</p>
                 </article>
               ))}
             </div>
-            <div className="lg:col-span-4 bg-slate-50/50 rounded-3xl border border-slate-100 p-6 flex items-center justify-center text-center">
-               <p className="text-sm font-medium text-stardust italic">The gap between diagnosis and execution is the single biggest leak in marketing ROI today.</p>
+            <div className="lg:col-span-4 bg-hull border-2 border-ink shadow-brutalist p-8 flex items-center justify-center text-center rotate-1">
+               <p className="text-sm font-medium text-sage/95 font-medium italic italic">The gap between diagnosis and execution is the single biggest leak in marketing ROI today.</p>
             </div>
           </div>
 
           <div className="mt-5 grid gap-5 lg:grid-cols-2">
-            <article className="deck-card rounded-2xl p-6">
-              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust flex items-center gap-2 mb-4">
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
+              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic flex items-center gap-2 mb-4">
                 <Search className="h-3 w-3" aria-hidden="true" />
                 Discovery changed
               </p>
               <div className="rounded-xl border border-slate-100 bg-white p-4">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust mb-1.5">Old playbook</p>
-                <p className="text-sm leading-relaxed text-stardust">SEO rankings on Google blue links.</p>
+                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1.5">Old playbook</p>
+                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">SEO rankings on Google blue links.</p>
               </div>
               <div className="mt-3 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-accent-cyan mb-1.5">New reality</p>
-                <p className="text-sm leading-relaxed text-onyx">
+                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5 mb-1.5">New reality</p>
+                <p className="text-sm leading-relaxed text-ink">
                   AI answer engines decide visibility. Ranking pages no longer guarantees citation in answers.
                 </p>
               </div>
             </article>
 
-            <article className="deck-card rounded-2xl p-6">
-              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust flex items-center gap-2 mb-4">
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
+              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic flex items-center gap-2 mb-4">
                 <Sparkles className="h-3 w-3" aria-hidden="true" />
                 Content changed
               </p>
               <div className="rounded-xl border border-slate-100 bg-white p-4">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust mb-1.5">Old playbook</p>
-                <p className="text-sm leading-relaxed text-stardust">Polished campaigns produced by large teams/agencies.</p>
+                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1.5">Old playbook</p>
+                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">Polished campaigns produced by large teams/agencies.</p>
               </div>
               <div className="mt-3 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-accent-cyan mb-1.5">New reality</p>
-                <p className="text-sm leading-relaxed text-onyx">
+                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5 mb-1.5">New reality</p>
+                <p className="text-sm leading-relaxed text-ink">
                   Platform-native creator execution wins attention, but requires a repeatable multi-platform system.
                 </p>
               </div>
             </article>
           </div>
 
-          <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-4">The structural gap</p>
-            <div className="grid gap-3 md:grid-cols-3">
-              <div className="rounded-xl border border-slate-100 bg-white p-4 text-sm text-stardust">GEO tools measure visibility but do not create content.</div>
-              <div className="rounded-xl border border-slate-100 bg-white p-4 text-sm text-stardust">Content tools generate posts but do not optimize AI citation share.</div>
-              <div className="rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4 text-sm font-medium text-onyx">GeoCompanion connects diagnosis, execution, and compounding outcomes.</div>
+          <div className="bg-hull border-2 border-ink shadow-brutalist p-8 mt-5">
+            <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">The structural gap</p>
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="border border-ink/10 bg-void p-4 text-sm text-sage/95 font-medium italic">GEO tools measure visibility but do not create content.</div>
+              <div className="border border-ink/10 bg-void p-4 text-sm text-sage/95 font-medium italic">Content tools generate posts but do not optimize AI citation share.</div>
+              <div className="bg-clay/5 border border-clay/20 p-4 text-sm font-medium text-ink">GeoCompanion connects diagnosis, execution, and compounding outcomes.</div>
             </div>
           </div>
 
@@ -983,7 +940,7 @@ const PitchDeckPage = () => {
 
         {/* Slide 3 */}
         <SlideShell id="slide-3" index={3} title="Why Now" subtitle="The category is opening before the stack is settled.">
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
             {[
               {
                 tag: 'Shift 1',
@@ -1001,29 +958,29 @@ const PitchDeckPage = () => {
                 body: 'Machine-to-machine workflows mean this becomes a platform play, not just a point solution.',
               },
             ].map((item, idx) => (
-              <article key={item.tag} className={`deck-card rounded-2xl p-7 ${idx === 1 ? 'lg:mt-8' : ''}`}>
-                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-4">{item.tag}</p>
-                <h3 className="text-xl font-bold text-onyx">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-stardust">{item.body}</p>
+              <article key={item.tag} className="bg-hull border-2 border-ink shadow-brutalist p-10 lg:col-span-4 flex flex-col justify-between">
+                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-clay mb-4">{item.tag}</p>
+                <h3 className="text-xl font-bold text-ink">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-ink/80 font-medium italic">{item.body}</p>
               </article>
             ))}
           </div>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-12">
-            <div className="deck-card rounded-2xl p-8 lg:col-span-7 bg-accent-cyan/5 border-accent-cyan/10">
-              <p className="deck-mono text-[10px] uppercase tracking-[0.16em] text-accent-cyan mb-3">The Window</p>
-              <p className="text-xl font-medium leading-relaxed text-onyx">
-                Incumbents skew toward enterprise reporting. The <span className="text-accent-cyan font-bold">SMB, creator, and agent-native layer</span> is still wide open for a category-defining workflow.
+            <div className="bg-hull border-2 border-ink shadow-brutalist p-10 transform -rotate-1 lg:col-span-7">
+              <p className="deck-mono text-[10px] uppercase tracking-[0.16em] text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5 mb-3">The Window</p>
+              <p className="text-xl font-medium leading-relaxed text-ink">
+                Incumbents skew toward enterprise reporting. The <span className="text-clay font-bold">SMB, creator, and agent-native layer</span> is still wide open for a category-defining workflow.
               </p>
             </div>
 
             <div className="lg:col-span-5 space-y-4">
-              <div className="deck-card rounded-2xl p-6 bg-white shadow-elevation">
+              <div className="bg-hull border-2 border-ink shadow-brutalist p-8 bg-white shadow-elevation">
                 <div className="flex items-center gap-3">
-                  <div className="h-2 w-2 rounded-full bg-accent-cyan" />
-                  <p className="text-sm font-bold text-onyx">Early Advantage</p>
+                  <div className="h-2 w-2 rounded-full bg-clay" />
+                  <p className="text-sm font-bold text-ink">Early Advantage</p>
                 </div>
-                <p className="mt-2 text-sm text-stardust">We aren't just competing in a workflow; we are defining it before the incumbents pivot from reporting to execution.</p>
+                <p className="mt-2 text-sm text-sage/95 font-medium italic">We aren't just competing in a workflow; we are defining it before the incumbents pivot from reporting to execution.</p>
               </div>
             </div>
           </div>
@@ -1032,16 +989,16 @@ const PitchDeckPage = () => {
         {/* Slide 4 */}
         <SlideShell id="slide-4" index={4} title="Our Solution" subtitle="Two engines, one workflow, one prioritized action plan.">
           <div className="grid gap-8 lg:grid-cols-12">
-            <article className="deck-card rounded-3xl p-8 lg:col-span-6 bg-white shadow-elevation flex flex-col justify-between">
+            <article className="bg-hull border bg-noise border-2 border-ink shadow-brutalist p-10 flex flex-col justify-between transform -rotate-1 lg:col-span-6">
               <div>
-                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-6">Execution Engines</p>
+                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-6">Execution Engines</p>
                 <div className="space-y-4">
                   <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5 group transition-all hover:bg-white hover:shadow-sm">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 rounded-lg bg-white border border-slate-100"><Search className="h-5 w-5 text-accent-cyan" aria-hidden="true" /></div>
-                      <p className="text-lg font-bold text-onyx">GEO Audit Engine</p>
+                      <div className="p-2 rounded-lg bg-white border border-slate-100"><Search className="h-5 w-5 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /></div>
+                      <p className="text-lg font-bold text-ink">GEO Audit Engine</p>
                     </div>
-                    <ul className="space-y-2 text-sm text-stardust">
+                    <ul className="space-y-2 text-sm text-sage/95 font-medium italic">
                       <li>• Citation-share competitive analysis</li>
                       <li>• EEAT & algorithm fit scoring</li>
                       <li>• Deployable fix prioritization</li>
@@ -1050,10 +1007,10 @@ const PitchDeckPage = () => {
 
                   <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5 group transition-all hover:bg-white hover:shadow-sm">
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 rounded-lg bg-white border border-slate-100"><Sparkles className="h-5 w-5 text-accent-violet" aria-hidden="true" /></div>
-                      <p className="text-lg font-bold text-onyx">Vibe Marketing Engine</p>
+                      <div className="p-2 rounded-lg bg-white border border-slate-100"><Sparkles className="h-5 w-5 text-clay font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /></div>
+                      <p className="text-lg font-bold text-ink">Vibe Marketing Engine</p>
                     </div>
-                    <ul className="space-y-2 text-sm text-stardust">
+                    <ul className="space-y-2 text-sm text-sage/95 font-medium italic">
                       <li>• Platform-native voice detection</li>
                       <li>• Hook-based campaign architecting</li>
                       <li>• Voice-consistent automated generation</li>
@@ -1064,13 +1021,13 @@ const PitchDeckPage = () => {
             </article>
 
             <article className="lg:col-span-6 space-y-6">
-              <div className="deck-card deck-sheen rounded-3xl p-8 !bg-onyx !text-white overflow-hidden">
-                <p className="deck-mono text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-4">The Output</p>
-                <h3 className="text-2xl font-bold mb-4">The "Prioritized Action Plan"</h3>
-                <p className="text-slate-100 leading-relaxed font-medium">We don't just dump data. GeoCompanion produces a single backlog of high-impact moves across SEO, AI citation, and social content.</p>
+              <div className="bg-hull border-2 border-ink shadow-brutalist p-10 transform rotate-1">
+                <p className="deck-mono text-[10px] uppercase tracking-[0.2em] text-sage/95 font-medium italic mb-4">The Output</p>
+                <h3 className="text-2xl font-bold mb-4 text-ink">The "Prioritized Action Plan"</h3>
+                <p className="text-ink leading-relaxed font-medium">We don't just dump data. GeoCompanion produces a single backlog of high-impact moves across SEO, AI citation, and social content.</p>
                 <div className="mt-8 flex items-center gap-4">
-                   <div className="h-px flex-1 bg-slate-800" />
-                   <div className="text-[10px] deck-mono text-slate-500">AUTOMATED WORKFLOW</div>
+                   <div className="h-px flex-1 bg-ink/10" />
+                   <div className="text-[10px] deck-mono text-sage/95 font-medium italic">AUTOMATED WORKFLOW</div>
                 </div>
               </div>
 
@@ -1079,9 +1036,9 @@ const PitchDeckPage = () => {
                     { label: 'Latency', value: '15s' },
                     { label: 'Price', value: '<$10/mo' },
                   ].map(stat => (
-                    <div key={stat.label} className="deck-card rounded-2xl p-6 text-center">
-                       <p className="deck-mono text-[9px] text-stardust uppercase tracking-widest">{stat.label}</p>
-                       <p className="text-2xl font-bold text-onyx mt-1">{stat.value}</p>
+                    <div key={stat.label} className="bg-hull border-2 border-ink shadow-brutalist p-8 text-center">
+                       <p className="deck-mono text-[9px] text-sage/95 font-medium italic uppercase tracking-widest">{stat.label}</p>
+                       <p className="text-2xl font-bold text-ink mt-1">{stat.value}</p>
                     </div>
                   ))}
                </div>
@@ -1096,7 +1053,7 @@ const PitchDeckPage = () => {
           title="Why We're Different"
           subtitle="Others either diagnose or create. We do both, and connect the loop."
         >
-          <div className="deck-card overflow-x-auto rounded-2xl">
+          <div className="bg-hull border-2 border-ink shadow-brutalist p-4 overflow-x-auto">
             <table className="deck-table min-w-[900px]">
               <thead>
                 <tr>
@@ -1112,13 +1069,13 @@ const PitchDeckPage = () => {
               <tbody>
                 {competitorRows.map((row) => (
                   <tr key={row.category}>
-                    <td className="font-medium text-onyx">{row.category}</td>
+                    <td className="font-medium text-ink">{row.category}</td>
                     <td>{row.brightedge}</td>
                     <td>{row.evertune}</td>
                     <td>{row.athena}</td>
                     <td>{row.surfer}</td>
                     <td>{row.jasper}</td>
-                    <td className="font-semibold text-accent-cyan">{row.geoCompanion}</td>
+                    <td className="font-semibold text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5">{row.geoCompanion}</td>
                   </tr>
                 ))}
               </tbody>
@@ -1131,15 +1088,15 @@ const PitchDeckPage = () => {
               'Agent-queryable API and ranking layer built on proprietary outcome data.',
               'Verifiable agent performance for enterprise trust.',
             ].map((gap, idx) => (
-              <div key={gap} className="deck-card rounded-xl p-5">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-2">Gap {idx + 1}</p>
-                <p className="text-sm leading-relaxed text-onyx">{gap}</p>
+              <div key={gap} className="bg-hull border border-ink/10 shadow-brutalist p-5">
+                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-2">Gap {idx + 1}</p>
+                <p className="text-sm leading-relaxed text-ink">{gap}</p>
               </div>
             ))}
           </div>
 
           <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-lg leading-relaxed text-onyx">
+            <p className="text-lg leading-relaxed text-ink">
               Others either diagnose or create. We do both, and connect the loop.
             </p>
           </div>
@@ -1147,15 +1104,15 @@ const PitchDeckPage = () => {
 
         {/* Slide 6 */}
         <SlideShell id="slide-6" index={6} title="Platform Vision" subtitle="From workflow to intelligence to a verified agent economy.">
-          <div className="deck-card rounded-2xl p-6">
+          <div className="bg-hull border-2 border-ink shadow-brutalist p-8">
             <div className="grid gap-4 lg:grid-cols-[1.2fr,0.8fr]">
               <div className="rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-5">
-                <p className="text-base leading-relaxed text-onyx">
+                <p className="text-base leading-relaxed text-ink">
                   <span className="font-bold">The Moat:</span> Every audit and campaign feeds our ranking model. This outcome data is a proprietary training signal that no generic intelligence platform can replicate.
                 </p>
               </div>
               <div className="rounded-xl border border-slate-100 bg-white p-5">
-                <p className="text-sm leading-relaxed text-stardust">
+                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
                   <span className="font-bold">Vision Navigator:</span> We help brands answer whether they are running in the right direction before they scale execution budget.
                 </p>
               </div>
@@ -1163,24 +1120,24 @@ const PitchDeckPage = () => {
           </div>
 
           <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-4">Step-by-step build path</p>
+            <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">Step-by-step build path</p>
             <div className="grid gap-4 md:grid-cols-3">
               {buildPathRows.map((item, idx) => {
                 const icon = [
-                  <Rocket className="h-4 w-4 text-accent-cyan" aria-hidden="true" />,
-                  <Server className="h-4 w-4 text-stardust" aria-hidden="true" />,
-                  <Activity className="h-4 w-4 text-stardust" aria-hidden="true" />,
+                  <Rocket className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
+                  <Server className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
+                  <Activity className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
                 ][idx];
 
                 return (
                   <article key={item.phase} className="rounded-xl border border-slate-100 bg-white p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="deck-mono text-[9px] uppercase tracking-[0.14em] text-stardust">{item.phase}</span>
+                      <span className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">{item.phase}</span>
                       {icon}
                     </div>
-                    <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust mb-1">{item.when}</p>
-                    <p className="deck-heading text-base font-semibold text-onyx mb-2">{item.ships}</p>
-                    <p className="text-sm leading-relaxed text-stardust">{item.target}</p>
+                    <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">{item.when}</p>
+                    <p className="deck-heading text-base font-semibold text-ink mb-2">{item.ships}</p>
+                    <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{item.target}</p>
                   </article>
                 );
               })}
@@ -1194,14 +1151,14 @@ const PitchDeckPage = () => {
               ['Verified trust', 'The marketplace only works if enterprise buyers can audit real performance history before they trust an agent.'],
             ].map(([title, body]) => (
               <article key={title} className="deck-card rounded-2xl p-5">
-                <h3 className="text-base font-semibold text-onyx mb-2">{title}</h3>
-                <p className="text-sm leading-relaxed text-stardust">{body}</p>
+                <h3 className="text-base font-semibold text-ink mb-2">{title}</h3>
+                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{body}</p>
               </article>
             ))}
           </div>
 
           <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-sm leading-relaxed text-stardust">
+            <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
               Phase 0 is intentional. The app generates the proprietary training signal that makes Phase 1 routing defensible. We are not pivoting to infra; we are building toward it with every workflow we run today.
             </p>
           </div>
@@ -1209,64 +1166,64 @@ const PitchDeckPage = () => {
 
         {/* Slide 7 */}
         <SlideShell id="slide-7" index={7} title="Agent Marketplace" subtitle="Private context in, best-fit execution out.">
-          <div className="deck-card rounded-2xl p-6">
+          <div className="bg-hull border-2 border-ink shadow-brutalist p-8">
             <div className="grid gap-6 lg:grid-cols-[0.8fr,1.2fr]">
               <div className="space-y-4">
                 <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust mb-1">1. Private Context</p>
-                  <p className="text-sm text-stardust">Brands send platform, product, and objective context.</p>
+                  <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">1. Private Context</p>
+                  <p className="text-sm text-ink/90 font-medium italic">Brands send platform, product, and objective context.</p>
                 </div>
                 <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust mb-1">2. Smart Routing</p>
-                  <p className="text-sm text-stardust">GeoCompanion selects agents by verified hook performance and outcome history.</p>
+                  <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">2. Smart Routing</p>
+                  <p className="text-sm text-ink/90 font-medium italic">GeoCompanion selects agents by verified hook performance and outcome history.</p>
                 </div>
                 <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust mb-1">3. Native Execution</p>
-                  <p className="text-sm text-stardust">Agents execute and feed outcomes back into the ranking loop.</p>
+                  <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">3. Native Execution</p>
+                  <p className="text-sm text-ink/90 font-medium italic">Agents execute and feed outcomes back into the ranking loop.</p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="rounded-2xl border border-slate-100 bg-white p-4">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-4">Request flow</p>
+                  <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">Request flow</p>
                   <div className="grid gap-3 md:grid-cols-3">
                     <div className="rounded-xl border border-slate-100 bg-white p-4">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-100 bg-slate-50">
-                          <Bot className="h-4 w-4 text-stardust" aria-hidden="true" />
+                          <Bot className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />
                         </div>
                         <div>
-                          <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust">Personal agent</p>
-                          <p className="text-xs font-semibold text-onyx">Private context</p>
+                          <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic">Personal agent</p>
+                          <p className="text-xs font-semibold text-ink">Private context</p>
                         </div>
                       </div>
-                      <p className="text-xs leading-relaxed text-stardust">TikTok, skincare launch, beauty / DTC.</p>
+                      <p className="text-xs leading-relaxed text-ink/80 font-medium italic">TikTok, skincare launch, beauty / DTC.</p>
                     </div>
 
                     <div className="rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-100 bg-slate-50">
-                          <Server className="h-4 w-4 text-accent-cyan" aria-hidden="true" />
+                          <Server className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />
                         </div>
                         <div>
-                          <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust">GeoCompanion</p>
-                          <p className="text-xs font-semibold text-onyx">Routing layer</p>
+                          <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic">GeoCompanion</p>
+                          <p className="text-xs font-semibold text-ink">Routing layer</p>
                         </div>
                       </div>
-                      <p className="text-xs leading-relaxed text-stardust">Scores hook fit, availability, and performance.</p>
+                      <p className="text-xs leading-relaxed text-ink/80 font-medium italic">Scores hook fit, availability, and performance.</p>
                     </div>
 
                     <div className="rounded-xl border border-slate-100 bg-white p-4">
                       <div className="flex items-center gap-3 mb-3">
                         <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-100 bg-slate-50">
-                          <ShieldCheck className="h-4 w-4 text-stardust" aria-hidden="true" />
+                          <ShieldCheck className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />
                         </div>
                         <div>
-                          <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust">Public agents</p>
-                          <p className="text-xs font-semibold text-onyx">Marketplace agents</p>
+                          <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic">Public agents</p>
+                          <p className="text-xs font-semibold text-ink">Marketplace agents</p>
                         </div>
                       </div>
-                      <p className="text-xs leading-relaxed text-stardust">AWS / GCP deployed agents with different hook mixes.</p>
+                      <p className="text-xs leading-relaxed text-ink/80 font-medium italic">AWS / GCP deployed agents with different hook mixes.</p>
                     </div>
                   </div>
                 </div>
@@ -1274,17 +1231,17 @@ const PitchDeckPage = () => {
                 <div className="rounded-2xl border border-slate-100 bg-white p-4">
                   <div className="flex items-center justify-between gap-3 mb-4">
                     <div>
-                      <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust">Public agent examples</p>
-                      <p className="mt-1 text-xs text-stardust">Each agent mixes several hook patterns at different weights, like a recipe for tone and structure.</p>
+                      <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic">Public agent examples</p>
+                      <p className="mt-1 text-xs text-sage/95 font-medium italic">Each agent mixes several hook patterns at different weights, like a recipe for tone and structure.</p>
                     </div>
-                    <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust">Cloud-deployed</p>
+                    <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic">Cloud-deployed</p>
                   </div>
                   <div className="grid gap-3 md:grid-cols-2">
                     <PublicAgentCard
                       name="Alice"
                       cloud="AWS"
                       context="Weighted for contrast-led product storytelling."
-                      accent="text-accent-cyan"
+                      accent="text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5"
                       hooks={[
                         { label: 'Contrast hook', weight: 0.3, tone: 'from-accent-cyan to-blue-400' },
                         { label: 'Humble flex', weight: 0.35, tone: 'from-accent-violet to-purple-400' },
@@ -1296,7 +1253,7 @@ const PitchDeckPage = () => {
                       name="Bob"
                       cloud="GCP"
                       context="Weighted for sharper opinion-led campaign framing."
-                      accent="text-stardust"
+                      accent="text-sage/95 font-medium italic"
                       hooks={[
                         { label: 'Humble flex', weight: 0.2, tone: 'from-accent-violet to-purple-400' },
                         { label: 'Hot take', weight: 0.4, tone: 'from-accent-cyan to-blue-400' },
@@ -1317,14 +1274,14 @@ const PitchDeckPage = () => {
               ['Compounding loop', 'Measured outcomes improve routing quality, ranking history, and future hook weights.'],
             ].map(([title, body]) => (
               <article key={title} className="deck-card rounded-2xl p-5">
-                <h3 className="text-base font-semibold text-onyx mb-2">{title}</h3>
-                <p className="text-sm leading-relaxed text-stardust">{body}</p>
+                <h3 className="text-base font-semibold text-ink mb-2">{title}</h3>
+                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{body}</p>
               </article>
             ))}
           </div>
 
           <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-sm leading-relaxed text-stardust">
+            <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
               The on-chain layer (ERC8004) is a trust primitive, not a payment mechanism. Billing stays on fiat throughout.
               The chain provides immutable performance attestation that enterprise buyers require before trusting autonomous
               agents with their brand.
@@ -1336,60 +1293,60 @@ const PitchDeckPage = () => {
         <SlideShell id="slide-8" index={8} title="Early Signal" subtitle="Pre-revenue for now. Here is the signal we are building toward.">
           <div className="grid gap-4 md:grid-cols-4">
             {[
-              { label: 'Website Visitors', value: '457', icon: <Users className="h-4 w-4 text-stardust" aria-hidden="true" /> },
-              { label: 'Active Users', value: '340', icon: <Search className="h-4 w-4 text-stardust" aria-hidden="true" /> },
-              { label: 'Search Events', value: '2,326', icon: <BarChart3 className="h-4 w-4 text-stardust" aria-hidden="true" /> },
-              { label: 'Activation Rate', value: '74%', icon: <DollarSign className="h-4 w-4 text-accent-cyan" aria-hidden="true" /> },
+              { label: 'Website Visitors', value: '457', icon: <Users className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" /> },
+              { label: 'Active Users', value: '340', icon: <Search className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" /> },
+              { label: 'Search Events', value: '2,326', icon: <BarChart3 className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" /> },
+              { label: 'Activation Rate', value: '74%', icon: <DollarSign className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /> },
             ].map((kpi) => (
               <article key={kpi.label} className="deck-card rounded-2xl p-5">
                 <div>{kpi.icon}</div>
-                <p className="deck-mono mt-3 text-[9px] uppercase tracking-[0.14em] text-stardust">{kpi.label}</p>
-                <p className="deck-heading mt-2 text-5xl font-bold text-onyx tabular-nums">{kpi.value}</p>
+                <p className="deck-mono mt-3 text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">{kpi.label}</p>
+                <p className="deck-heading mt-2 text-5xl font-bold text-ink tabular-nums">{kpi.value}</p>
               </article>
             ))}
           </div>
 
           <div className="mt-5 grid gap-5 lg:grid-cols-[1.05fr,1fr]">
-            <article className="deck-card rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-onyx mb-4">The Beta Thesis</h3>
-              <p className="text-sm leading-relaxed text-stardust">
-                We are seeing <span className="font-bold text-onyx">74% activation</span> and 6.8 searches per active user. This depth of engagement proves users treat GeoCompanion as a core operating surface, not a one-time demo.
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
+              <h3 className="text-xl font-semibold text-ink mb-4">The Beta Thesis</h3>
+              <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
+                We are seeing <span className="font-bold text-ink">74% activation</span> and 6.8 searches per active user. This depth of engagement proves users treat GeoCompanion as a core operating surface, not a one-time demo.
               </p>
-              <div className="mt-6 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4 text-sm leading-relaxed text-onyx">
+              <div className="mt-6 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4 text-sm leading-relaxed text-ink">
                 This round builds our upmarket intelligence layer and scales conversion to durable revenue.
               </div>
             </article>
 
-            <article className="deck-card rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-onyx mb-4">Milestones from beta to IPO window</h3>
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
+              <h3 className="text-xl font-semibold text-ink mb-4">Milestones from beta to IPO window</h3>
               <div className="space-y-3">
                 {[
                   {
                     title: 'Pre-seed / Accelerator',
                     desc: 'Convert beta traffic into repeat product usage and first revenue before institutional seed.',
                     target: 'Goal by Q2 2026: 1.5K users, 10K searches, 50 creator/KOL customer accounts, 10 paying brand or agency teams, $5K\u2013$10K MRR',
-                    icon: <Building2 className="h-4 w-4 text-stardust" aria-hidden="true" />,
+                    icon: <Building2 className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
                   },
                   {
                     title: 'Seed / Series A',
                     desc: 'Move upmarket with intelligence workflows and prove expansion revenue across SMB, agency, and enterprise accounts.',
                     target: 'Goal by Q4 2027: 25+ brand or agency customers, 500 creator/KOL customer accounts, $100K MRR, <3 month payback, strong retention',
-                    icon: <Users className="h-4 w-4 text-stardust" aria-hidden="true" />,
+                    icon: <Users className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
                   },
                   {
                     title: 'Growth / IPO readiness',
                     desc: 'Use marketplace and verification infrastructure to become the system of record for AI-native marketing performance.',
                     target: 'Goal by Q3 2029: $50M+ ARR, 120+ enterprise or agency customers, 5,000 creator/KOL customer accounts, enterprise-grade reporting and controls',
-                    icon: <Handshake className="h-4 w-4 text-accent-cyan" aria-hidden="true" />,
+                    icon: <Handshake className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
                   },
                 ].map((channel) => (
                   <div key={channel.title} className="rounded-xl border border-slate-100 bg-white p-4">
                     <div className="flex items-center gap-2 mb-1.5">
                       {channel.icon}
-                      <p className="text-sm font-semibold text-onyx">{channel.title}</p>
+                      <p className="text-sm font-semibold text-ink">{channel.title}</p>
                     </div>
-                    <p className="text-sm leading-relaxed text-stardust">{channel.desc}</p>
-                    <p className="deck-mono mt-2 text-[9px] uppercase tracking-[0.1em] text-stardust">{channel.target}</p>
+                    <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{channel.desc}</p>
+                    <p className="deck-mono mt-2 text-[9px] uppercase tracking-[0.1em] text-sage/95 font-medium italic">{channel.target}</p>
                   </div>
                 ))}
               </div>
@@ -1411,9 +1368,9 @@ const PitchDeckPage = () => {
               <tbody>
                 {marketRows.map((row) => (
                   <tr key={row.market}>
-                    <td className="font-medium text-onyx">{row.market}</td>
+                    <td className="font-medium text-ink">{row.market}</td>
                     <td>{row.size}</td>
-                    <td className="font-semibold text-accent-cyan">{row.growth}</td>
+                    <td className="font-semibold text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5">{row.growth}</td>
                   </tr>
                 ))}
               </tbody>
@@ -1428,15 +1385,15 @@ const PitchDeckPage = () => {
               ['SOM (Year 3)', '$150M', 'Under 1.5% SAM penetration target.'],
             ].map(([label, value, desc]) => (
               <article key={label} className="deck-card rounded-2xl p-5">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-2">{label}</p>
-                <p className="deck-heading text-4xl font-bold text-onyx tabular-nums">{value}</p>
-                <p className="mt-2 text-xs leading-relaxed text-stardust">{desc}</p>
+                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-2">{label}</p>
+                <p className="deck-heading text-4xl font-bold text-ink tabular-nums">{value}</p>
+                <p className="mt-2 text-xs leading-relaxed text-ink/80 font-medium italic">{desc}</p>
               </article>
             ))}
           </div>
 
           <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-4">Market Focus</p>
+            <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">Market Focus</p>
             <div className="space-y-4">
               {[
                 { label: 'TAM $87B', width: 100, tone: 'from-emerald-500 to-emerald-400' },
@@ -1445,7 +1402,7 @@ const PitchDeckPage = () => {
                 { label: 'SOM $150M', width: 8, tone: 'from-slate-600 to-slate-500' },
               ].map((bar) => (
                 <div key={bar.label}>
-                  <div className="deck-mono mb-1.5 text-[10px] tracking-[0.1em] text-stardust">{bar.label}</div>
+                  <div className="deck-mono mb-1.5 text-[10px] tracking-[0.1em] text-sage/95 font-medium italic">{bar.label}</div>
                   <div className="h-2 rounded-full bg-slate-100">
                     <div className={`h-full rounded-full bg-gradient-to-r ${bar.tone}`} style={{ width: `${bar.width}%` }} />
                   </div>
@@ -1472,36 +1429,36 @@ const PitchDeckPage = () => {
                 body: '15\u201320% commission on verified agent transactions. Creators keep 80\u201385%, while personal agents route spend to top-ranked public agents.',
               },
             ].map((item) => (
-              <article key={item.title} className="deck-card rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-onyx mb-3">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-stardust">{item.body}</p>
+              <article key={item.title} className="bg-hull border-2 border-ink shadow-brutalist p-8">
+                <h3 className="text-lg font-semibold text-ink mb-3">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{item.body}</p>
               </article>
             ))}
           </div>
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            <article className="deck-card rounded-2xl p-6">
-              <h3 className="text-lg font-semibold text-onyx mb-3">Flywheel Defensibility</h3>
-              <ul className="space-y-3 text-sm leading-relaxed text-stardust">
-                <li><span className="font-bold text-onyx">Data Moat:</span> Every campaign refined our ranking model.</li>
-                <li><span className="font-bold text-onyx">Outcome Lifts:</span> Better rankings drive better results, attracting demand.</li>
-                <li><span className="font-bold text-onyx">Creator Lock-in:</span> Distribution and verification create switching costs.</li>
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
+              <h3 className="text-lg font-semibold text-ink mb-3">Flywheel Defensibility</h3>
+              <ul className="space-y-3 text-sm leading-relaxed text-ink/80 font-medium italic">
+                <li><span className="font-bold text-ink">Data Moat:</span> Every campaign refined our ranking model.</li>
+                <li><span className="font-bold text-ink">Outcome Lifts:</span> Better rankings drive better results, attracting demand.</li>
+                <li><span className="font-bold text-ink">Creator Lock-in:</span> Distribution and verification create switching costs.</li>
               </ul>
             </article>
 
-            <article className="deck-card rounded-2xl p-6 bg-slate-50 flex flex-col justify-center">
-              <p className="text-base font-semibold text-onyx italic text-center">
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8 bg-slate-50 flex flex-col justify-center">
+              <p className="text-base font-semibold text-ink italic text-center">
                 GeoCompanion doesn't just manage workflows; it owns the outcome data that makes autonomous execution reliable.
               </p>
             </article>
           </div>
 
           <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-sm leading-relaxed text-stardust">
+            <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
               Comparable benchmark: Shopify takes 1.5\u20133% of GMV. GeoCompanion targets higher defensibility through
               outcome verification and trust-layer switching costs.
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-stardust">
+            <p className="mt-3 text-sm leading-relaxed text-ink/80 font-medium italic">
               Billing stays on fiat. The on-chain layer exists to prove performance history and make agent selection
               auditable for enterprise buyers.
             </p>
@@ -1517,16 +1474,16 @@ const PitchDeckPage = () => {
                   <div>{item.icon}</div>
                   <span className="deck-mono text-[9px] text-slate-700">{String(idx + 1).padStart(2, '0')}</span>
                 </div>
-                <h3 className="text-lg font-semibold text-onyx mb-2">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-stardust">{item.body}</p>
+                <h3 className="text-lg font-semibold text-ink mb-2">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{item.body}</p>
               </article>
             ))}
           </div>
 
           <div className="mt-5 grid gap-5 lg:grid-cols-[1.1fr,1fr]">
-            <article className="deck-card rounded-2xl p-6">
-              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-3">Compounding loop</p>
-              <p className="text-lg leading-relaxed text-onyx">
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
+              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-3">Compounding loop</p>
+              <p className="text-lg leading-relaxed text-ink">
                 Better audits drive better content. Better content creates better outcome data. Vision Navigator turns that
                 repeated usage into strategic guidance on whether the business is moving in the right direction before it
                 scales execution further.
@@ -1538,23 +1495,23 @@ const PitchDeckPage = () => {
                   ['Phase 2', 'Open the loop to agent/API traffic'],
                 ].map(([phase, detail]) => (
                   <div key={phase} className="rounded-xl border border-slate-100 bg-white p-4">
-                    <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-stardust mb-1">{phase}</p>
-                    <p className="text-sm leading-relaxed text-stardust">{detail}</p>
+                    <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">{phase}</p>
+                    <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{detail}</p>
                   </div>
                 ))}
               </div>
             </article>
 
-            <article className="deck-card rounded-2xl p-6">
-              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-stardust mb-4">Longer-term upside</p>
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
+              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">Longer-term upside</p>
               <div className="space-y-3">
                 <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="text-sm font-semibold text-onyx mb-1">Vision Navigator</p>
-                  <p className="text-sm leading-relaxed text-stardust">As more teams use the system, GeoCompanion gets better at helping companies understand whether they are running in the right direction before scaling more budget and effort.</p>
+                  <p className="text-sm font-semibold text-ink mb-1">Vision Navigator</p>
+                  <p className="text-sm leading-relaxed text-ink/80 font-medium italic">As more teams use the system, GeoCompanion gets better at helping companies understand whether they are running in the right direction before scaling more budget and effort.</p>
                 </div>
                 <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="text-sm font-semibold text-onyx mb-1">Marketplace routing</p>
-                  <p className="text-sm leading-relaxed text-stardust">As machine-to-machine traffic grows, routing and ranking become a monetizable execution layer on top of that intelligence system.</p>
+                  <p className="text-sm font-semibold text-ink mb-1">Marketplace routing</p>
+                  <p className="text-sm leading-relaxed text-ink/80 font-medium italic">As machine-to-machine traffic grows, routing and ranking become a monetizable execution layer on top of that intelligence system.</p>
                 </div>
               </div>
             </article>
@@ -1565,16 +1522,16 @@ const PitchDeckPage = () => {
         <SlideShell id="slide-12" index={12} title="Team" subtitle="Engineering depth, product insight, and distribution in one founding group.">
           <div className="grid gap-5 lg:grid-cols-3">
             {teamMembers.map((member) => (
-              <article key={member.name} className="deck-card flex h-full flex-col rounded-2xl p-6">
+              <article key={member.name} className="bg-hull border-2 border-ink shadow-brutalist p-8 transform rotate-1 flex h-full flex-col">
                 <div className="flex items-start gap-5">
                   <TeamAvatar member={member} />
                   <div className="pt-1">
-                    <h3 className="deck-heading text-3xl font-bold text-onyx leading-none">{member.name}</h3>
-                    <p className="deck-mono mt-2 text-[9px] font-medium uppercase tracking-[0.18em] text-stardust">{member.role}</p>
-                  </div>
+                    <h3 className="deck-heading text-3xl font-bold text-ink leading-none">{member.name}</h3>
+                    <p className="deck-mono mt-2 text-[9px] font-medium uppercase tracking-[0.18em] text-sage/95 font-medium italic">{member.role}</p>
+                </div>
                 </div>
 
-                <p className="mt-5 text-[13px] leading-relaxed text-stardust">
+                <p className="mt-5 text-[13px] leading-relaxed text-sage/95 font-medium italic">
                   {member.body}
                 </p>
               </article>
@@ -1582,7 +1539,7 @@ const PitchDeckPage = () => {
           </div>
 
           <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-sm leading-relaxed text-stardust">
+            <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
               Most marketing AI startups have strong engineering or strong distribution. GeoCompanion has both,
               plus product-level content science.
             </p>
@@ -1597,8 +1554,8 @@ const PitchDeckPage = () => {
           subtitle="Raising a focused pre-seed now to convert product signal into revenue and seed readiness."
         >
           <div className="grid gap-5 lg:grid-cols-[1fr,1.12fr]">
-            <article className="deck-card rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-onyx mb-5">Use of funds</h3>
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
+              <h3 className="text-xl font-semibold text-ink mb-5">Use of funds</h3>
               <div className="h-2 overflow-hidden rounded-full bg-slate-100 mb-5">
                 {[
                   { pct: 40, tone: 'bg-emerald-400' },
@@ -1614,45 +1571,45 @@ const PitchDeckPage = () => {
                 {askRows.map((row, idx) => {
                   const pct = Number.parseInt(row.allocation, 10) || 0;
                   const icon = [
-                    <Cpu className="h-4 w-4 text-accent-cyan" aria-hidden="true" />,
-                    <Target className="h-4 w-4 text-stardust" aria-hidden="true" />,
-                    <Server className="h-4 w-4 text-stardust" aria-hidden="true" />,
-                    <Wallet className="h-4 w-4 text-stardust" aria-hidden="true" />,
-                  ][idx] || <Activity className="h-4 w-4 text-stardust" aria-hidden="true" />;
+                    <Cpu className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
+                    <Target className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
+                    <Server className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
+                    <Wallet className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
+                  ][idx] || <Activity className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />;
 
                   return (
                     <div key={row.allocation} className="rounded-xl border border-slate-100 bg-white p-4">
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center gap-2">
                           {icon}
-                          <p className="text-sm font-semibold text-onyx">{row.allocation}</p>
+                          <p className="text-sm font-semibold text-ink">{row.allocation}</p>
                         </div>
-                        <span className="deck-mono text-[9px] text-stardust">{pct}%</span>
+                        <span className="deck-mono text-[9px] text-sage/95 font-medium italic">{pct}%</span>
                       </div>
-                      <p className="text-sm leading-relaxed text-stardust">{row.use}</p>
+                      <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{row.use}</p>
                     </div>
                   );
                 })}
               </div>
             </article>
 
-            <article className="deck-card rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-onyx mb-5">This round</h3>
+            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
+              <h3 className="text-xl font-semibold text-ink mb-5">This round</h3>
               <div className="grid gap-3 sm:grid-cols-3">
                 {[
-                  { title: 'Raise', value: '$1.25M', detail: 'SAFE round sized for 18 months of runway and disciplined hiring', icon: <Rocket className="h-4 w-4 text-accent-cyan" aria-hidden="true" /> },
-                  { title: 'Target cap', value: '$12M', detail: 'Priced to match current beta traction and leave room for seed step-up', icon: <Building2 className="h-4 w-4 text-stardust" aria-hidden="true" /> },
-                  { title: 'Unlocks', value: '$100K MRR', detail: 'Goal: 25+ paying customers and a clean seed story by late 2027', icon: <CheckCircle2 className="h-4 w-4 text-accent-cyan" aria-hidden="true" /> },
+                  { title: 'Raise', value: '$1.25M', detail: 'SAFE round sized for 18 months of runway and disciplined hiring', icon: <Rocket className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /> },
+                  { title: 'Target cap', value: '$12M', detail: 'Priced to match current beta traction and leave room for seed step-up', icon: <Building2 className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" /> },
+                  { title: 'Unlocks', value: '$100K MRR', detail: 'Goal: 25+ paying customers and a clean seed story by late 2027', icon: <CheckCircle2 className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /> },
                 ].map((item) => (
                   <div key={item.title} className="rounded-xl border border-slate-100 bg-white p-4">
                     <div className="mb-2">{item.icon}</div>
-                    <p className="deck-mono text-[9px] uppercase tracking-[0.14em] text-stardust mb-1">{item.title}</p>
-                    <p className="deck-heading text-2xl font-bold text-onyx tabular-nums">{item.value}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-stardust">{item.detail}</p>
+                    <p className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic mb-1">{item.title}</p>
+                    <p className="deck-heading text-2xl font-bold text-ink tabular-nums">{item.value}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-ink/80 font-medium italic">{item.detail}</p>
                   </div>
                 ))}
               </div>
-              <p className="mt-5 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4 text-sm leading-relaxed text-onyx">
+              <p className="mt-5 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4 text-sm leading-relaxed text-ink">
                 We are raising one round: $1.25M on a $12M cap. If we join an accelerator, it will be because it helps
                 fill this same round with strategic capital, distribution, and follow-on access, not because we are changing
                 the plan.
@@ -1662,11 +1619,11 @@ const PitchDeckPage = () => {
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-100 bg-white/25 px-3 py-1.5">
-              <Sparkles className="h-3 w-3 text-accent-cyan" aria-hidden="true" />
-              <span className="deck-mono text-[9px] uppercase tracking-[0.14em] text-stardust">Pre-final investor deck</span>
+              <Sparkles className="h-3 w-3 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />
+              <span className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">Pre-final investor deck</span>
             </span>
-            <span className="deck-mono inline-flex rounded-full border border-slate-100 bg-white/25 px-3 py-1.5 text-[9px] uppercase tracking-[0.14em] text-stardust">Ask: $1.25M SAFE on $12M cap</span>
-            <span className="deck-mono inline-flex rounded-full border border-slate-100 bg-white/25 px-3 py-1.5 text-[9px] uppercase tracking-[0.14em] text-stardust">Accelerator participates only if it strengthens the same round</span>
+            <span className="deck-mono inline-flex rounded-full border border-slate-100 bg-white/25 px-3 py-1.5 text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">Ask: $1.25M SAFE on $12M cap</span>
+            <span className="deck-mono inline-flex rounded-full border border-slate-100 bg-white/25 px-3 py-1.5 text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">Accelerator participates only if it strengthens the same round</span>
           </div>
 
           <SlideFootnotes
