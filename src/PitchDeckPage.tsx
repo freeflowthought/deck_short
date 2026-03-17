@@ -1130,6 +1130,18 @@ const PitchDeckPage = () => {
                   </div>
                 ))}
               </div>
+
+              <div className="mt-6 flex justify-between gap-4 rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(10,12,18,0.4),rgba(77,140,106,0.12))] p-5 shadow-[0_8px_30px_rgba(3,6,12,0.36)] ring-1 ring-white/5">
+                <div className="flex-1">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--signal)]">Active Users</p>
+                  <p className="mt-1 font-['Fraunces_Variable'] text-3xl font-semibold text-[color:var(--paper)]">340</p>
+                </div>
+                <div className="w-px bg-white/10" />
+                <div className="flex-1 text-right">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--oxide)]">Search Events</p>
+                  <p className="mt-1 font-['Fraunces_Variable'] text-3xl font-semibold text-[color:var(--paper)]">2,326</p>
+                </div>
+              </div>
             </article>
           </div>
 
@@ -1147,7 +1159,7 @@ const PitchDeckPage = () => {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--signal)]">What is a hook?</p>
               </div>
               <p className="mt-2 text-sm leading-relaxed text-[color:var(--paper-dim)]">
-                A hook is the first framing move that earns attention. It creates curiosity or tension fast enough for a normal person’s content to feel more like a creator post and less like generic AI copy.
+                A hook is the first framing move that earns attention. It creates curiosity or tension fast enough for a normal person’s content to feel more like a platform-native experienced creator post (we studied platform algorithms).
               </p>
             </article>
 
@@ -1192,33 +1204,33 @@ const PitchDeckPage = () => {
             </div>
 
             <div className="deck-card overflow-x-auto rounded-3xl">
-            <table className="deck-table min-w-[900px]">
-              <thead>
-                <tr>
-                  <th>Category</th>
-                  <th>BrightEdge</th>
-                  <th>Evertune</th>
-                  <th>AthenaHQ</th>
-                  <th>Surfer SEO</th>
-                  <th>Jasper / Copy.ai</th>
-                  <th>GeoCompanion</th>
-                </tr>
-              </thead>
-              <tbody>
-                {competitorRows.map((row) => (
-                  <tr key={row.category}>
-                    <td className="font-medium text-[color:var(--paper)]">{row.category}</td>
-                    <td>{row.brightedge}</td>
-                    <td>{row.evertune}</td>
-                    <td>{row.athena}</td>
-                    <td>{row.surfer}</td>
-                    <td>{row.jasper}</td>
-                    <td className="font-semibold text-[color:var(--signal)]">{row.geoCompanion}</td>
+              <table className="deck-table min-w-[900px]">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>BrightEdge</th>
+                    <th>Evertune</th>
+                    <th>AthenaHQ</th>
+                    <th>Surfer SEO</th>
+                    <th>Jasper / Copy.ai</th>
+                    <th>GeoCompanion</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {competitorRows.map((row) => (
+                    <tr key={row.category}>
+                      <td className="font-medium text-[color:var(--paper)]">{row.category}</td>
+                      <td>{row.brightedge}</td>
+                      <td>{row.evertune}</td>
+                      <td>{row.athena}</td>
+                      <td>{row.surfer}</td>
+                      <td>{row.jasper}</td>
+                      <td className="font-semibold text-[color:var(--signal)]">{row.geoCompanion}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div className="mt-5 grid gap-4 md:grid-cols-3">
