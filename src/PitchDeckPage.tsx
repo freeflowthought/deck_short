@@ -1,6 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Download, ChevronDown, Sparkles, Radar, Bot, ShieldCheck, BarChart3, Coins, Users, Search, DollarSign, Building2, Handshake, Rocket, Target, Activity, Wallet, Cpu, Server, CheckCircle2 } from 'lucide-react';
+import {
+  Activity,
+  ArrowLeft,
+  BarChart3,
+  Bot,
+  ChevronDown,
+  Download,
+  PenTool,
+  Radar,
+  Rocket,
+  Search,
+  Server,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import wilsonImage from './team/wilson_image_optimized.jpg';
@@ -15,97 +29,6 @@ type SlideShellProps = {
   children: React.ReactNode;
 };
 
-type SlideFootnoteLink = {
-  label: string;
-  href: string;
-};
-
-const SlideShell = ({ id, index, title, subtitle, children }: SlideShellProps) => (
-  <section
-    id={id}
-    className="deck-slide flex flex-col justify-center snap-start min-h-[100svh] px-6 pb-16 pt-24 md:px-12 lg:px-20 relative"
-  >
-    <div className="mx-auto w-full max-w-7xl relative z-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-        <div className="flex-1">
-          <p className="deck-mono text-[10px] tracking-[0.3em] uppercase text-clay mb-4" aria-hidden="true">
-            {String(index).padStart(2, '0')} // AX-G
-          </p>
-          <h2 className="deck-heading text-4xl font-light leading-[1.1] text-ink sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tighter uppercase italic text-balance">
-            {title}
-          </h2>
-          {subtitle ? (
-            <p className="mt-8 max-w-xl text-xl font-medium leading-relaxed text-ink/90 font-medium italic border-l-2 border-clay pl-6 italic text-balance">
-              {subtitle}
-            </p>
-          ) : null}
-        </div>
-      </div>
-
-      <div className="deck-slide-body mt-16">{children}</div>
-      
-      {/* Decorative brutalist elements */}
-      <div className="absolute top-0 right-10 w-px h-full bg-ink/5 hidden lg:block" />
-      <div className="absolute top-1/2 left-0 w-full h-px bg-ink/5 hidden lg:block" />
-    </div>
-    
-    {/* Large background index - Brutalist style */}
-    <span
-      className="pointer-events-none select-none absolute -bottom-10 -left-10 font-bold leading-none opacity-[0.03] text-ink mix-blend-multiply"
-      style={{ fontSize: '25vw', fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '-0.05em' }}
-      aria-hidden="true"
-    >
-      {String(index).padStart(2, '0')}
-    </span>
-  </section>
-);
-
-const SlideFootnotes = ({ items }: { items: SlideFootnoteLink[] }) => (
-  <div className="mt-6 flex flex-wrap gap-x-6 gap-y-1.5">
-    {items.map((item) => (
-      <a
-        key={item.href}
-        href={item.href}
-        target="_blank"
-        rel="noreferrer"
-        className="deck-mono text-[10px] text-sage/95 font-medium italic hover:text-sage/95 font-medium italic transition-colors"
-      >
-        &#8599; {item.label}
-      </a>
-    ))}
-  </div>
-);
-
-const GeoCompanionMark = ({ size = 36 }: { size?: number }) => (
-  <div
-    className="relative group transition-transform duration-500 hover:scale-110"
-    style={{ width: size, height: size }}
-    aria-hidden="true"
-  >
-    <svg viewBox="0 0 100 100" className="h-full w-full">
-      <circle cx="50" cy="50" r="45" fill="none" stroke="#121212" strokeWidth="1" strokeDasharray="4 4" className="animate-[spin_20s_linear_infinite]" />
-      <circle cx="50" cy="50" r="30" fill="none" stroke="#B35C37" strokeWidth="2" strokeDasharray="8 8" className="animate-[spin_10s_linear_infinite_reverse]" />
-      <path d="M50 20 L50 80 M20 50 L80 50" stroke="#121212" strokeWidth="0.5" />
-      <circle cx="50" cy="50" r="8" fill="#121212" />
-      <circle cx="50" cy="50" r="4" fill="#FBFBFB" />
-    </svg>
-  </div>
-);
-
-type HookWeight = {
-  label: string;
-  weight: number;
-  tone: string;
-};
-
-type PublicAgentCardProps = {
-  name: string;
-  cloud: string;
-  context: string;
-  accent: string;
-  hooks: HookWeight[];
-};
-
 type TeamMember = {
   name: string;
   role: string;
@@ -115,43 +38,252 @@ type TeamMember = {
   body: string;
 };
 
-const HookWeightBar = ({ label, weight, tone }: HookWeight) => (
-  <div className="relative">
-    <div className="flex items-center justify-between mb-1.5 px-1">
-      <span className="deck-mono text-[9px] font-bold tracking-[0.2em] uppercase text-ink">{label}</span>
-      <span className="deck-mono text-[9px] text-clay font-bold">{Math.round(weight * 100)}</span>
-    </div>
-    <div className="h-2 bg-void border border-ink/10 overflow-hidden relative">
-      <div 
-        className="h-full bg-clay transition-all duration-1000 ease-out" 
-        style={{ width: `${weight * 100}%` }} 
-      />
-      {/* Texture overlay on bar */}
-      <div className="absolute inset-0 opacity-20 bg-noise pointer-events-none" />
-    </div>
+type TagTone = 'paper' | 'oxide' | 'signal' | 'ember';
+
+const LabGlyph = ({ variant = 'orbit' }: { variant?: 'orbit' | 'wave' | 'pin' | 'bracket' }) => {
+  const common = 'h-3.5 w-3.5';
+  switch (variant) {
+    case 'wave':
+      return (
+        <svg viewBox="0 0 16 16" className={common} aria-hidden="true">
+          <path
+            d="M1.2 9.4c1.6 0 1.6-2.8 3.2-2.8s1.6 2.8 3.2 2.8 1.6-2.8 3.2-2.8 1.6 2.8 3.2 2.8"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    case 'pin':
+      return (
+        <svg viewBox="0 0 16 16" className={common} aria-hidden="true">
+          <path
+            d="M8 14s4-3.1 4-7.2A4 4 0 0 0 4 6.8C4 10.9 8 14 8 14Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            strokeLinejoin="round"
+          />
+          <circle cx="8" cy="6.8" r="1.35" fill="none" stroke="currentColor" strokeWidth="1.4" />
+        </svg>
+      );
+    case 'bracket':
+      return (
+        <svg viewBox="0 0 16 16" className={common} aria-hidden="true">
+          <path
+            d="M6 2.5H4.6c-.9 0-1.6.7-1.6 1.6v7.8c0 .9.7 1.6 1.6 1.6H6M10 2.5h1.4c.9 0 1.6.7 1.6 1.6v7.8c0 .9-.7 1.6-1.6 1.6H10"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+          />
+        </svg>
+      );
+    case 'orbit':
+    default:
+      return (
+        <svg viewBox="0 0 16 16" className={common} aria-hidden="true">
+          <circle cx="8" cy="8" r="2.1" fill="none" stroke="currentColor" strokeWidth="1.4" />
+          <path
+            d="M2.2 8c0-2.2 2.6-4 5.8-4s5.8 1.8 5.8 4-2.6 4-5.8 4S2.2 10.2 2.2 8Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.1"
+            strokeLinecap="round"
+            opacity="0.9"
+          />
+        </svg>
+      );
+  }
+};
+
+const toneClasses: Record<TagTone, { base: string; text: string; border: string; shadow: string }> = {
+  paper: {
+    base: 'bg-[color:var(--paper)]',
+    text: 'text-[color:var(--ink)]',
+    border: 'border-[color:var(--ink-muted)]/35',
+    shadow: 'shadow-[0_12px_28px_rgba(5,8,16,0.22),0_1px_0_rgba(255,255,255,0.28)_inset]',
+  },
+  oxide: {
+    base: 'bg-[color:var(--oxide)]/16',
+    text: 'text-[color:var(--oxide)]',
+    border: 'border-[color:var(--oxide)]/35',
+    shadow: 'shadow-[0_18px_42px_rgba(5,8,16,0.22),0_1px_0_rgba(255,255,255,0.06)_inset]',
+  },
+  signal: {
+    base: 'bg-[color:var(--signal)]/14',
+    text: 'text-[color:var(--signal)]',
+    border: 'border-[color:var(--signal)]/35',
+    shadow: 'shadow-[0_18px_42px_rgba(5,8,16,0.22),0_1px_0_rgba(255,255,255,0.06)_inset]',
+  },
+  ember: {
+    base: 'bg-[color:var(--ember)]/14',
+    text: 'text-[color:var(--ember)]',
+    border: 'border-[color:var(--ember)]/30',
+    shadow: 'shadow-[0_18px_42px_rgba(5,8,16,0.22),0_1px_0_rgba(255,255,255,0.06)_inset]',
+  },
+};
+
+const ExperimentTag = ({
+  tone = 'paper',
+  icon,
+  children,
+  className = '',
+}: {
+  tone?: TagTone;
+  icon?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <span
+    className={[
+      'lab-tag inline-flex items-center gap-2 rounded-[999px] border px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.18em]',
+      'select-none',
+      toneClasses[tone].base,
+      toneClasses[tone].text,
+      toneClasses[tone].border,
+      toneClasses[tone].shadow,
+      className,
+    ].join(' ')}
+  >
+    <span className="lab-tag-glyph inline-flex items-center justify-center">{icon}</span>
+    <span>{children}</span>
+  </span>
+);
+
+const AxisTag = ({
+  tone = 'oxide',
+  children,
+  className = '',
+}: {
+  tone?: TagTone;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <span
+    className={[
+      'lab-axis inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-[10px] font-bold uppercase tracking-[0.24em]',
+      toneClasses[tone].base,
+      toneClasses[tone].text,
+      toneClasses[tone].border,
+      toneClasses[tone].shadow,
+      className,
+    ].join(' ')}
+  >
+    {children}
+  </span>
+);
+
+const AnnotationTag = ({
+  tone = 'paper',
+  icon,
+  children,
+  className = '',
+}: {
+  tone?: TagTone;
+  icon?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <span
+    className={[
+      'lab-anno inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-[12px] font-medium',
+      toneClasses[tone].base,
+      toneClasses[tone].text,
+      toneClasses[tone].border,
+      toneClasses[tone].shadow,
+      className,
+    ].join(' ')}
+  >
+    <span className="inline-flex items-center justify-center opacity-80">{icon}</span>
+    <span className="leading-none">{children}</span>
+  </span>
+);
+
+const StatusChip = ({
+  tone = 'signal',
+  label,
+  className = '',
+}: {
+  tone?: TagTone;
+  label: string;
+  className?: string;
+}) => (
+  <span
+    className={[
+      'lab-chip inline-flex items-center gap-2 rounded-[999px] border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em]',
+      toneClasses[tone].base,
+      toneClasses[tone].text,
+      toneClasses[tone].border,
+      toneClasses[tone].shadow,
+      className,
+    ].join(' ')}
+  >
+    <span className="lab-chip-dot h-2 w-2 rounded-full bg-current opacity-80" aria-hidden="true" />
+    <span>{label}</span>
+  </span>
+);
+
+const TagCluster = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+  <div className={['relative flex flex-wrap items-center gap-3', className].join(' ')}>
+    {children}
+    <span
+      className="pointer-events-none absolute -left-7 -top-7 h-16 w-16 rounded-full border border-white/10 bg-white/5 blur-[0.2px]"
+      aria-hidden="true"
+    />
+    <span
+      className="pointer-events-none absolute -bottom-8 -right-8 h-20 w-20 rounded-full border border-white/10 bg-white/5 blur-[0.2px]"
+      aria-hidden="true"
+    />
   </div>
 );
 
-const PublicAgentCard = ({ name, cloud, context, accent, hooks }: PublicAgentCardProps) => (
-  <article className="h-full bg-hull border-2 border-ink shadow-brutalist p-6 relative overflow-hidden group">
-    <div className="absolute top-0 right-0 py-1 px-3 bg-ink text-void deck-mono text-[8px] tracking-widest uppercase rotate-90 origin-top-right transition-transform group-hover:translate-x-1">
-      {cloud}
-    </div>
-    
-    <div className="flex items-start justify-between gap-4 mb-8">
-      <div>
-        <p className="deck-heading text-2xl font-bold text-ink uppercase tracking-tighter leading-none">{name}</p>
-        <div className="mt-3 label-stamp">{accent.split('-').pop()} // MODEL_ID</div>
-        <p className="mt-4 text-sm leading-relaxed text-ink/80 font-medium italic italic font-medium">{context}</p>
+const SlideShell = ({ id, index, title, subtitle, children }: SlideShellProps) => (
+  <section
+    id={id}
+    className="deck-slide snap-start min-h-[100svh] px-5 pb-16 pt-28 md:px-10 lg:px-14 lg:pt-32"
+  >
+    <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col">
+      <div className="mb-6 flex items-center justify-between">
+        <ExperimentTag tone="paper" icon={<LabGlyph variant="bracket" />} className="-rotate-[1.25deg]">
+          Slide {index.toString().padStart(2, '0')}
+        </ExperimentTag>
+        <div className="h-px w-24 bg-[linear-gradient(to_right,rgba(220,231,198,0.65),rgba(220,231,198,0))]" />
       </div>
-    </div>
 
-    <div className="space-y-5">
-      {hooks.map((hook) => (
-        <HookWeightBar key={hook.label} {...hook} />
-      ))}
+      <h2 className="deck-slide-title font-['Fraunces_Variable'] text-4xl font-semibold leading-[1.02] text-[color:var(--paper)] sm:text-5xl lg:text-6xl">
+        {title}
+      </h2>
+      {subtitle ? (
+        <p className="deck-slide-subtitle mt-5 max-w-3xl text-base leading-relaxed text-[color:var(--paper-dim)] sm:text-[1.15rem]">
+          {subtitle}
+        </p>
+      ) : null}
+
+      <div className="deck-slide-body mt-10 flex-1">{children}</div>
     </div>
-  </article>
+  </section>
+);
+
+const GeoCompanionMark = ({ size = 36 }: { size?: number }) => (
+  <div
+    className="relative rounded-2xl border border-[color:var(--ink-muted)]/40 bg-[linear-gradient(145deg,rgba(220,231,198,0.14),rgba(8,10,16,0.68))] shadow-[0_12px_34px_rgba(5,8,16,0.42)] ring-1 ring-white/10"
+    style={{ width: size, height: size }}
+    aria-hidden="true"
+  >
+    <svg viewBox="0 0 100 100" className="h-full w-full p-2.5">
+      <defs>
+        <linearGradient id="gclogo-short" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="var(--signal)" />
+          <stop offset="100%" stopColor="var(--oxide)" />
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="32" fill="none" stroke="url(#gclogo-short)" strokeWidth="7" strokeLinecap="round" strokeDasharray="160 70" />
+      <path d="M38 60 L50 40 L63 60" fill="none" stroke="var(--paper)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" opacity="0.9" />
+      <circle cx="50" cy="50" r="5" fill="var(--signal)" />
+    </svg>
+  </div>
 );
 
 const teamMembers: TeamMember[] = [
@@ -161,7 +293,7 @@ const teamMembers: TeamMember[] = [
     photo: wilsonImage,
     photoAlt: 'Portrait of Wilson',
     photoPosition: 'center 18%',
-    body: 'Serial technical founder with two exits. Raised $1.3M in venture capital and generated $1.3M in product revenue at Honeypot Finance. Previously Co-Founder/CTO at Antslabor (acquired; ranked Top 30 most innovative startups in Canada) and Senior Software Architect at Mastodon, one of the largest decentralized social infrastructure projects in production. Brings a rare combination of product engineering depth, agent architecture experience, and prior fundraising across Web2 and Web3.',
+    body: 'Serial technical founder with two exits. Raised $1.3M in venture capital and generated $1.3M in product revenue at Honeypot Finance. Previously Co-Founder/CTO at Antslabor (acquired) and Senior Software Architect at Mastodon.',
   },
   {
     name: 'Huan',
@@ -169,7 +301,7 @@ const teamMembers: TeamMember[] = [
     photo: huanImage,
     photoAlt: 'Portrait of Huan',
     photoPosition: 'center 20%',
-    body: 'Product leader spanning Web3, AI, and traditional finance. At GeoCompanion, owns the loop between GEO signal and content execution, the core conversion mechanic behind the platform thesis. Focuses on turning technical capability into workflows marketing teams can actually adopt, bridging product strategy, customer use cases, and day-to-day execution.',
+    body: 'Product leader spanning Web3, AI, and traditional finance. Owns the loop between GEO signal and content execution, and turns technical capability into workflows marketing teams can actually adopt.',
   },
   {
     name: 'Austin',
@@ -177,7 +309,7 @@ const teamMembers: TeamMember[] = [
     photo: austinImage,
     photoAlt: 'Portrait of Austin',
     photoPosition: 'center 16%',
-    body: 'Enterprise distribution leader with relationship-driven access into networks around LayerZero, Sei, and Xiaomi. Built and scaled a media project to 100M+ organic streams, demonstrating platform-native distribution at scale, the same playbook GeoCompanion sells to brands. Understands creator economics from both the operator side and the platform side.',
+    body: 'Enterprise distribution leader with relationship-led access and creator-native instincts. Built and scaled media distribution to 100M+ organic streams and understands creator economics from both the operator and platform side.',
   },
 ];
 
@@ -185,35 +317,21 @@ const TeamAvatar = ({ member }: { member: TeamMember }) => {
   const initials = member.name.slice(0, 1);
 
   return (
-    <div className="relative h-56 w-44 shrink-0 group">
-      {/* Shadow Layer */}
-      <div className="absolute inset-0 bg-ink translate-x-3 translate-y-3 transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
-      
-      {/* Image Container */}
-      <div className="relative h-full w-full overflow-hidden border-2 border-ink bg-hull">
-        <img
-          src={member.photo}
-          alt={member.photoAlt}
-          className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
-          style={{ objectPosition: member.photoPosition }}
-          loading="lazy"
-          onError={(event) => {
-            event.currentTarget.style.display = 'none';
-            const fallback = event.currentTarget.nextElementSibling as HTMLDivElement | null;
-            if (fallback) fallback.style.display = 'flex';
-          }}
-        />
-        <div className="absolute inset-0 hidden items-center justify-center bg-clay/20 text-4xl font-bold text-ink deck-heading">
-          {initials}
-        </div>
-        
-        {/* Grain Overlay on Image */}
-        <div className="absolute inset-0 opacity-20 bg-noise pointer-events-none" />
-      </div>
-      
-      {/* Industrial Label */}
-      <div className="absolute -bottom-4 -right-4 bg-clay text-void px-3 py-1 deck-mono text-[9px] font-bold uppercase tracking-widest border border-ink">
-        {member.role.split(' & ')[0]}
+    <div className="relative h-36 w-28 shrink-0 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 shadow-[0_22px_54px_rgba(3,6,12,0.48)] ring-1 ring-white/10">
+      <img
+        src={member.photo}
+        alt={member.photoAlt}
+        className="h-full w-full object-cover"
+        style={{ objectPosition: member.photoPosition }}
+        loading="lazy"
+        onError={(event) => {
+          event.currentTarget.style.display = 'none';
+          const fallback = event.currentTarget.nextElementSibling as HTMLDivElement | null;
+          if (fallback) fallback.style.display = 'flex';
+        }}
+      />
+      <div className="absolute inset-0 hidden items-center justify-center bg-[linear-gradient(145deg,rgba(77,140,106,0.18),rgba(8,10,16,0.78))] text-2xl font-semibold text-[color:var(--paper)]">
+        {initials}
       </div>
     </div>
   );
@@ -248,22 +366,22 @@ const competitorRows = [
     geoCompanion: 'Yes (platform-native)',
   },
   {
-    category: 'Agent API (machine-to-machine)',
+    category: 'Hook-based campaign system',
     brightedge: 'No',
     evertune: 'No',
     athena: 'No',
     surfer: 'No',
     jasper: 'No',
-    geoCompanion: 'Yes (Phase 1)',
+    geoCompanion: 'Yes',
   },
   {
-    category: 'On-chain performance verification',
+    category: 'Vision Navigator / intelligence layer',
     brightedge: 'No',
     evertune: 'No',
     athena: 'No',
     surfer: 'No',
     jasper: 'No',
-    geoCompanion: 'Yes (Phase 5)',
+    geoCompanion: 'Next',
   },
   {
     category: 'SMB / creator accessible',
@@ -274,105 +392,16 @@ const competitorRows = [
     jasper: 'Yes',
     geoCompanion: 'Yes',
   },
-  {
-    category: 'Entry price',
-    brightedge: '$12K+/yr',
-    evertune: '$3K/mo',
-    athena: '$295/mo',
-    surfer: '$79/mo',
-    jasper: '$39/mo',
-    geoCompanion: 'Beta free \u2192 <$10/mo starter',
-  },
 ];
 
-const marketRows = [
-  {
-    market: 'AI Search Optimization (GEO / AEO)',
-    size: '~$1B today \u2192 $10B+',
-    growth: '40%+ CAGR',
-  },
-  {
-    market: 'Creator Economy + Social Tools',
-    size: '$214B\u2013$314B',
-    growth: '22% CAGR',
-  },
-  {
-    market: 'Marketing AI SaaS',
-    size: '~$8B today \u2192 $20B+',
-    growth: '20% CAGR',
-  },
-];
-
-const buildPathRows = [
-  {
-    phase: 'Phase 0',
-    when: 'Now \u2192 Q2 2026',
-    ships: 'GEO Audit + Vibe Marketing',
-    target: '1,500+ users, 10K+ search events, 50 creator accounts, and first 10 paying teams.',
-  },
-  {
-    phase: 'Phase 1\u20133',
-    when: 'Q3 2026 \u2192 Q4 2027',
-    ships: 'Enterprise Strategic Intelligence',
-    target: '$100K MRR, 25+ agency customers, 500 creator accounts, and upmarket expansion.',
-  },
-  {
-    phase: 'Phase 4\u20135',
-    when: '2028+',
-    ships: 'Agent Marketplace + On-Chain Trust',
-    target: '$50M+ ARR, 120+ enterprise customers, 5,000 creator accounts, and verified infrastructure.',
-  },
-];
-
-const flywheelRows = [
-  {
-    title: 'Diagnose',
-    body: 'Run a GEO audit to surface visibility gaps, citation risks, and priority fixes.',
-    icon: <Radar className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
-  },
-  {
-    title: 'Create',
-    body: 'Turn those gaps into platform-native hooks, campaigns, and content systems.',
-    icon: <Sparkles className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
-  },
-  {
-    title: 'Deploy',
-    body: 'Ship through SaaS workflows today and through agent/API calls as usage expands.',
-    icon: <Rocket className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
-  },
-  {
-    title: 'Learn',
-    body: 'Outcome data improves recommendations, routing, and future marketplace trust signals.',
-    icon: <Activity className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
-  },
-];
-
-const askRows = [
-  {
-    allocation: '40% Engineering',
-    use: 'Backend API, provider-agnostic model runtime, agent orchestration, and the Phase 2 intelligence pipeline',
-  },
-  {
-    allocation: '30% GTM',
-    use: 'Enterprise pilot acquisition, creator onboarding, agency partnerships',
-  },
-  {
-    allocation: '20% Infrastructure',
-    use: 'Multi-model API costs, cloud, data pipeline, and analytics infrastructure',
-  },
-  {
-    allocation: '10% Product Ops',
-    use: 'Customer feedback loops, analytics instrumentation, onboarding, and the operational systems needed to turn beta usage into repeatable retention',
-  },
-];
-
-const slideIds = Array.from({ length: 13 }, (_, idx) => `slide-${idx + 1}`);
-const PDF_EXPORT_WIDTH = 1366;
-const PDF_EXPORT_BG = '#FAFBFC';
+const slideIds = Array.from({ length: 5 }, (_, idx) => `slide-${idx + 1}`);
+const PDF_EXPORT_BG = '#070913';
+const slideLabels = ['Thesis', 'Live', 'Proof', 'Roadmap', 'Team'];
 
 const PitchDeckPage = () => {
   const navigate = useNavigate();
   const [isDownloading, setIsDownloading] = React.useState(false);
+  const [activeSlide, setActiveSlide] = React.useState(1);
 
   const scrollToSlide = (id: string) => {
     const slide = document.getElementById(id);
@@ -380,6 +409,35 @@ const PitchDeckPage = () => {
       slide.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  React.useEffect(() => {
+    const slides = slideIds
+      .map((id, idx) => ({ el: document.getElementById(id), idx: idx + 1 }))
+      .filter((item): item is { el: HTMLElement; idx: number } => Boolean(item.el));
+
+    if (!slides.length || !('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .map((entry) => ({
+            idx: Number((entry.target as HTMLElement).dataset.slideIndex || '0'),
+            ratio: entry.intersectionRatio,
+          }))
+          .sort((a, b) => b.ratio - a.ratio);
+        if (visible[0]?.idx) setActiveSlide(visible[0].idx);
+      },
+      { root: null, threshold: [0.2, 0.35, 0.5, 0.65] }
+    );
+
+    slides.forEach(({ el, idx }) => {
+      el.dataset.slideIndex = String(idx);
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleDownloadPdf = async () => {
     if (isDownloading) return;
@@ -399,8 +457,8 @@ const PitchDeckPage = () => {
       }
 
       const scale = Math.min(window.devicePixelRatio || 1, 2);
-      const pageBg: [number, number, number] = [250, 251, 252];
-      const waitForPaint = () => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+      const pageBg: [number, number, number] = [7, 11, 20];
+      const waitForPaint = () => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
       let pdf: jsPDF | null = null;
 
       for (let idx = 0; idx < slides.length; idx += 1) {
@@ -409,52 +467,32 @@ const PitchDeckPage = () => {
         const sourceRect = sourceSlide.getBoundingClientRect();
         const sourceStyle = window.getComputedStyle(sourceSlide);
         slide.removeAttribute('id');
-         const realHeight = Math.max(sourceSlide.scrollHeight, sourceRect.height);
-         slide.style.width = `${Math.ceil(sourceRect.width)}px`;
-         slide.style.height = `${Math.ceil(realHeight)}px`;
-         slide.style.minHeight = '0';
-         slide.style.justifyContent = 'flex-start';
-         slide.style.paddingTop = sourceStyle.paddingTop;
-         slide.style.paddingRight = sourceStyle.paddingRight;
-         slide.style.paddingBottom = sourceStyle.paddingBottom;
-         slide.style.paddingLeft = sourceStyle.paddingLeft;
-        
-        // Ensure ink children keep their dark background in PDF
-        slide.querySelectorAll<HTMLElement>('.bg-ink, .bg-onyx').forEach(el => {
-          el.style.backgroundColor = '#121212';
-          el.style.color = '#FBFBFB';
-        });
-
-        // Ensure background numbers are visible but subtle
-        slide.querySelectorAll<HTMLElement>('span').forEach(el => {
-          if (el.style.fontSize.includes('vw')) {
-            el.style.opacity = '0.03';
-            el.style.color = '#121212';
-          }
-        });
-
-        const gridOverlay = document.createElement('div');
-        gridOverlay.className = 'deck-grid pointer-events-none absolute inset-0';
-        slide.appendChild(gridOverlay);
-
+        slide.style.width = `${Math.ceil(sourceRect.width)}px`;
+        slide.style.minHeight = `${Math.ceil(sourceRect.height)}px`;
+        slide.style.height = `${Math.ceil(sourceRect.height)}px`;
+        slide.style.paddingTop = '72px';
+        slide.style.paddingRight = sourceStyle.paddingRight;
+        slide.style.paddingBottom = '44px';
+        slide.style.paddingLeft = sourceStyle.paddingLeft;
         exportStage.appendChild(slide);
 
         const layoutRoot = slide.firstElementChild as HTMLElement | null;
         if (layoutRoot) {
-          layoutRoot.style.maxWidth = sourceStyle.maxWidth;
+          layoutRoot.style.maxWidth = '80rem';
           layoutRoot.style.width = '100%';
           layoutRoot.style.marginLeft = 'auto';
           layoutRoot.style.marginRight = 'auto';
+          layoutRoot.style.height = '100%';
         }
 
-        slide.querySelectorAll<HTMLElement>('.overflow-x-auto').forEach(node => {
+        slide.querySelectorAll<HTMLElement>('.overflow-x-auto').forEach((node) => {
           node.style.overflow = 'visible';
         });
-        slide.querySelectorAll<HTMLElement>('.deck-table').forEach(table => {
+        slide.querySelectorAll<HTMLElement>('.deck-table').forEach((table) => {
           table.style.width = '100%';
-          table.style.tableLayout = 'fixed';
+          table.style.minWidth = '0';
         });
-        slide.querySelectorAll<HTMLElement>('th, td').forEach(cell => {
+        slide.querySelectorAll<HTMLElement>('th, td').forEach((cell) => {
           cell.style.wordBreak = 'break-word';
         });
 
@@ -496,7 +534,7 @@ const PitchDeckPage = () => {
       if (!pdf) {
         throw new Error('Could not initialize PDF export.');
       }
-      pdf.save('GeoCompanion_Pitch_Deck.pdf');
+      pdf.save('GeoCompanion_Short_Deck.pdf');
     } catch (error) {
       console.error('Failed to export PDF:', error);
       window.alert('PDF export failed. Please try again after the page fully loads.');
@@ -509,81 +547,53 @@ const PitchDeckPage = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-void text-onyx">
+    <div className="lab-root relative min-h-screen overflow-hidden bg-[color:var(--bg)] font-['IBM_Plex_Sans_Variable'] text-[color:var(--paper)]">
       <style>{`
-        *, *::before, *::after {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
+        :root {
+          --bg: #070913;
+          --bg-2: #090f1a;
+          --ink: #0b1020;
+          --ink-muted: #9aa58a;
+          --paper: #dce7c6;
+          --paper-dim: rgba(220,231,198,0.78);
+          --paper-faint: rgba(220,231,198,0.12);
+          --oxide: #95ac53;
+          --signal: #63cba9;
+          --ember: #eda06f;
         }
 
-        body {
-          font-family: 'Inter', system-ui, sans-serif;
+        .deck-grid {
+          background-image:
+            linear-gradient(to right, rgba(220,231,198,0.06) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(220,231,198,0.06) 1px, transparent 1px),
+            radial-gradient(circle at 1px 1px, rgba(220,231,198,0.06) 1px, transparent 1.2px);
+          background-size: 46px 46px, 46px 46px, 23px 23px;
         }
 
-        .deck-heading {
-          font-family: 'Space Grotesk', system-ui, sans-serif;
+        .deck-card {
+          border: 1px solid rgba(220,231,198, 0.16);
+          background: linear-gradient(145deg, rgba(12, 16, 28, 0.82), rgba(10, 12, 18, 0.42));
+          backdrop-filter: blur(10px);
+          box-shadow:
+            0 18px 50px rgba(3,6,12,0.46),
+            inset 0 1px 0 rgba(255,255,255,0.06);
         }
 
-        .deck-mono {
-          font-family: 'JetBrains Mono', monospace;
-          font-variant-numeric: tabular-nums;
+        .deck-slide h2 {
+          letter-spacing: -0.02em;
+          text-wrap: balance;
         }
 
-        .bg-noise {
-          background-image: var(--noise);
+        .deck-slide-title {
+          margin: 0;
         }
 
-        .deck-table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 0.875rem;
-          border: 2px solid #121212;
+        .deck-slide-subtitle {
+          margin-top: 1.1rem;
         }
 
-        .deck-table th {
-          text-align: left;
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 0.65rem;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: #FBFBFB;
-          font-weight: 700;
-          background: #121212;
-          padding: 1rem 0.875rem;
-        }
-
-        .deck-table th,
-        .deck-table td {
-          border: 1px solid #121212;
-          padding: 1rem 0.875rem;
-          vertical-align: top;
-        }
-
-        .deck-table td {
-          color: #121212;
-          line-height: 1.5;
-          background: #FFFFFF;
-        }
-
-        .deck-table tr:nth-child(even) td {
-          background: #F8F8F8;
-        }
-
-        .deck-topbar {
-          border-bottom: 2px solid #121212;
-          background: #FFFFFF;
-        }
-
-        .label-stamp {
-          padding: 0.25rem 0.6rem;
-          background: #121212;
-          color: #FBFBFB;
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 0.6rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.15em;
-          display: inline-block;
+        .deck-slide-body {
+          margin-top: 2.2rem;
         }
 
         .deck-card p,
@@ -592,32 +602,230 @@ const PitchDeckPage = () => {
         }
 
         .deck-card .text-sm {
-          font-size: 0.91rem;
-          line-height: 1.65;
+          font-size: 0.95rem;
+          line-height: 1.6;
         }
 
         .deck-card .text-xs {
-          line-height: 1.6;
+          line-height: 1.55;
+        }
+
+        .deck-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 0.92rem;
+        }
+
+        .deck-table th {
+          text-align: left;
+          font-size: 0.78rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: rgba(220,231,198,0.85);
+          font-weight: 600;
+          background: rgba(10, 12, 18, 0.95);
+        }
+
+        .deck-table th,
+        .deck-table td {
+          border: 1px solid rgba(220,231,198,0.14);
+          padding: 0.72rem 0.82rem;
+          vertical-align: top;
+        }
+
+        .deck-table td {
+          color: rgba(220,231,198,0.88);
+          line-height: 1.45;
+        }
+
+        .deck-highlight {
+          color: var(--signal);
+        }
+
+        .lab-root {
+          position: relative;
+          isolation: isolate;
+        }
+
+        .lab-root::before {
+          content: "";
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          opacity: 0.18;
+          background-image:
+            radial-gradient(circle at 20% 18%, rgba(77,140,106,0.18), transparent 55%),
+            radial-gradient(circle at 84% 72%, rgba(217,139,90,0.14), transparent 52%),
+            radial-gradient(circle at 55% 40%, rgba(122,138,68,0.14), transparent 56%);
+          filter: blur(2px);
+          z-index: 0;
+        }
+
+        .lab-root::after {
+          content: "";
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          opacity: 0.22;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+          z-index: 0;
+        }
+
+        .lab-layer {
+          position: relative;
+          z-index: 1;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          .lab-layer {
+            animation: labEnter 760ms cubic-bezier(.16,1,.3,1) both;
+          }
+          .deck-slide-title {
+            animation: labTitle 900ms cubic-bezier(.16,1,.3,1) both;
+          }
+          .deck-slide-subtitle {
+            animation: labFadeUp 920ms cubic-bezier(.16,1,.3,1) both;
+            animation-delay: 70ms;
+          }
+        }
+
+        @keyframes labEnter {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes labTitle {
+          from { opacity: 0; transform: translateY(16px); filter: blur(3px); }
+          to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        @keyframes labFadeUp {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lab-tag {
+          transform: translateZ(0);
+          transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 180ms cubic-bezier(.2,.9,.2,1), filter 180ms cubic-bezier(.2,.9,.2,1);
+        }
+
+        .lab-tag:hover {
+          transform: translateY(-1px) rotate(-0.2deg);
+          filter: saturate(1.05);
+        }
+
+        .lab-tag:active {
+          transform: translateY(0px) rotate(0deg) scale(0.99);
+          box-shadow: 0 10px 24px rgba(5,8,16,0.20), 0 1px 0 rgba(255,255,255,0.22) inset;
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          .lab-tag:hover .lab-tag-glyph {
+            animation: labJitter 520ms steps(2, end) infinite;
+          }
+        }
+
+        .lab-tag:focus-visible,
+        .lab-anno:focus-visible,
+        .lab-chip:focus-visible {
+          outline: none;
+          box-shadow:
+            0 0 0 4px rgba(77,140,106,0.18),
+            0 0 0 1px rgba(77,140,106,0.42),
+            0 18px 42px rgba(3,6,12,0.46);
+        }
+
+        @keyframes labJitter {
+          0% { transform: translate(0,0) rotate(0deg); }
+          25% { transform: translate(.4px,-.3px) rotate(-1deg); }
+          50% { transform: translate(-.3px,.35px) rotate(1deg); }
+          75% { transform: translate(.3px,.2px) rotate(0deg); }
+          100% { transform: translate(0,0) rotate(0deg); }
+        }
+
+        .lab-anno {
+          position: relative;
+        }
+
+        .lab-anno::after {
+          content: "";
+          position: absolute;
+          left: 14px;
+          bottom: -8px;
+          width: 14px;
+          height: 14px;
+          transform: rotate(45deg);
+          background: inherit;
+          border-left: 1px solid rgba(220,231,198,0.18);
+          border-bottom: 1px solid rgba(220,231,198,0.18);
+          border-radius: 2px;
+        }
+
+        .lab-axis {
+          transform: rotate(-90deg);
+          transform-origin: left top;
+          white-space: nowrap;
+        }
+
+        .lab-spine {
+          position: fixed;
+          left: 22px;
+          top: 0;
+          bottom: 0;
+          width: 1px;
+          background: linear-gradient(to bottom, rgba(220,231,198,0.22), rgba(220,231,198,0.04), rgba(220,231,198,0.18));
+          opacity: 0.65;
+          z-index: 20;
+          pointer-events: none;
+        }
+
+        .lab-spine::before {
+          content: "";
+          position: absolute;
+          top: 92px;
+          left: -7px;
+          width: 15px;
+          height: 15px;
+          border-radius: 999px;
+          border: 1px solid rgba(220,231,198,0.35);
+          background: rgba(7,9,19,0.8);
+          box-shadow: 0 16px 40px rgba(3,6,12,0.46);
+        }
+
+        .lab-spine::after {
+          content: "";
+          position: absolute;
+          top: 92px;
+          left: -7px;
+          width: 15px;
+          height: 15px;
+          border-radius: 999px;
+          background: radial-gradient(circle at 30% 30%, rgba(77,140,106,0.9), rgba(77,140,106,0.0) 70%);
+          opacity: 0.65;
+          filter: blur(1px);
         }
 
         .pdf-export-stage {
           position: fixed;
           left: -20000px;
           top: 0;
-          width: ${PDF_EXPORT_WIDTH}px;
           opacity: 0;
           pointer-events: none;
           z-index: -1;
           background: ${PDF_EXPORT_BG};
-          font-family: 'Inter', system-ui, sans-serif;
-          color: #0F1115;
+          --paper-dim: rgba(220,231,198,0.92);
+          --paper: rgba(220,231,198,0.98);
+        }
+
+        .pdf-export-stage * {
+          animation: none !important;
+          transition: none !important;
         }
 
         .pdf-export-stage .deck-slide {
           box-sizing: border-box;
-          background: transparent;
-          position: relative;
-          z-index: 1;
+          background: ${PDF_EXPORT_BG};
         }
 
         .pdf-export-stage .deck-slide > div {
@@ -625,24 +833,26 @@ const PitchDeckPage = () => {
           width: 100% !important;
           margin-left: auto !important;
           margin-right: auto !important;
-          position: relative;
-          z-index: 10;
         }
 
         .pdf-export-stage .deck-slide-title {
           margin-bottom: 0 !important;
           line-height: 1.08 !important;
+          color: rgba(220,231,198,0.98) !important;
+          text-shadow: 0 1px 0 rgba(0,0,0,0.35) !important;
         }
 
         .pdf-export-stage .deck-slide-subtitle {
-          margin-top: 2.4rem !important;
+          margin-top: 1.2rem !important;
           max-width: 68ch !important;
-          color: #6B7280 !important;
+          color: rgba(220,231,198,0.92) !important;
+          text-shadow: 0 1px 0 rgba(0,0,0,0.35) !important;
         }
 
         .pdf-export-stage .deck-slide-body {
-          margin-top: 3.2rem !important;
-          color: #0F1115 !important;
+          margin-top: 2.4rem !important;
+          flex: 1 1 auto !important;
+          color: rgba(220,231,198,0.92) !important;
         }
 
         .pdf-export-stage .overflow-x-auto {
@@ -656,404 +866,332 @@ const PitchDeckPage = () => {
 
         .pdf-export-stage .deck-card {
           backdrop-filter: none !important;
+          color: rgba(220,231,198,0.92) !important;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-          .deck-scroll {
-            scroll-behavior: auto !important;
-          }
-          .deck-bg-blur {
-            display: none !important;
-          }
-          * {
-            transition-duration: 0.01ms !important;
-            animation-duration: 0.01ms !important;
-          }
+        .pdf-export-stage .deck-card p,
+        .pdf-export-stage .deck-card li {
+          color: rgba(220,231,198,0.92) !important;
         }
 
-        @media print {
-          @page {
-            size: landscape;
-            margin: 0.4in;
-          }
+        .pdf-export-stage .deck-table th {
+          color: rgba(220,231,198,0.86) !important;
+        }
 
-          html,
-          body {
-            background: #ffffff !important;
-          }
+        .pdf-export-stage .deck-table td {
+          color: rgba(220,231,198,0.92) !important;
+        }
 
-          .deck-topbar,
-          .deck-side-nav,
-          .deck-hint,
-          .deck-grid,
-          .deck-bg-blur {
-            display: none !important;
-          }
-
-          .deck-scroll {
-            height: auto !important;
-            overflow: visible !important;
-          }
-
-          .deck-slide {
-            min-height: auto !important;
-            break-after: page;
-            page-break-after: always;
-            background: #ffffff !important;
-            color: #0f172a !important;
-            padding: 0.2in 0 !important;
-          }
-
-          .deck-slide h2,
-          .deck-slide p,
-          .deck-slide li,
-          .deck-slide span,
-          .deck-slide h3,
-          .deck-slide h4,
-          .deck-slide td,
-          .deck-slide th,
-          .deck-slide strong {
-            color: #0f172a !important;
-            text-shadow: none !important;
-          }
-
-          .deck-card {
-            border: 1px solid #cbd5e1 !important;
-            background: #ffffff !important;
-            box-shadow: none !important;
-          }
-
-          .deck-table th,
-          .deck-table td {
-            border: 1px solid #cbd5e1 !important;
-          }
+        /* Fix html2canvas inline-flex vertical alignment bug */
+        .pdf-export-stage .lab-tag,
+        .pdf-export-stage .lab-chip,
+        .pdf-export-stage .lab-anno {
+          display: inline-flex !important;
+          align-items: center !important;
+        }
+        
+        .pdf-export-stage .lab-tag span,
+        .pdf-export-stage .lab-chip span,
+        .pdf-export-stage .lab-anno span {
+          display: inline-flex !important;
+          align-items: center !important;
+          line-height: 1 !important;
+          height: auto !important;
+          margin: auto 0 !important;
         }
       `}</style>
 
-      {/* Skip to main content */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-emerald-400 focus:px-4 focus:py-2 focus:text-slate-950 focus:text-sm focus:font-semibold"
-      >
-        Skip to main content
-      </a>
+      <div className="lab-layer">
+        <div className="deck-grid pointer-events-none fixed inset-0 opacity-55" />
+        <div className="pointer-events-none fixed -left-28 top-24 h-64 w-64 rounded-full bg-[color:var(--signal)]/14 blur-[140px]" />
+        <div className="pointer-events-none fixed -right-24 bottom-20 h-72 w-72 rounded-full bg-[color:var(--ember)]/12 blur-[140px]" />
+        <div className="pointer-events-none fixed left-1/2 top-32 h-56 w-56 -translate-x-1/2 rounded-full bg-[color:var(--oxide)]/10 blur-[160px]" />
+        <div className="lab-spine hidden sm:block" />
+      </div>
 
-      <div className="deck-grid pointer-events-none fixed inset-0" />
-      <div className="deck-bg-blur pointer-events-none fixed -left-32 top-20 h-96 w-96 rounded-full bg-accent-cyan/10 blur-[120px]" />
-      <div className="deck-bg-blur pointer-events-none fixed -right-28 bottom-16 h-[500px] w-[500px] rounded-full bg-accent-violet/5 blur-[150px]" />
-
-      <header className="deck-topbar fixed left-0 right-0 top-0 z-40 border-b border-slate-200/50 bg-void/88 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 sm:px-8">
-          <h1 className="sr-only">GeoCompanion Investor Pitch Deck</h1>
-
+      <header className="fixed left-0 right-0 top-0 z-40 border-b border-white/10 bg-[color:var(--bg)]/72 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
           <button
             onClick={() => navigate('/')}
-            className="inline-flex items-center gap-2 text-sage/95 font-medium italic hover:text-onyx transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-[#070b14]"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[color:var(--paper-dim)] transition hover:border-[color:var(--signal)]/45 hover:text-[color:var(--paper)]"
           >
-            <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-            <span className="deck-mono text-[10px] tracking-[0.15em] uppercase">Back</span>
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            Back
           </button>
 
           <div className="flex items-center gap-3">
-            <GeoCompanionMark size={28} />
-            <div>
-              <p className="deck-mono text-[10px] tracking-[0.22em] text-onyx uppercase">GeoCompanion.ai</p>
-              <p className="deck-mono text-[9px] tracking-[0.14em] text-sage/95 font-medium italic">Investor Deck &middot; 2026</p>
+            <GeoCompanionMark />
+            <div className="text-left">
+              <p className="font-['Fraunces_Variable'] text-sm font-semibold tracking-[0.06em] text-[color:var(--paper)]">GeoCompanion.ai</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">Short Deck</p>
             </div>
           </div>
 
           <button
             onClick={handleDownloadPdf}
             disabled={isDownloading}
-            className="inline-flex items-center gap-2 rounded-full border border-accent-cyan/20 bg-accent-cyan/8 px-4 py-2 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5 transition hover:bg-accent-cyan/15 hover:border-accent-cyan/35 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-[#070b14]"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[linear-gradient(135deg,rgba(77,140,106,0.9),rgba(122,138,68,0.76))] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[color:var(--ink)] shadow-[0_18px_44px_rgba(3,6,12,0.46)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            <Download className="h-3.5 w-3.5" aria-hidden="true" />
-            <span className="deck-mono text-[10px] tracking-[0.1em] uppercase">{isDownloading ? 'Generating\u2026' : 'Export PDF'}</span>
+            <Download className="h-4 w-4" aria-hidden="true" />
+            {isDownloading ? 'Generating PDF…' : 'Download PDF'}
           </button>
         </div>
       </header>
 
-      <aside className="deck-side-nav fixed left-5 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-2 rounded-full border border-slate-200/50 bg-white/50 p-2.5 pb-3 pt-3 shadow-elevation backdrop-blur-md lg:flex">
+      <aside className="fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 gap-2 rounded-3xl border border-white/10 bg-white/5 p-2 backdrop-blur-md lg:flex lg:flex-col">
         {slideIds.map((id, idx) => (
           <button
             key={id}
             type="button"
             onClick={() => scrollToSlide(id)}
-            className="group relative flex h-6 w-6 items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-void"
+            className={[
+              'group relative h-9 w-9 overflow-hidden rounded-2xl border bg-white/5 text-[11px] font-bold transition',
+              idx + 1 === activeSlide
+                ? 'border-[color:var(--signal)]/55 text-[color:var(--paper)] shadow-[0_18px_44px_rgba(3,6,12,0.46)]'
+                : 'border-white/10 text-[color:var(--paper-dim)] hover:border-[color:var(--signal)]/45 hover:text-[color:var(--paper)]',
+            ].join(' ')}
             aria-label={`Go to slide ${idx + 1}`}
           >
-            <span
-              className="absolute left-full ml-3 opacity-0 group-hover:opacity-100 transition-opacity duration-150 whitespace-nowrap bg-onyx text-onyx px-2 py-0.5 rounded-md"
-              style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px' }}
-              aria-hidden="true"
-            >
-              {String(idx + 1).padStart(2, '0')}
+            <span className="relative z-10">{idx + 1}</span>
+            <span className="pointer-events-none absolute right-[calc(100%+10px)] top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--paper)] shadow-[0_18px_44px_rgba(3,6,12,0.46)] backdrop-blur-md group-hover:block">
+              {slideLabels[idx] ?? `Slide ${idx + 1}`}
             </span>
-            <span className="block h-px bg-stardust transition-all duration-200 w-3 group-hover:w-5 group-hover:bg-accent-cyan" />
+            <span
+              className="absolute inset-0 opacity-0 transition group-hover:opacity-100"
+              style={{
+                background:
+                  'radial-gradient(circle at 30% 30%, rgba(77,140,106,0.38), transparent 58%), radial-gradient(circle at 70% 70%, rgba(217,139,90,0.16), transparent 56%)',
+              }}
+            />
           </button>
         ))}
       </aside>
 
-      <main id="main-content" className="deck-scroll h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
-
-        {/* Slide 1 */}
+      <main className="h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
         <SlideShell
           id="slide-1"
           index={1}
           title="AI now decides who gets found. Most businesses have no system to change that."
-          subtitle="The intelligence layer for an AI-first world. One workflow from diagnosis to execution."
+          subtitle="Discovery and execution have both shifted. GeoCompanion starts by fixing both and becomes the intelligence layer that tells businesses where to go next."
         >
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-            <div className="bg-hull border-2 border-ink shadow-brutalist p-10 transform -rotate-1 lg:col-span-7">
-              <div className="mb-6 flex items-center gap-3">
-                <GeoCompanionMark size={28} />
-                <span className="deck-mono text-[10px] tracking-[0.2em] uppercase text-sage/95 font-medium italic">Enterprise Strategic Intelligence Platform</span>
+          <div className="relative grid gap-6 lg:grid-cols-[1.25fr,1fr]">
+            <div className="deck-card relative overflow-hidden rounded-[2.25rem] p-7 sm:p-9">
+              <div className="absolute -right-10 -top-6 rotate-[9deg]">
+                <ExperimentTag tone="paper" icon={<LabGlyph variant="orbit" />} className="opacity-95">
+                  Prototype pass
+                </ExperimentTag>
               </div>
-              <p className="deck-mono text-[9px] uppercase tracking-[0.2em] text-sage/95 font-medium italic mb-3">Core Mission</p>
-              <p className="text-2xl font-semibold leading-relaxed text-ink sm:text-3xl">
-                Helping brands win AI citations and build platform-native content that captures market attention.
+              <div className="absolute -left-6 top-16 -rotate-[8deg]">
+                <StatusChip tone="signal" label="Live system" />
+              </div>
+
+              <div className="mb-5 inline-flex items-center gap-3">
+                <GeoCompanionMark size={28} />
+                <ExperimentTag tone="paper" icon={<LabGlyph variant="bracket" />} className="-rotate-[1.25deg]">
+                  Strategic intelligence deck
+                </ExperimentTag>
+              </div>
+
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">Who we are</p>
+              <p className="mt-4 font-['Fraunces_Variable'] text-2xl leading-[1.22] text-[color:var(--paper)] sm:text-3xl">
+                GeoCompanion starts by helping businesses get cited by AI search engines and build platform-native content that wins attention.
               </p>
-              <p className="mt-6 text-lg leading-relaxed text-sage/95 font-medium italic">
-                GeoCompanion bridges the gap between diagnosis and execution, surfacing exactly where you are missing citations and providing the native content system to fix it.
+              <p className="mt-4 text-base leading-relaxed text-[color:var(--paper-dim)] sm:text-lg">
+                Over time, it becomes the Enterprise Strategic Intelligence Platform that tells businesses where their market is going, what to build next, and which verified agents can execute that vision. One workflow from diagnosis to execution, built for an AI-shaped world.
               </p>
             </div>
 
-            <div className="space-y-6 lg:col-span-5">
-              <div className="bg-hull border-2 border-ink shadow-brutalist p-8">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.18em] text-sage/95 font-medium italic mb-4">The Destination</p>
-                <div className="space-y-5">
-                  {[
-                    { icon: <Radar className="h-5 w-5 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />, title: 'Strategic Intelligence', desc: 'Vision, market positioning, predictive analytics' },
-                    { icon: <Bot className="h-5 w-5 text-clay font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />, title: 'Agent Marketplace', desc: 'Agents ranked by verified outcome data' },
-                    { icon: <ShieldCheck className="h-5 w-5 text-indigo-400" aria-hidden="true" />, title: 'On-Chain Trust', desc: 'Immutable performance attestation' },
-                  ].map((item) => (
-                    <div key={item.title} className="flex items-start gap-4">
-                      <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center border border-ink/10 bg-void shadow-sm">
-                        {item.icon}
-                      </div>
-                      <div>
-                        <p className="text-base font-bold text-ink">{item.title}</p>
-                        <p className="mt-0.5 text-sm text-sage/95 font-medium italic">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
+            <div className="space-y-4">
+              <TagCluster className="justify-start">
+                <ExperimentTag tone="paper" icon={<LabGlyph variant="pin" />} className="rotate-[2deg]">
+                  Cite-share obsessed
+                </ExperimentTag>
+                <ExperimentTag tone="oxide" icon={<LabGlyph variant="orbit" />} className="-rotate-[3deg]">
+                  Hook patterns
+                </ExperimentTag>
+                <ExperimentTag tone="ember" icon={<LabGlyph variant="wave" />} className="rotate-[1deg]">
+                  Platform-native
+                </ExperimentTag>
+              </TagCluster>
+
+              <div className="deck-card relative overflow-hidden rounded-3xl p-5">
+                <div className="absolute -left-8 -top-10 h-28 w-28 rounded-full border border-white/10 bg-white/5 blur-[0.2px]" />
+                <div className="absolute -right-8 -bottom-10 h-28 w-28 rounded-full border border-white/10 bg-white/5 blur-[0.2px]" />
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">The short version</p>
+                <div className="mt-4 grid gap-2 text-sm text-[color:var(--paper)]">
+                  <p className="flex items-center gap-2">
+                    <Radar className="h-4 w-4 text-[color:var(--oxide)]" /> What is live right now
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-[color:var(--signal)]" /> How we fill the GEO + creator gap
+                  </p>
+                  <p className="flex items-center gap-2">
+                    <ShieldCheck className="h-4 w-4 text-[color:var(--paper)] opacity-80" /> What we are building next
+                  </p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-3 gap-3">
                 {[
-                  { icon: <Sparkles className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />, label: 'Today', value: 'GEO + Vibe Marketing' },
-                  { icon: <BarChart3 className="h-4 w-4 text-clay font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />, label: 'Phase 1\u20133', value: 'Enterprise Intelligence' },
+                  { icon: <Sparkles className="h-4 w-4 text-[color:var(--signal)]" />, label: 'Today', value: 'GEO + Vibe Marketing' },
+                  { icon: <BarChart3 className="h-4 w-4 text-[color:var(--oxide)]" />, label: 'Tomorrow', value: 'Vision Navigator' },
+                  { icon: <Bot className="h-4 w-4 text-[color:var(--ember)]" />, label: 'Later', value: 'Agents + Trust' },
                 ].map((item) => (
-                  <div key={item.label} className="bg-hull border-2 border-ink shadow-brutalist p-4">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-50">{item.icon}</div>
-                    <div>
-                      <p className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">{item.label}</p>
-                      <p className="text-sm font-bold text-ink">{item.value}</p>
-                    </div>
+                  <div key={item.label} className="deck-card rounded-2xl p-3">
+                    <div>{item.icon}</div>
+                    <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[color:var(--paper-dim)]">{item.label}</p>
+                    <p className="text-sm font-semibold text-[color:var(--paper)]">{item.value}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          <p className="deck-hint mt-6 inline-flex items-center gap-2 deck-mono text-[10px] uppercase tracking-[0.18em] text-slate-700">
-            <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" /> Scroll for full 13-slide deck
+          <p className="mt-8 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">
+            <ChevronDown className="h-4 w-4" aria-hidden="true" /> Scroll for the short deck
           </p>
         </SlideShell>
 
-        {/* Slide 2 */}
-        <SlideShell id="slide-2" index={2} title="The Problem" subtitle="Discovery got harder. Content execution stayed expensive and fragmented.">
-          <div className="grid gap-6 lg:grid-cols-12">
-            <div className="lg:col-span-8 grid gap-4 grid-cols-2 lg:grid-cols-4">
-              {[
-                { label: 'AI Search Shift', value: '58%', note: 'GenAI vs traditional search' },
-                { label: 'AI Shopping', value: '39%', note: 'Used AI for shopping' },
-                { label: 'Creator Market', value: '$214B', note: 'Native content leads' },
-                { label: 'Execution Cost', value: '$1M+', note: 'Annual ops overhead' },
-              ].map((item) => (
-                <article key={item.label} className="bg-hull border border-ink/10 shadow-brutalist p-6">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">{item.label}</p>
-                  <p className="deck-heading mt-4 text-4xl font-bold text-ink tabular-nums">{item.value}</p>
-                  <p className="mt-3 text-[10px] leading-tight text-sage/95 font-medium italic">{item.note}</p>
-                </article>
-              ))}
-            </div>
-            <div className="lg:col-span-4 bg-hull border-2 border-ink shadow-brutalist p-8 flex items-center justify-center text-center rotate-1">
-               <p className="text-sm font-medium text-sage/95 font-medium italic italic">The gap between diagnosis and execution is the single biggest leak in marketing ROI today.</p>
-            </div>
-          </div>
-
-          <div className="mt-5 grid gap-5 lg:grid-cols-2">
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
-              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic flex items-center gap-2 mb-4">
-                <Search className="h-3 w-3" aria-hidden="true" />
-                Discovery changed
-              </p>
-              <div className="rounded-xl border border-slate-100 bg-white p-4">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1.5">Old playbook</p>
-                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">SEO rankings on Google blue links.</p>
-              </div>
-              <div className="mt-3 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5 mb-1.5">New reality</p>
-                <p className="text-sm leading-relaxed text-ink">
-                  AI answer engines decide visibility. Ranking pages no longer guarantees citation in answers.
-                </p>
-              </div>
-            </article>
-
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
-              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic flex items-center gap-2 mb-4">
-                <Sparkles className="h-3 w-3" aria-hidden="true" />
-                Content changed
-              </p>
-              <div className="rounded-xl border border-slate-100 bg-white p-4">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1.5">Old playbook</p>
-                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">Polished campaigns produced by large teams/agencies.</p>
-              </div>
-              <div className="mt-3 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5 mb-1.5">New reality</p>
-                <p className="text-sm leading-relaxed text-ink">
-                  Platform-native creator execution wins attention, but requires a repeatable multi-platform system.
-                </p>
-              </div>
-            </article>
-          </div>
-
-          <div className="bg-hull border-2 border-ink shadow-brutalist p-8 mt-5">
-            <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">The structural gap</p>
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="border border-ink/10 bg-void p-4 text-sm text-sage/95 font-medium italic">GEO tools measure visibility but do not create content.</div>
-              <div className="border border-ink/10 bg-void p-4 text-sm text-sage/95 font-medium italic">Content tools generate posts but do not optimize AI citation share.</div>
-              <div className="bg-clay/5 border border-clay/20 p-4 text-sm font-medium text-ink">GeoCompanion connects diagnosis, execution, and compounding outcomes.</div>
-            </div>
-          </div>
-
-          <SlideFootnotes
-            items={[
-              { label: 'Source: Capgemini Research Institute (AI search shift)', href: 'https://www.capgemini.com/insights/research-library/what-matters-to-todays-consumer-2025/' },
-              { label: 'Source: Adobe survey (AI shopping usage)', href: 'https://www.adobe.com/express/business/blog/online-shopping-trends' },
-              { label: 'Source: APC salary guide + internal team-cost model', href: 'https://www.apc.org.au/resources/annual-salary-guide/' },
-            ]}
-          />
-        </SlideShell>
-
-        {/* Slide 3 */}
-        <SlideShell id="slide-3" index={3} title="Why Now" subtitle="The category is opening before the stack is settled.">
-          <div className="grid gap-6 lg:grid-cols-12 lg:items-center">
-            {[
-              {
-                tag: 'Shift 1',
-                title: 'Behavior shifts faster than tooling',
-                body: 'Buyers are moving toward AI answers now, but teams still use SEO stacks built for the old web.',
-              },
-              {
-                tag: 'Shift 2',
-                title: 'Creator-native budgets',
-                body: 'Teams want platform-native content, but the market stills separates strategy from execution.',
-              },
-              {
-                tag: 'Shift 3',
-                title: 'Agent Infrastructure',
-                body: 'Machine-to-machine workflows mean this becomes a platform play, not just a point solution.',
-              },
-            ].map((item, idx) => (
-              <article key={item.tag} className="bg-hull border-2 border-ink shadow-brutalist p-10 lg:col-span-4 flex flex-col justify-between">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-clay mb-4">{item.tag}</p>
-                <h3 className="text-xl font-bold text-ink">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink/80 font-medium italic">{item.body}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-8 grid gap-6 lg:grid-cols-12">
-            <div className="bg-hull border-2 border-ink shadow-brutalist p-10 transform -rotate-1 lg:col-span-7">
-              <p className="deck-mono text-[10px] uppercase tracking-[0.16em] text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5 mb-3">The Window</p>
-              <p className="text-xl font-medium leading-relaxed text-ink">
-                Incumbents skew toward enterprise reporting. The <span className="text-clay font-bold">SMB, creator, and agent-native layer</span> is still wide open for a category-defining workflow.
-              </p>
-            </div>
-
-            <div className="lg:col-span-5 space-y-4">
-              <div className="bg-hull border-2 border-ink shadow-brutalist p-8 bg-white shadow-elevation">
-                <div className="flex items-center gap-3">
-                  <div className="h-2 w-2 rounded-full bg-clay" />
-                  <p className="text-sm font-bold text-ink">Early Advantage</p>
-                </div>
-                <p className="mt-2 text-sm text-sage/95 font-medium italic">We aren't just competing in a workflow; we are defining it before the incumbents pivot from reporting to execution.</p>
-              </div>
-            </div>
-          </div>
-        </SlideShell>
-
-        {/* Slide 4 */}
-        <SlideShell id="slide-4" index={4} title="Our Solution" subtitle="Two engines, one workflow, one prioritized action plan.">
-          <div className="grid gap-8 lg:grid-cols-12">
-            <article className="bg-hull border bg-noise border-2 border-ink shadow-brutalist p-10 flex flex-col justify-between transform -rotate-1 lg:col-span-6">
-              <div>
-                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-6">Execution Engines</p>
-                <div className="space-y-4">
-                  <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5 group transition-all hover:bg-white hover:shadow-sm">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 rounded-lg bg-white border border-slate-100"><Search className="h-5 w-5 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /></div>
-                      <p className="text-lg font-bold text-ink">GEO Audit Engine</p>
-                    </div>
-                    <ul className="space-y-2 text-sm text-sage/95 font-medium italic">
-                      <li>• Citation-share competitive analysis</li>
-                      <li>• EEAT & algorithm fit scoring</li>
-                      <li>• Deployable fix prioritization</li>
-                    </ul>
-                  </div>
-
-                  <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5 group transition-all hover:bg-white hover:shadow-sm">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 rounded-lg bg-white border border-slate-100"><Sparkles className="h-5 w-5 text-clay font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /></div>
-                      <p className="text-lg font-bold text-ink">Vibe Marketing Engine</p>
-                    </div>
-                    <ul className="space-y-2 text-sm text-sage/95 font-medium italic">
-                      <li>• Platform-native voice detection</li>
-                      <li>• Hook-based campaign architecting</li>
-                      <li>• Voice-consistent automated generation</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article className="lg:col-span-6 space-y-6">
-              <div className="bg-hull border-2 border-ink shadow-brutalist p-10 transform rotate-1">
-                <p className="deck-mono text-[10px] uppercase tracking-[0.2em] text-sage/95 font-medium italic mb-4">The Output</p>
-                <h3 className="text-2xl font-bold mb-4 text-ink">The "Prioritized Action Plan"</h3>
-                <p className="text-ink leading-relaxed font-medium">We don't just dump data. GeoCompanion produces a single backlog of high-impact moves across SEO, AI citation, and social content.</p>
-                <div className="mt-8 flex items-center gap-4">
-                   <div className="h-px flex-1 bg-ink/10" />
-                   <div className="text-[10px] deck-mono text-sage/95 font-medium italic">AUTOMATED WORKFLOW</div>
-                </div>
-              </div>
-
-               <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { label: 'Latency', value: '15s' },
-                    { label: 'Price', value: '<$10/mo' },
-                  ].map(stat => (
-                    <div key={stat.label} className="bg-hull border-2 border-ink shadow-brutalist p-8 text-center">
-                       <p className="deck-mono text-[9px] text-sage/95 font-medium italic uppercase tracking-widest">{stat.label}</p>
-                       <p className="text-2xl font-bold text-ink mt-1">{stat.value}</p>
-                    </div>
-                  ))}
-               </div>
-            </article>
-          </div>
-        </SlideShell>
-
-        {/* Slide 5 */}
         <SlideShell
-          id="slide-5"
-          index={5}
-          title="Why We're Different"
-          subtitle="Others either diagnose or create. We do both, and connect the loop."
+          id="slide-2"
+          index={2}
+          title="What’s Live Right Now"
+          subtitle="Two engines are live today, and together they make GeoCompanion the only product closing the workflow gap between GEO and creator-style execution."
         >
-          <div className="bg-hull border-2 border-ink shadow-brutalist p-4 overflow-x-auto">
+          <div className="relative grid gap-5 lg:grid-cols-[1.05fr,1fr]">
+            <div className="pointer-events-none absolute -right-2 -top-6 hidden lg:block">
+              <AnnotationTag tone="paper" icon={<LabGlyph variant="pin" />}>
+                This is the working product.
+              </AnnotationTag>
+            </div>
+
+            <article className="deck-card rounded-3xl p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--oxide)]">Left side: Inputs and processing</p>
+              <div className="mt-4 space-y-3">
+                <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div className="absolute -right-6 -top-5 rotate-[6deg]">
+                    <ExperimentTag tone="oxide" icon={<LabGlyph variant="orbit" />}>
+                      Engine A
+                    </ExperimentTag>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Search className="h-4 w-4 text-[color:var(--signal)]" aria-hidden="true" />
+                    <p className="font-['Fraunces_Variable'] text-xl font-semibold text-[color:var(--paper)]">GEO Audit Engine</p>
+                  </div>
+                  <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-[color:var(--paper-dim)]">
+                    <li>- Input: website URL plus optional competitors</li>
+                    <li>- Processing: GEO score, EEAT, ranking of deployable fixes</li>
+                    <li>- Speed: initial output in about 15 seconds</li>
+                  </ul>
+                </div>
+
+                <div className="relative rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div className="absolute -left-6 -top-5 -rotate-[6deg]">
+                    <ExperimentTag tone="signal" icon={<LabGlyph variant="wave" />}>
+                      Engine B
+                    </ExperimentTag>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-[color:var(--oxide)]" aria-hidden="true" />
+                    <p className="font-['Fraunces_Variable'] text-xl font-semibold text-[color:var(--paper)]">Vibe Marketing Engine</p>
+                  </div>
+                  <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-[color:var(--paper-dim)]">
+                    <li>- Input: brand page or creator profile</li>
+                    <li>- Processing: platform and voice detection, hook-based campaign generation</li>
+                    <li>- Output format: 30/60/90-day multi-platform content system</li>
+                  </ul>
+                </div>
+
+                <div className="relative rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(77,140,106,0.18),rgba(10,12,18,0.52))] p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--signal)]">Fusion layer</p>
+                  <p className="mt-1 text-sm leading-relaxed text-[color:var(--paper)]">
+                    GeoCompanion combines both engines into one prioritized execution backlog.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article className="deck-card rounded-3xl p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">Right side: What users receive</p>
+              <div className="mt-4 grid gap-3">
+                {[
+                  { source: 'From GEO Audit', title: 'Visibility Package', bullets: ['GEO scorecard + EEAT breakdown', 'Citation-share competitor view', 'Schema + CTA rewrite suggestions'] },
+                  { source: 'From Vibe Engine', title: 'Content Package', bullets: ['9 hook-pattern campaign planning', 'Platform-native formatting', 'Voice-consistent generation'] },
+                  { source: 'Combined Output', title: 'Action Package', bullets: ['One prioritized backlog to execute now', 'Clear ownership across marketing workflows', 'Built for both brands and creators'] },
+                ].map((block) => (
+                  <div key={block.title} className="relative rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--signal)]">{block.source}</p>
+                    <p className="font-['Fraunces_Variable'] text-lg font-semibold tracking-[0.02em] text-[color:var(--paper)]">{block.title}</p>
+                    <ul className="mt-2 space-y-1.5 text-xs leading-relaxed text-[color:var(--paper-dim)]">
+                      {block.bullets.map((bullet) => (
+                        <li key={bullet}>- {bullet}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </article>
+          </div>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            <article className="deck-card rounded-3xl p-5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--oxide)]">The market gap</p>
+              <p className="mt-2 text-sm leading-relaxed text-[color:var(--paper-dim)]">
+                GEO tools measure visibility but do not create content. Content tools generate posts but do not optimize AI citation share. GeoCompanion is the product that connects both.
+              </p>
+            </article>
+
+            <article className="deck-card rounded-3xl p-5">
+              <div className="flex items-center gap-2">
+                <PenTool className="h-4 w-4 text-[color:var(--signal)]" aria-hidden="true" />
+                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--signal)]">What is a hook?</p>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-[color:var(--paper-dim)]">
+                A hook is the first framing move that earns attention. It creates curiosity or tension fast enough for a normal person’s content to feel more like a creator post and less like generic AI copy.
+              </p>
+            </article>
+
+            <article className="deck-card relative rounded-3xl p-5">
+              <div className="absolute -right-6 -top-5 rotate-[7deg]">
+                <ExperimentTag tone="ember" icon={<LabGlyph variant="bracket" />}>
+                  sample
+                </ExperimentTag>
+              </div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--ember)]">Contrast hook example</p>
+              <p className="mt-2 text-sm leading-relaxed text-[color:var(--paper-dim)]">
+                Plain line: “GeoCompanion helps teams write better marketing content.”
+              </p>
+              <p className="mt-2 rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(217,139,90,0.18),rgba(10,12,18,0.52))] p-3 text-sm leading-relaxed text-[color:var(--paper)]">
+                “I hated AI-written marketing material until I found GeoCompanion.”
+              </p>
+              <p className="mt-2 text-xs leading-relaxed text-[color:var(--paper-dim)]">
+                That works because contrast creates tension and sounds closer to TikTok-style creator language than brand copy.
+              </p>
+            </article>
+          </div>
+
+          <div className="deck-card mt-5 rounded-3xl p-6">
+            <p className="font-['Fraunces_Variable'] text-2xl leading-[1.2] text-[color:var(--paper)]">
+              The combination is what matters: <span className="font-semibold text-[color:var(--paper)]">GEO tells you what AI search needs.</span>{' '}
+              <span className="font-semibold text-[color:var(--paper)]">Vibe Marketing produces it in a way normal people can actually use.</span>
+            </p>
+          </div>
+        </SlideShell>
+
+        <SlideShell
+          id="slide-3"
+          index={3}
+          title="Why We’re Different"
+          subtitle="Others either diagnose or create. GeoCompanion is the only product here that closes the GEO + creator execution gap in one workflow."
+        >
+          <div className="relative">
+            <div className="pointer-events-none absolute -left-3 -top-6 hidden lg:block">
+              <AnnotationTag tone="paper" icon={<LabGlyph variant="bracket" />}>
+                Competitor grid (lab cut)
+              </AnnotationTag>
+            </div>
+
+            <div className="deck-card overflow-x-auto rounded-3xl">
             <table className="deck-table min-w-[900px]">
               <thead>
                 <tr>
@@ -1069,570 +1207,142 @@ const PitchDeckPage = () => {
               <tbody>
                 {competitorRows.map((row) => (
                   <tr key={row.category}>
-                    <td className="font-medium text-ink">{row.category}</td>
+                    <td className="font-medium text-[color:var(--paper)]">{row.category}</td>
                     <td>{row.brightedge}</td>
                     <td>{row.evertune}</td>
                     <td>{row.athena}</td>
                     <td>{row.surfer}</td>
                     <td>{row.jasper}</td>
-                    <td className="font-semibold text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5">{row.geoCompanion}</td>
+                    <td className="font-semibold text-[color:var(--signal)]">{row.geoCompanion}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
           </div>
 
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {[
               'GEO + content execution in one product.',
-              'Agent-queryable API and ranking layer built on proprietary outcome data.',
-              'Verifiable agent performance for enterprise trust.',
+              'Hook-based creator-style writing system, not generic AI copy.',
+              'The workflow today becomes the intelligence product tomorrow.',
             ].map((gap, idx) => (
-              <div key={gap} className="bg-hull border border-ink/10 shadow-brutalist p-5">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-2">Gap {idx + 1}</p>
-                <p className="text-sm leading-relaxed text-ink">{gap}</p>
+              <div key={gap} className="deck-card relative rounded-3xl p-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">Gap {idx + 1}</p>
+                <p className="mt-2 text-sm leading-relaxed text-[color:var(--paper)]">{gap}</p>
               </div>
             ))}
           </div>
 
-          <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-lg leading-relaxed text-ink">
+          <div className="deck-card mt-5 rounded-3xl p-6">
+            <p className="font-['Fraunces_Variable'] text-2xl leading-[1.2] text-[color:var(--paper)]">
               Others either diagnose or create. We do both, and connect the loop.
             </p>
           </div>
         </SlideShell>
 
-        {/* Slide 6 */}
-        <SlideShell id="slide-6" index={6} title="Platform Vision" subtitle="From workflow to intelligence to a verified agent economy.">
-          <div className="bg-hull border-2 border-ink shadow-brutalist p-8">
-            <div className="grid gap-4 lg:grid-cols-[1.2fr,0.8fr]">
-              <div className="rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-5">
-                <p className="text-base leading-relaxed text-ink">
-                  <span className="font-bold">The Moat:</span> Every audit and campaign feeds our ranking model. This outcome data is a proprietary training signal that no generic intelligence platform can replicate.
+        <SlideShell
+          id="slide-4"
+          index={4}
+          title="What We’re Building Next"
+          subtitle="Start with diagnosis and execution. Expand into intelligence tomorrow, then agents and verified trust later."
+        >
+          <div className="deck-card relative rounded-3xl p-6">
+            <div className="absolute -right-8 -top-6 rotate-[8deg]">
+              <ExperimentTag tone="paper" icon={<LabGlyph variant="orbit" />}>
+                Roadmap logic
+              </ExperimentTag>
+            </div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--signal)]">Why today’s product matters tomorrow</p>
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1.2fr,0.8fr]">
+              <div className="relative rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(77,140,106,0.18),rgba(10,12,18,0.52))] p-5">
+                <p className="font-['Fraunces_Variable'] text-2xl leading-[1.2] text-[color:var(--paper)]">
+                  Every GEO audit tells us what AI engines are citing and why. Every campaign tells us which content
+                  patterns drive real results by platform and industry. That outcome data is the training signal for
+                  the intelligence layer we build next.
                 </p>
               </div>
-              <div className="rounded-xl border border-slate-100 bg-white p-5">
-                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
-                  <span className="font-bold">Vision Navigator:</span> We help brands answer whether they are running in the right direction before they scale execution budget.
+              <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                <p className="text-sm leading-relaxed text-[color:var(--paper)]">
+                  Vision Navigator is the strategic center of this roadmap: a system that helps companies answer whether
+                  they are running in the right direction before they spend more money scaling execution. The marketplace
+                  matters later, but the intelligence layer is the category-defining product.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">Step-by-step build path</p>
-            <div className="grid gap-4 md:grid-cols-3">
-              {buildPathRows.map((item, idx) => {
-                const icon = [
-                  <Rocket className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
-                  <Server className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
-                  <Activity className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
-                ][idx];
-
-                return (
-                  <article key={item.phase} className="rounded-xl border border-slate-100 bg-white p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">{item.phase}</span>
-                      {icon}
-                    </div>
-                    <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">{item.when}</p>
-                    <p className="deck-heading text-base font-semibold text-ink mb-2">{item.ships}</p>
-                    <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{item.target}</p>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {[
-              ['Training signal', 'Each audit and campaign adds the ranking data that improves which agent wins future jobs.'],
-              ['Enterprise intelligence', 'The next layer is continuous decision support, not just another dashboard or one-off report.'],
-              ['Verified trust', 'The marketplace only works if enterprise buyers can audit real performance history before they trust an agent.'],
-            ].map(([title, body]) => (
-              <article key={title} className="deck-card rounded-2xl p-5">
-                <h3 className="text-base font-semibold text-ink mb-2">{title}</h3>
-                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{body}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
-              Phase 0 is intentional. The app generates the proprietary training signal that makes Phase 1 routing defensible. We are not pivoting to infra; we are building toward it with every workflow we run today.
-            </p>
-          </div>
-        </SlideShell>
-
-        {/* Slide 7 */}
-        <SlideShell id="slide-7" index={7} title="Agent Marketplace" subtitle="Private context in, best-fit execution out.">
-          <div className="bg-hull border-2 border-ink shadow-brutalist p-8">
-            <div className="grid gap-6 lg:grid-cols-[0.8fr,1.2fr]">
-              <div className="space-y-4">
-                <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">1. Private Context</p>
-                  <p className="text-sm text-ink/90 font-medium italic">Brands send platform, product, and objective context.</p>
-                </div>
-                <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">2. Smart Routing</p>
-                  <p className="text-sm text-ink/90 font-medium italic">GeoCompanion selects agents by verified hook performance and outcome history.</p>
-                </div>
-                <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">3. Native Execution</p>
-                  <p className="text-sm text-ink/90 font-medium italic">Agents execute and feed outcomes back into the ranking loop.</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="rounded-2xl border border-slate-100 bg-white p-4">
-                  <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">Request flow</p>
-                  <div className="grid gap-3 md:grid-cols-3">
-                    <div className="rounded-xl border border-slate-100 bg-white p-4">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-100 bg-slate-50">
-                          <Bot className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />
-                        </div>
-                        <div>
-                          <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic">Personal agent</p>
-                          <p className="text-xs font-semibold text-ink">Private context</p>
-                        </div>
-                      </div>
-                      <p className="text-xs leading-relaxed text-ink/80 font-medium italic">TikTok, skincare launch, beauty / DTC.</p>
-                    </div>
-
-                    <div className="rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-100 bg-slate-50">
-                          <Server className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />
-                        </div>
-                        <div>
-                          <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic">GeoCompanion</p>
-                          <p className="text-xs font-semibold text-ink">Routing layer</p>
-                        </div>
-                      </div>
-                      <p className="text-xs leading-relaxed text-ink/80 font-medium italic">Scores hook fit, availability, and performance.</p>
-                    </div>
-
-                    <div className="rounded-xl border border-slate-100 bg-white p-4">
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-100 bg-slate-50">
-                          <ShieldCheck className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />
-                        </div>
-                        <div>
-                          <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic">Public agents</p>
-                          <p className="text-xs font-semibold text-ink">Marketplace agents</p>
-                        </div>
-                      </div>
-                      <p className="text-xs leading-relaxed text-ink/80 font-medium italic">AWS / GCP deployed agents with different hook mixes.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-slate-100 bg-white p-4">
-                  <div className="flex items-center justify-between gap-3 mb-4">
-                    <div>
-                      <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic">Public agent examples</p>
-                      <p className="mt-1 text-xs text-sage/95 font-medium italic">Each agent mixes several hook patterns at different weights, like a recipe for tone and structure.</p>
-                    </div>
-                    <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic">Cloud-deployed</p>
-                  </div>
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <PublicAgentCard
-                      name="Alice"
-                      cloud="AWS"
-                      context="Weighted for contrast-led product storytelling."
-                      accent="text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5"
-                      hooks={[
-                        { label: 'Contrast hook', weight: 0.3, tone: 'from-accent-cyan to-blue-400' },
-                        { label: 'Humble flex', weight: 0.35, tone: 'from-accent-violet to-purple-400' },
-                        { label: 'Curiosity gap', weight: 0.2, tone: 'from-blue-400 to-indigo-400' },
-                        { label: 'Soft CTA', weight: 0.15, tone: 'from-slate-500 to-slate-400' },
-                      ]}
-                    />
-                    <PublicAgentCard
-                      name="Bob"
-                      cloud="GCP"
-                      context="Weighted for sharper opinion-led campaign framing."
-                      accent="text-sage/95 font-medium italic"
-                      hooks={[
-                        { label: 'Humble flex', weight: 0.2, tone: 'from-accent-violet to-purple-400' },
-                        { label: 'Hot take', weight: 0.4, tone: 'from-accent-cyan to-blue-400' },
-                        { label: 'Proof stack', weight: 0.25, tone: 'from-blue-400 to-indigo-400' },
-                        { label: 'Authority cue', weight: 0.15, tone: 'from-slate-500 to-slate-400' },
-                      ]}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {[
-              ['Weighted agents', 'Each public agent is a weighted basket of hooks, not a single-hook identity. In plain English: each agent blends several messaging patterns in different proportions, like a recipe tuned to a brand context.'],
-              ['Cloud-native layer', 'Public agents run on AWS or GCP while personal agents keep private context local.'],
-              ['Compounding loop', 'Measured outcomes improve routing quality, ranking history, and future hook weights.'],
-            ].map(([title, body]) => (
-              <article key={title} className="deck-card rounded-2xl p-5">
-                <h3 className="text-base font-semibold text-ink mb-2">{title}</h3>
-                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{body}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
-              The on-chain layer (ERC8004) is a trust primitive, not a payment mechanism. Billing stays on fiat throughout.
-              The chain provides immutable performance attestation that enterprise buyers require before trusting autonomous
-              agents with their brand.
-            </p>
-          </div>
-        </SlideShell>
-
-        {/* Slide 8 */}
-        <SlideShell id="slide-8" index={8} title="Early Signal" subtitle="Pre-revenue for now. Here is the signal we are building toward.">
-          <div className="grid gap-4 md:grid-cols-4">
-            {[
-              { label: 'Website Visitors', value: '457', icon: <Users className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" /> },
-              { label: 'Active Users', value: '340', icon: <Search className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" /> },
-              { label: 'Search Events', value: '2,326', icon: <BarChart3 className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" /> },
-              { label: 'Activation Rate', value: '74%', icon: <DollarSign className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /> },
-            ].map((kpi) => (
-              <article key={kpi.label} className="deck-card rounded-2xl p-5">
-                <div>{kpi.icon}</div>
-                <p className="deck-mono mt-3 text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">{kpi.label}</p>
-                <p className="deck-heading mt-2 text-5xl font-bold text-ink tabular-nums">{kpi.value}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-5 grid gap-5 lg:grid-cols-[1.05fr,1fr]">
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
-              <h3 className="text-xl font-semibold text-ink mb-4">The Beta Thesis</h3>
-              <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
-                We are seeing <span className="font-bold text-ink">74% activation</span> and 6.8 searches per active user. This depth of engagement proves users treat GeoCompanion as a core operating surface, not a one-time demo.
-              </p>
-              <div className="mt-6 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4 text-sm leading-relaxed text-ink">
-                This round builds our upmarket intelligence layer and scales conversion to durable revenue.
-              </div>
-            </article>
-
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
-              <h3 className="text-xl font-semibold text-ink mb-4">Milestones from beta to IPO window</h3>
-              <div className="space-y-3">
-                {[
-                  {
-                    title: 'Pre-seed / Accelerator',
-                    desc: 'Convert beta traffic into repeat product usage and first revenue before institutional seed.',
-                    target: 'Goal by Q2 2026: 1.5K users, 10K searches, 50 creator/KOL customer accounts, 10 paying brand or agency teams, $5K\u2013$10K MRR',
-                    icon: <Building2 className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
-                  },
-                  {
-                    title: 'Seed / Series A',
-                    desc: 'Move upmarket with intelligence workflows and prove expansion revenue across SMB, agency, and enterprise accounts.',
-                    target: 'Goal by Q4 2027: 25+ brand or agency customers, 500 creator/KOL customer accounts, $100K MRR, <3 month payback, strong retention',
-                    icon: <Users className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
-                  },
-                  {
-                    title: 'Growth / IPO readiness',
-                    desc: 'Use marketplace and verification infrastructure to become the system of record for AI-native marketing performance.',
-                    target: 'Goal by Q3 2029: $50M+ ARR, 120+ enterprise or agency customers, 5,000 creator/KOL customer accounts, enterprise-grade reporting and controls',
-                    icon: <Handshake className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
-                  },
-                ].map((channel) => (
-                  <div key={channel.title} className="rounded-xl border border-slate-100 bg-white p-4">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      {channel.icon}
-                      <p className="text-sm font-semibold text-ink">{channel.title}</p>
-                    </div>
-                    <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{channel.desc}</p>
-                    <p className="deck-mono mt-2 text-[9px] uppercase tracking-[0.1em] text-sage/95 font-medium italic">{channel.target}</p>
-                  </div>
-                ))}
-              </div>
-            </article>
-          </div>
-        </SlideShell>
-
-        {/* Slide 9 */}
-        <SlideShell id="slide-9" index={9} title="Market Size" subtitle="At the intersection of three fast-growing markets.">
-          <div className="deck-card overflow-x-auto rounded-2xl">
-            <table className="deck-table min-w-[720px]">
-              <thead>
-                <tr>
-                  <th>Market</th>
-                  <th>2026 Size</th>
-                  <th>Growth Rate</th>
-                </tr>
-              </thead>
-              <tbody>
-                {marketRows.map((row) => (
-                  <tr key={row.market}>
-                    <td className="font-medium text-ink">{row.market}</td>
-                    <td>{row.size}</td>
-                    <td className="font-semibold text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5">{row.growth}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-4">
-            {[
-              ['TAM', '$87B', 'Global software market for marketing intelligence, content SaaS, and creator tools.'],
-              ['SAM', '$12B', 'AI-first marketing tools for SMB through enterprise.'],
-              ['Creator/SMB sub-TAM', '$6B', 'Serviceable market focused on creators and SMBs, excluding enterprise-heavy spend.'],
-              ['SOM (Year 3)', '$150M', 'Under 1.5% SAM penetration target.'],
-            ].map(([label, value, desc]) => (
-              <article key={label} className="deck-card rounded-2xl p-5">
-                <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-2">{label}</p>
-                <p className="deck-heading text-4xl font-bold text-ink tabular-nums">{value}</p>
-                <p className="mt-2 text-xs leading-relaxed text-ink/80 font-medium italic">{desc}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">Market Focus</p>
-            <div className="space-y-4">
+          <div className="deck-card mt-5 rounded-3xl p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--oxide)]">Build path</p>
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
               {[
-                { label: 'TAM $87B', width: 100, tone: 'from-emerald-500 to-emerald-400' },
-                { label: 'SAM $12B', width: 38, tone: 'from-emerald-600/80 to-emerald-500/80' },
-                { label: 'Creator/SMB $6B', width: 24, tone: 'from-slate-500 to-slate-400' },
-                { label: 'SOM $150M', width: 8, tone: 'from-slate-600 to-slate-500' },
-              ].map((bar) => (
-                <div key={bar.label}>
-                  <div className="deck-mono mb-1.5 text-[10px] tracking-[0.1em] text-sage/95 font-medium italic">{bar.label}</div>
-                  <div className="h-2 rounded-full bg-slate-100">
-                    <div className={`h-full rounded-full bg-gradient-to-r ${bar.tone}`} style={{ width: `${bar.width}%` }} />
+                {
+                  phase: 'Today',
+                  ships: 'GEO Audit + Vibe Marketing',
+                  target: 'Own the diagnosis-to-execution workflow and make the product useful immediately.',
+                  icon: <Rocket className="h-4 w-4 text-[color:var(--signal)]" aria-hidden="true" />,
+                },
+                {
+                  phase: 'Tomorrow',
+                  ships: 'Vision Navigator',
+                  target: 'Turn repeated usage into strategic guidance on where the market is going and what to build next.',
+                  icon: <Server className="h-4 w-4 text-[color:var(--oxide)]" aria-hidden="true" />,
+                },
+                {
+                  phase: 'Later',
+                  ships: 'Agent Marketplace + Trust',
+                  target: 'Open the intelligence loop to agent/API traffic and verifiable performance history.',
+                  icon: <Activity className="h-4 w-4 text-[color:var(--ember)]" aria-hidden="true" />,
+                },
+              ].map((item) => (
+                <article key={item.phase} className="relative rounded-3xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">{item.phase}</span>
+                    {item.icon}
                   </div>
-                </div>
+                  <p className="mt-1 font-['Fraunces_Variable'] text-xl font-semibold text-[color:var(--paper)]">{item.ships}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[color:var(--paper-dim)]">{item.target}</p>
+                </article>
               ))}
             </div>
           </div>
         </SlideShell>
 
-        {/* Slide 10 */}
-        <SlideShell id="slide-10" index={10} title="Business Model" subtitle="Three layers, each compounding the previous one.">
-          <div className="grid gap-5 md:grid-cols-3">
-            {[
-              {
-                title: 'SaaS subscriptions (now)',
-                body: 'Beta is free today. Paid launch starts under $10/month, then scales through Agency and Enterprise tiers.',
-              },
-              {
-                title: 'Agent API (Phase 1)',
-                body: 'Usage-based API billing for autonomous agents and enterprise workflows, billed in fiat while the trust layer stays separate.',
-              },
-              {
-                title: 'Marketplace take-rate (Phase 4+)',
-                body: '15\u201320% commission on verified agent transactions. Creators keep 80\u201385%, while personal agents route spend to top-ranked public agents.',
-              },
-            ].map((item) => (
-              <article key={item.title} className="bg-hull border-2 border-ink shadow-brutalist p-8">
-                <h3 className="text-lg font-semibold text-ink mb-3">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{item.body}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
-              <h3 className="text-lg font-semibold text-ink mb-3">Flywheel Defensibility</h3>
-              <ul className="space-y-3 text-sm leading-relaxed text-ink/80 font-medium italic">
-                <li><span className="font-bold text-ink">Data Moat:</span> Every campaign refined our ranking model.</li>
-                <li><span className="font-bold text-ink">Outcome Lifts:</span> Better rankings drive better results, attracting demand.</li>
-                <li><span className="font-bold text-ink">Creator Lock-in:</span> Distribution and verification create switching costs.</li>
-              </ul>
-            </article>
-
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8 bg-slate-50 flex flex-col justify-center">
-              <p className="text-base font-semibold text-ink italic text-center">
-                GeoCompanion doesn't just manage workflows; it owns the outcome data that makes autonomous execution reliable.
-              </p>
-            </article>
-          </div>
-
-          <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
-              Comparable benchmark: Shopify takes 1.5\u20133% of GMV. GeoCompanion targets higher defensibility through
-              outcome verification and trust-layer switching costs.
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-ink/80 font-medium italic">
-              Billing stays on fiat. The on-chain layer exists to prove performance history and make agent selection
-              auditable for enterprise buyers.
-            </p>
-          </div>
-        </SlideShell>
-
-        {/* Slide 11 */}
-        <SlideShell id="slide-11" index={11} title="Flywheel" subtitle="Every workflow improves the next one.">
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {flywheelRows.map((item, idx) => (
-              <article key={item.title} className="deck-card rounded-2xl p-5">
-                <div className="flex items-center justify-between mb-4">
-                  <div>{item.icon}</div>
-                  <span className="deck-mono text-[9px] text-slate-700">{String(idx + 1).padStart(2, '0')}</span>
-                </div>
-                <h3 className="text-lg font-semibold text-ink mb-2">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{item.body}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-5 grid gap-5 lg:grid-cols-[1.1fr,1fr]">
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
-              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-3">Compounding loop</p>
-              <p className="text-lg leading-relaxed text-ink">
-                Better audits drive better content. Better content creates better outcome data. Vision Navigator turns that
-                repeated usage into strategic guidance on whether the business is moving in the right direction before it
-                scales execution further.
-              </p>
-              <div className="mt-4 grid gap-3 md:grid-cols-3">
-                {[
-                  ['Phase 0', 'Own the diagnosis \u2192 execution workflow'],
-                  ['Phase 1', 'Vision Navigator: turn usage into directional guidance'],
-                  ['Phase 2', 'Open the loop to agent/API traffic'],
-                ].map(([phase, detail]) => (
-                  <div key={phase} className="rounded-xl border border-slate-100 bg-white p-4">
-                    <p className="deck-mono text-[9px] uppercase tracking-[0.12em] text-sage/95 font-medium italic mb-1">{phase}</p>
-                    <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{detail}</p>
-                  </div>
-                ))}
-              </div>
-            </article>
-
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
-              <p className="deck-mono text-[9px] uppercase tracking-[0.16em] text-sage/95 font-medium italic mb-4">Longer-term upside</p>
-              <div className="space-y-3">
-                <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="text-sm font-semibold text-ink mb-1">Vision Navigator</p>
-                  <p className="text-sm leading-relaxed text-ink/80 font-medium italic">As more teams use the system, GeoCompanion gets better at helping companies understand whether they are running in the right direction before scaling more budget and effort.</p>
-                </div>
-                <div className="rounded-xl border border-slate-100 bg-white p-4">
-                  <p className="text-sm font-semibold text-ink mb-1">Marketplace routing</p>
-                  <p className="text-sm leading-relaxed text-ink/80 font-medium italic">As machine-to-machine traffic grows, routing and ranking become a monetizable execution layer on top of that intelligence system.</p>
-                </div>
-              </div>
-            </article>
-          </div>
-        </SlideShell>
-
-        {/* Slide 12 */}
-        <SlideShell id="slide-12" index={12} title="Team" subtitle="Engineering depth, product insight, and distribution in one founding group.">
+        <SlideShell
+          id="slide-5"
+          index={5}
+          title="Team"
+          subtitle="Engineering depth, product insight, and creator-aware distribution in one founding group."
+        >
           <div className="grid gap-5 lg:grid-cols-3">
             {teamMembers.map((member) => (
-              <article key={member.name} className="bg-hull border-2 border-ink shadow-brutalist p-8 transform rotate-1 flex h-full flex-col">
-                <div className="flex items-start gap-5">
+              <article key={member.name} className="deck-card relative flex h-full flex-col rounded-[2.25rem] p-5">
+                <div className="flex items-start gap-4">
                   <TeamAvatar member={member} />
-                  <div className="pt-1">
-                    <h3 className="deck-heading text-3xl font-bold text-ink leading-none">{member.name}</h3>
-                    <p className="deck-mono mt-2 text-[9px] font-medium uppercase tracking-[0.18em] text-sage/95 font-medium italic">{member.role}</p>
-                </div>
+                  <div>
+                    <h3 className="font-['Fraunces_Variable'] text-3xl font-semibold text-[color:var(--paper)]">{member.name}</h3>
+                    <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">{member.role}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <StatusChip tone="signal" label="builder" />
+                      <StatusChip tone="oxide" label="operator" />
+                      <StatusChip tone="ember" label="distribution" />
+                    </div>
+                  </div>
                 </div>
 
-                <p className="mt-5 text-[13px] leading-relaxed text-sage/95 font-medium italic">
+                <p className="mt-4 text-[13px] leading-relaxed text-[color:var(--paper-dim)]">
                   {member.body}
                 </p>
               </article>
             ))}
           </div>
 
-          <div className="deck-card mt-5 rounded-2xl p-6">
-            <p className="text-sm leading-relaxed text-ink/80 font-medium italic">
+          <div className="deck-card mt-5 rounded-3xl p-6">
+            <p className="text-sm leading-relaxed text-[color:var(--paper)]">
               Most marketing AI startups have strong engineering or strong distribution. GeoCompanion has both,
               plus product-level content science.
             </p>
           </div>
-        </SlideShell>
-
-        {/* Slide 13 */}
-        <SlideShell
-          id="slide-13"
-          index={13}
-          title="The Ask"
-          subtitle="Raising a focused pre-seed now to convert product signal into revenue and seed readiness."
-        >
-          <div className="grid gap-5 lg:grid-cols-[1fr,1.12fr]">
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
-              <h3 className="text-xl font-semibold text-ink mb-5">Use of funds</h3>
-              <div className="h-2 overflow-hidden rounded-full bg-slate-100 mb-5">
-                {[
-                  { pct: 40, tone: 'bg-emerald-400' },
-                  { pct: 30, tone: 'bg-emerald-600' },
-                  { pct: 20, tone: 'bg-slate-500' },
-                  { pct: 10, tone: 'bg-slate-600' },
-                ].map((seg, idx) => (
-                  <span key={`${seg.pct}-${idx}`} className={`inline-block h-full ${seg.tone}`} style={{ width: `${seg.pct}%` }} />
-                ))}
-              </div>
-
-              <div className="space-y-3">
-                {askRows.map((row, idx) => {
-                  const pct = Number.parseInt(row.allocation, 10) || 0;
-                  const icon = [
-                    <Cpu className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />,
-                    <Target className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
-                    <Server className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
-                    <Wallet className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />,
-                  ][idx] || <Activity className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" />;
-
-                  return (
-                    <div key={row.allocation} className="rounded-xl border border-slate-100 bg-white p-4">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <div className="flex items-center gap-2">
-                          {icon}
-                          <p className="text-sm font-semibold text-ink">{row.allocation}</p>
-                        </div>
-                        <span className="deck-mono text-[9px] text-sage/95 font-medium italic">{pct}%</span>
-                      </div>
-                      <p className="text-sm leading-relaxed text-ink/80 font-medium italic">{row.use}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </article>
-
-            <article className="bg-hull border-2 border-ink shadow-brutalist p-8">
-              <h3 className="text-xl font-semibold text-ink mb-5">This round</h3>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {[
-                  { title: 'Raise', value: '$1.25M', detail: 'SAFE round sized for 18 months of runway and disciplined hiring', icon: <Rocket className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /> },
-                  { title: 'Target cap', value: '$12M', detail: 'Priced to match current beta traction and leave room for seed step-up', icon: <Building2 className="h-4 w-4 text-sage/95 font-medium italic" aria-hidden="true" /> },
-                  { title: 'Unlocks', value: '$100K MRR', detail: 'Goal: 25+ paying customers and a clean seed story by late 2027', icon: <CheckCircle2 className="h-4 w-4 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" /> },
-                ].map((item) => (
-                  <div key={item.title} className="rounded-xl border border-slate-100 bg-white p-4">
-                    <div className="mb-2">{item.icon}</div>
-                    <p className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic mb-1">{item.title}</p>
-                    <p className="deck-heading text-2xl font-bold text-ink tabular-nums">{item.value}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-ink/80 font-medium italic">{item.detail}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-5 rounded-xl border border-accent-cyan/20 bg-accent-cyan/5 p-4 text-sm leading-relaxed text-ink">
-                We are raising one round: $1.25M on a $12M cap. If we join an accelerator, it will be because it helps
-                fill this same round with strategic capital, distribution, and follow-on access, not because we are changing
-                the plan.
-              </p>
-            </article>
-          </div>
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-100 bg-white/25 px-3 py-1.5">
-              <Sparkles className="h-3 w-3 text-sage font-bold uppercase tracking-widest bg-ink/5 px-2 py-0.5" aria-hidden="true" />
-              <span className="deck-mono text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">Pre-final investor deck</span>
-            </span>
-            <span className="deck-mono inline-flex rounded-full border border-slate-100 bg-white/25 px-3 py-1.5 text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">Ask: $1.25M SAFE on $12M cap</span>
-            <span className="deck-mono inline-flex rounded-full border border-slate-100 bg-white/25 px-3 py-1.5 text-[9px] uppercase tracking-[0.14em] text-sage/95 font-medium italic">Accelerator participates only if it strengthens the same round</span>
-          </div>
-
-          <SlideFootnotes
-            items={[
-              { label: 'YC standard deal', href: 'https://www.ycombinator.com/deal/' },
-              { label: 'Antler terms', href: 'https://www.antler.co/residency/singapore' },
-              { label: 'Protocol Labs interest form', href: 'https://docs.google.com/forms/d/e/1FAIpQLSfPkuHoM2a6XkZYvtoZnWJD7lXRNHCWNkOh8Ki9otJncd0mug/viewform' },
-            ]}
-          />
         </SlideShell>
       </main>
     </div>

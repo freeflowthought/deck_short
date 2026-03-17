@@ -1,5 +1,5 @@
 {
-  "name": "geocompanion-pitch-deck",
+  "name": "geocompanion-short-deck",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource-variable/fraunces": "^5.2.7",
+    "@fontsource-variable/ibm-plex-sans": "^5.2.7",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.3",
     "lucide-react": "^0.554.0",

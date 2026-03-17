@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PitchDeckPage from './PitchDeckPage';
+import '@fontsource-variable/ibm-plex-sans/index.css';
+import '@fontsource-variable/fraunces/full.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
