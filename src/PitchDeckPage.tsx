@@ -242,7 +242,7 @@ const TagCluster = ({ children, className = '' }: { children: React.ReactNode; c
 const SlideShell = ({ id, index, title, subtitle, children }: SlideShellProps) => (
   <section
     id={id}
-    className="deck-slide snap-start min-h-[100svh] px-5 pb-16 pt-28 md:px-10 lg:px-14 lg:pt-32"
+    className="deck-slide snap-start min-h-[100svh] h-auto flex flex-col justify-center px-5 py-24 md:px-10 lg:px-14 lg:py-32"
   >
     <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col">
       <div className="mb-6 flex items-center justify-between">
@@ -252,7 +252,7 @@ const SlideShell = ({ id, index, title, subtitle, children }: SlideShellProps) =
         <div className="h-px w-24 bg-[linear-gradient(to_right,rgba(220,231,198,0.65),rgba(220,231,198,0))]" />
       </div>
 
-      <h2 className="deck-slide-title font-['Fraunces_Variable'] text-4xl font-semibold leading-[1.02] text-[color:var(--paper)] sm:text-5xl lg:text-6xl">
+      <h2 className="deck-slide-title font-['Fraunces_Variable'] text-3xl font-semibold leading-[1.05] text-[color:var(--paper)] sm:text-5xl lg:text-6xl">
         {title}
       </h2>
       {subtitle ? (
@@ -261,7 +261,7 @@ const SlideShell = ({ id, index, title, subtitle, children }: SlideShellProps) =
         </p>
       ) : null}
 
-      <div className="deck-slide-body mt-10 flex-1">{children}</div>
+      <div className="deck-slide-body mt-6 lg:mt-10 flex-1">{children}</div>
     </div>
   </section>
 );
@@ -1320,7 +1320,7 @@ const PitchDeckPage = () => {
                 <div className="flex items-start gap-4">
                   <TeamAvatar member={member} />
                   <div>
-                    <h3 className="font-['Fraunces_Variable'] text-3xl font-semibold text-[color:var(--paper)]">{member.name}</h3>
+                    <h3 className="font-['Fraunces_Variable'] text-2xl sm:text-3xl font-semibold text-[color:var(--paper)]">{member.name}</h3>
                     <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">{member.role}</p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       <StatusChip tone="signal" label="builder" />
