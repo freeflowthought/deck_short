@@ -357,7 +357,7 @@ const competitorRows = [
     geoCompanion: 'Yes',
   },
   {
-    category: 'Social content execution',
+    category: 'Platform-native social execution',
     brightedge: 'No',
     evertune: 'No',
     athena: 'No',
@@ -366,7 +366,7 @@ const competitorRows = [
     geoCompanion: 'Yes (platform-native)',
   },
   {
-    category: 'Hook-based campaign system',
+    category: 'Structured plan + milestones',
     brightedge: 'No',
     evertune: 'No',
     athena: 'No',
@@ -375,13 +375,22 @@ const competitorRows = [
     geoCompanion: 'Yes',
   },
   {
-    category: 'Vision Navigator / intelligence layer',
+    category: 'Agentic API call',
     brightedge: 'No',
     evertune: 'No',
     athena: 'No',
     surfer: 'No',
     jasper: 'No',
-    geoCompanion: 'Next',
+    geoCompanion: 'Yes',
+  },
+  {
+    category: 'Builder-friendly open standard',
+    brightedge: 'No',
+    evertune: 'No',
+    athena: 'No',
+    surfer: 'No',
+    jasper: 'No',
+    geoCompanion: 'Yes',
   },
   {
     category: 'SMB / creator accessible',
@@ -396,7 +405,7 @@ const competitorRows = [
 
 const slideIds = Array.from({ length: 5 }, (_, idx) => `slide-${idx + 1}`);
 const PDF_EXPORT_BG = '#070913';
-const slideLabels = ['Thesis', 'Live', 'Proof', 'Roadmap', 'Team'];
+const slideLabels = ['Thesis', 'Live', 'Differentiation', 'Roadmap', 'Team'];
 
 const PitchDeckPage = () => {
   const navigate = useNavigate();
@@ -971,8 +980,8 @@ const PitchDeckPage = () => {
         <SlideShell
           id="slide-1"
           index={1}
-          title="AI now decides who gets found. Most businesses have no system to change that."
-          subtitle="Discovery and execution have both shifted. GeoCompanion starts by fixing both and becomes the intelligence layer that tells businesses where to go next."
+          title="AI now decides who gets found. Most businesses still lack an agentic system to respond."
+          subtitle="GeoCompanion starts by fixing discovery and execution now, then exposes that workflow as a standard API other builders can build on."
         >
           <div className="relative grid gap-6 lg:grid-cols-[1.25fr,1fr]">
             <div className="deck-card relative overflow-hidden rounded-[2.25rem] p-7 sm:p-9">
@@ -994,10 +1003,10 @@ const PitchDeckPage = () => {
 
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">Who we are</p>
               <p className="mt-4 font-['Fraunces_Variable'] text-2xl leading-[1.22] text-[color:var(--paper)] sm:text-3xl">
-                GeoCompanion starts by helping businesses get cited by AI search engines and build platform-native content that wins attention.
+                GeoCompanion helps businesses win AI citations and turn that insight into platform-native content, prioritized plans, and repeatable milestones.
               </p>
               <p className="mt-4 text-base leading-relaxed text-[color:var(--paper-dim)] sm:text-lg">
-                Over time, it becomes the Enterprise Strategic Intelligence Platform that tells businesses where their market is going, what to build next, and which verified agents can execute that vision. One workflow from diagnosis to execution, built for an AI-shaped world.
+                The product stays lean at the core. The underlying capability becomes a first-class agentic API call, so partners can build richer publishing, regional, or gameified experiences on top while GeoCompanion compounds the shared intelligence layer underneath.
               </p>
             </div>
 
@@ -1023,19 +1032,19 @@ const PitchDeckPage = () => {
                     <Radar className="h-4 w-4 text-[color:var(--oxide)]" /> What is live right now
                   </p>
                   <p className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-[color:var(--signal)]" /> How we fill the GEO + creator gap
+                    <Sparkles className="h-4 w-4 text-[color:var(--signal)]" /> Why a lean core beats a super app
                   </p>
                   <p className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4 text-[color:var(--paper)] opacity-80" /> What we are building next
+                    <ShieldCheck className="h-4 w-4 text-[color:var(--paper)] opacity-80" /> How the API expands the ecosystem
                   </p>
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { icon: <Sparkles className="h-4 w-4 text-[color:var(--signal)]" />, label: 'Today', value: 'GEO + Vibe Marketing' },
-                  { icon: <BarChart3 className="h-4 w-4 text-[color:var(--oxide)]" />, label: 'Tomorrow', value: 'Vision Navigator' },
-                  { icon: <Bot className="h-4 w-4 text-[color:var(--ember)]" />, label: 'Later', value: 'Agents + Trust' },
+                  { icon: <Sparkles className="h-4 w-4 text-[color:var(--signal)]" />, label: 'Today', value: 'Workflow + Milestones' },
+                  { icon: <BarChart3 className="h-4 w-4 text-[color:var(--oxide)]" />, label: 'Next', value: 'Agentic API Standard' },
+                  { icon: <Bot className="h-4 w-4 text-[color:var(--ember)]" />, label: 'Later', value: 'Vision + Trust' },
                 ].map((item) => (
                   <div key={item.label} className="deck-card rounded-2xl p-3">
                     <div>{item.icon}</div>
@@ -1056,7 +1065,7 @@ const PitchDeckPage = () => {
           id="slide-2"
           index={2}
           title="What’s Live Right Now"
-          subtitle="Two engines are live today, and together they make GeoCompanion the only product closing the workflow gap between GEO and creator-style execution."
+          subtitle="Two engines are live today. The key product choice is to keep the core workflow simple, then expose the output as a reusable agent-ready standard."
         >
           <div className="relative grid gap-5 lg:grid-cols-[1.05fr,1fr]">
             <div className="pointer-events-none absolute -right-2 -top-6 hidden lg:block">
@@ -1105,7 +1114,7 @@ const PitchDeckPage = () => {
                 <div className="relative rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(77,140,106,0.18),rgba(10,12,18,0.52))] p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--signal)]">Fusion layer</p>
                   <p className="mt-1 text-sm leading-relaxed text-[color:var(--paper)]">
-                    GeoCompanion combines both engines into one prioritized execution backlog.
+                    GeoCompanion combines both engines into one prioritized execution backlog plus a structured milestone plan that humans can follow and agents can call.
                   </p>
                 </div>
               </div>
@@ -1117,7 +1126,7 @@ const PitchDeckPage = () => {
                 {[
                   { source: 'From GEO Audit', title: 'Visibility Package', bullets: ['GEO scorecard + EEAT breakdown', 'Citation-share competitor view', 'Schema + CTA rewrite suggestions'] },
                   { source: 'From Vibe Engine', title: 'Content Package', bullets: ['9 hook-pattern campaign planning', 'Platform-native formatting', 'Voice-consistent generation'] },
-                  { source: 'Combined Output', title: 'Action Package', bullets: ['One prioritized backlog to execute now', 'Clear ownership across marketing workflows', 'Built for both brands and creators'] },
+                  { source: 'Combined Output', title: 'Agent-Ready Package', bullets: ['One prioritized backlog plus milestone path', 'Structured output ready for agent/API calls', 'Simple core UX for brands, creators, and partners'] },
                 ].map((block) => (
                   <div key={block.title} className="relative rounded-2xl border border-white/10 bg-white/5 p-4">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--signal)]">{block.source}</p>
@@ -1149,7 +1158,7 @@ const PitchDeckPage = () => {
             <article className="deck-card rounded-3xl p-5">
               <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--oxide)]">The market gap</p>
               <p className="mt-2 text-sm leading-relaxed text-[color:var(--paper-dim)]">
-                GEO tools measure visibility but do not create content. Content tools generate posts but do not optimize AI citation share. GeoCompanion is the product that connects both.
+                GEO tools measure visibility but do not create content. Content tools generate posts but do not optimize AI citation share. Almost none return a structured plan that works for both humans and downstream agents.
               </p>
             </article>
 
@@ -1185,7 +1194,7 @@ const PitchDeckPage = () => {
           <div className="deck-card mt-5 rounded-3xl p-6">
             <p className="font-['Fraunces_Variable'] text-2xl leading-[1.2] text-[color:var(--paper)]">
               The combination is what matters: <span className="font-semibold text-[color:var(--paper)]">GEO tells you what AI search needs.</span>{' '}
-              <span className="font-semibold text-[color:var(--paper)]">Vibe Marketing produces it in a way normal people can actually use.</span>
+              <span className="font-semibold text-[color:var(--paper)]">Vibe Marketing turns it into a plan people can use now and agents can call later.</span>
             </p>
           </div>
         </SlideShell>
@@ -1194,7 +1203,7 @@ const PitchDeckPage = () => {
           id="slide-3"
           index={3}
           title="Why We’re Different"
-          subtitle="Others either diagnose or create. GeoCompanion is the only product here that closes the GEO + creator execution gap in one workflow."
+          subtitle="Most products are point tools. GeoCompanion combines diagnosis, structured execution, and an open builder path in one workflow."
         >
           <div className="relative">
             <div className="pointer-events-none absolute -left-3 -top-6 hidden lg:block">
@@ -1235,9 +1244,9 @@ const PitchDeckPage = () => {
 
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {[
-              'GEO + content execution in one product.',
-              'Hook-based creator-style writing system, not generic AI copy.',
-              'The workflow today becomes the intelligence product tomorrow.',
+              'Diagnosis, content execution, and milestones in one product.',
+              'A first-class agentic API call instead of a bloated all-in-one super app.',
+              'An ecosystem path for Duolingo-style, KOL, or media-rich wrappers on the same standard.',
             ].map((gap, idx) => (
               <div key={gap} className="deck-card relative rounded-3xl p-5">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[color:var(--paper-dim)]">Gap {idx + 1}</p>
@@ -1248,7 +1257,7 @@ const PitchDeckPage = () => {
 
           <div className="deck-card mt-5 rounded-3xl p-6">
             <p className="font-['Fraunces_Variable'] text-2xl leading-[1.2] text-[color:var(--paper)]">
-              Others either diagnose or create. We do both, and connect the loop.
+              The wedge is the workflow. The moat is the standard and outcome data underneath it.
             </p>
           </div>
         </SlideShell>
@@ -1257,7 +1266,7 @@ const PitchDeckPage = () => {
           id="slide-4"
           index={4}
           title="What We’re Building Next"
-          subtitle="Start with diagnosis and execution. Expand into intelligence tomorrow, then agents and verified trust later."
+          subtitle="Keep the core product simple. Open the core capability as a standard API. Let intelligence and trust compound on top."
         >
           <div className="deck-card relative rounded-3xl p-6">
             <div className="absolute -right-8 -top-6 rotate-[8deg]">
@@ -1270,15 +1279,15 @@ const PitchDeckPage = () => {
               <div className="relative rounded-3xl border border-white/10 bg-[linear-gradient(135deg,rgba(77,140,106,0.18),rgba(10,12,18,0.52))] p-5">
                 <p className="font-['Fraunces_Variable'] text-2xl leading-[1.2] text-[color:var(--paper)]">
                   Every GEO audit tells us what AI engines are citing and why. Every campaign tells us which content
-                  patterns drive real results by platform and industry. That outcome data is the training signal for
-                  the intelligence layer we build next.
+                  patterns drive real results by platform and industry. Packaging that into a structured plan and
+                  milestone system gives us a reusable agentic call surface that can become a shared standard.
                 </p>
               </div>
               <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
                 <p className="text-sm leading-relaxed text-[color:var(--paper)]">
-                  Vision Navigator is the strategic center of this roadmap: a system that helps companies answer whether
-                  they are running in the right direction before they spend more money scaling execution. The marketplace
-                  matters later, but the intelligence layer is the category-defining product.
+                  We should not spend tokens building every emoji-rich, image-heavy, all-in-one posting experience
+                  ourselves. The stronger move is a lean core product with an open API, so other builders can create
+                  regional, gameified, or richer UX wrappers on top of the same engine.
                 </p>
               </div>
             </div>
@@ -1290,20 +1299,20 @@ const PitchDeckPage = () => {
               {[
                 {
                   phase: 'Today',
-                  ships: 'GEO Audit + Vibe Marketing',
-                  target: 'Own the diagnosis-to-execution workflow and make the product useful immediately.',
+                  ships: 'Core Workflow + Milestones',
+                  target: 'Make diagnosis-to-execution useful immediately and produce a reliable plan payload.',
                   icon: <Rocket className="h-4 w-4 text-[color:var(--signal)]" aria-hidden="true" />,
                 },
                 {
-                  phase: 'Tomorrow',
-                  ships: 'Vision Navigator',
-                  target: 'Turn repeated usage into strategic guidance on where the market is going and what to build next.',
+                  phase: 'Next',
+                  ships: 'Agentic API Standard',
+                  target: 'Expose the underlying capability as a first-class API call so partners and agents can build on the same engine.',
                   icon: <Server className="h-4 w-4 text-[color:var(--oxide)]" aria-hidden="true" />,
                 },
                 {
                   phase: 'Later',
-                  ships: 'Agent Marketplace + Trust',
-                  target: 'Open the intelligence loop to agent/API traffic and verifiable performance history.',
+                  ships: 'Vision + Verified Trust',
+                  target: 'Use repeated outcomes to guide strategy, rank execution options, and add auditable trust for autonomous workflows.',
                   icon: <Activity className="h-4 w-4 text-[color:var(--ember)]" aria-hidden="true" />,
                 },
               ].map((item) => (
