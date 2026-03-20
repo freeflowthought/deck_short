@@ -293,7 +293,7 @@ const teamMembers: TeamMember[] = [
     photo: wilsonImage,
     photoAlt: 'Portrait of Wilson',
     photoPosition: 'center 18%',
-    body: 'Serial technical founder with two exits. Raised $1.3M in venture capital and generated $1.3M in product revenue at Honeypot Finance. Previously Co-Founder/CTO at Antslabor (acquired) and Senior Software Architect at Mastodon.',
+    body: 'Serial technical founder with two exits. Raised $1.6M in venture capital and generated $1.3M in product revenue at Honeypot Finance. Previously Co-Founder/CTO at Antslabor (acquired) and Senior Software Architect at Mastodon.',
   },
   {
     name: 'Huan',
